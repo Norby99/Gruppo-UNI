@@ -85,8 +85,18 @@ int main()
     printf("Prodotto:\t\t%3d\n",prod);
     printf("Divisione:\t\t%f\n",div);
     printf("Modulo:\t\t\t%3d\n",mod);
-
-
+    
+    /* FUNZIONI MATEMATICHE math.h nei lucidi 4 p. 137
+    floor(x)
+    ceil(x)
+    fabs(x)
+    log(x)
+    log10(x)
+    exp(x)
+    sqrt(x)
+    pow(x, y)
+    */
+    
     system("pause");
     return 0;
 }
