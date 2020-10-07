@@ -8,8 +8,8 @@
  NOTE:   Text Ex01:
 
           Scrivere un programma C che dichiari una variabile per ogni tipo studiato (usando anche i qualificatori short, long, signed e unsigned), ne stampi il valore
-          e l’occupazione di memoria in byte. Utilizzare TUTTI gli argomenti della funzione printf() studiati e TUTTE le diverse varianti (modificatore, campoMinimo,
-          precisione, modificatoreLunghezza). Per ogni chiamata alla funzione printf(), mostrare a video anche il numero di caratteri che quest’ultima ha stampato.
+          e lâ€™occupazione di memoria in byte. Utilizzare TUTTI gli argomenti della funzione printf() studiati e TUTTE le diverse varianti (modificatore, campoMinimo,
+          precisione, modificatoreLunghezza). Per ogni chiamata alla funzione printf(), mostrare a video anche il numero di caratteri che questâ€™ultima ha stampato.
           Stampare inoltre il valore minimo e il valore massimo ammissibile per ogni tipo utilizzato.*/
 
 
@@ -57,7 +57,7 @@ int main()
     printf("\n\n\n");
 
 
-    //Stampa a video del valore di Bytes occupati da ogni tipologia di varibiale più le i relativi valori di massimo e minimo.
+    //Stampa a video del valore di Bytes occupati da ogni tipologia di varibiale piÃ¹ le i relativi valori di massimo e minimo.
 
 
     caratteriStampati = printf("Quantitativo di Bytes occupati e corrispondenti valori di Max e Min\n");
