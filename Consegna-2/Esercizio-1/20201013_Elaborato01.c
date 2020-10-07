@@ -59,7 +59,8 @@ int main()
     >> Shifta destra del primo operando per un numero di bit pari alvalore del secondo
     << Shifta sinistra del primo operando per un numero di bit pari alvalore del secondo
 
-    non so se anche sizeof() e
+    non so se anche
+    sizeof()
     X   casting
     */
 
