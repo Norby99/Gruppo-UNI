@@ -30,7 +30,7 @@ int main()
     X   op1 - op2 Sottrae dal primo il secondo operando.
     X   op1 * op2 Moltiplica i due operandi.
     X   op1 / op2 Divide il primo operando per il secondo (se operandi interi tronca il risultato).
-    NON SO SE MI TORNA GIUSTO X   op1 % op2 Calcola il resto della divisione tra il primo e il secondo operando, richiede operandi interi.
+    X   op1 % op2 Calcola il resto della divisione tra il primo e il secondo operando, richiede operandi interi.
     X   var = valore Assegna alla variabile il valore alla destra.
     op1 += op2 op1 = (op1 + op2)
     op1 -= op2 op1 = (op1 -op2)
