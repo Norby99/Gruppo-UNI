@@ -70,7 +70,7 @@ int main()
     int num2=15;
     printf("Le variabili sono le seguenti:\n");
     printf("TIPO\t\t\tNOME\t\t\tVALORE\n");
-    printf("Int\t\t\tnum1\t\t\t%d\n",num1);
+    printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
     printf("Int\t\t\tnum2\t\t\t%d\n",num2);
 
     //Uso degli operatori aritmetici
