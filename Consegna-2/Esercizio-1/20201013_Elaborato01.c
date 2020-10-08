@@ -96,7 +96,7 @@ int main()
     sqrt(x)
     pow(x, y)
     ....
-    ne dobbiamo fare almeno 15
+    ne dobbiamo fare almeno 15 (mai na gioia)
     */
     
     system("pause");
