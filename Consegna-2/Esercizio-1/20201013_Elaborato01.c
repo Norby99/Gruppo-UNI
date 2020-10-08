@@ -95,6 +95,8 @@ int main()
     exp(x)
     sqrt(x)
     pow(x, y)
+    ....
+    ne dobbiamo fare almeno 15
     */
     
     system("pause");
