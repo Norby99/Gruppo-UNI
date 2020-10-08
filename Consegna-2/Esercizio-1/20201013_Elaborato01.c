@@ -16,7 +16,6 @@
 
 int main()
 {
-
     /* ho riportato qui credo tutti gli operatori studiati che dobbiamo usare
     quelle che ho già inserito ho messo una X a inizio riga
     OPERATORI ARITMETICI p. 86 lucidi 4
@@ -32,11 +31,11 @@ int main()
     X   op1 / op2 Divide il primo operando per il secondo (se operandi interi tronca il risultato).
     X   op1 % op2 Calcola il resto della divisione tra il primo e il secondo operando, richiede operandi interi.
     X   var = valore Assegna alla variabile il valore alla destra.
-    op1 += op2 op1 = (op1 + op2)
-    op1 -= op2 op1 = (op1 -op2)
-    op1 *= op2 op1 = (op1 * op2)
-    op1 /= op2 op1 = (op1 / op2)
-    op1 %= op2 op1 = (op1 % op2)
+    X   op1 += op2 op1 = (op1 + op2)
+    X   op1 -= op2 op1 = (op1 -op2)
+    X   op1 *= op2 op1 = (op1 * op2)
+    X   op1 /= op2 op1 = (op1 / op2)
+    X   op1 %= op2 op1 = (op1 % op2)
 
     OPERATORI RELAZIONALI
     < Primo operando minore del secondo operando
@@ -64,7 +63,7 @@ int main()
     X   casting
     */
 
-    //Usiamo l'operatore di assegnamento nella dichiarazione delle variabili.
+    //usiamo l'operatore di assegnamento nella dichiarazione delle variabili
 
     int num1=5;
     int num2=15;
@@ -73,7 +72,7 @@ int main()
     printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
     printf("Int\t\t\tnum2\t\t\t%d\n",num2);
 
-    //Uso degli operatori aritmetici
+    //uso degli operatori aritmetici
     printf("\nOperazioni con gli operatori aritmetici:\n");
     int sum=num1+num2;
     int sub=num1-num2;
@@ -85,7 +84,24 @@ int main()
     printf("Prodotto:\t\t%3d\n",prod);
     printf("Divisione:\t\t%f\n",div);
     printf("Modulo:\t\t\t%3d\n",mod);
-    
+    //da qui usiamo operatori  di  assegnamento  compatti per modificare il valore di num1
+    printf("\tnum1 iniziale =\t%3d\n",num1);
+    printf("num1=num1(%d)+num2(%d)\t",num1, num2);
+    num1+=num2;
+    printf("num1=%3d\n",num1);
+    printf("num1=num1(%d)-num2(%d)\t",num1, num2);
+    num1-=num2;
+    printf("num1=%3d\n",num1);
+    printf("num1=num1(%d)*num2(%d)\t",num1, num2);
+    num1*=num2;
+    printf("num1=%3d\n",num1);
+    printf("num1=num1(%d)/num2(%d)\t",num1, num2);
+    num1/=num2;
+    printf("num1=%3d\n",num1);
+    printf("num1=num1(%d)%%num2(%d)\t",num1, num2);
+    num1%=num2;
+    printf("num1=%3d\n",num1);
+    printf("\tnum1 finale =\t%3d\n",num1);
     /* FUNZIONI MATEMATICHE math.h nei lucidi 4 p. 137
     floor(x)
     ceil(x)
