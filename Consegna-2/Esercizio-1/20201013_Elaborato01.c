@@ -43,7 +43,7 @@ int main()
     <= Primo operando minore o uguale al secondo operando
     >= Primo operando maggiore o uguale al secondo operando
     == Primo operando uguale al secondo operando
-    != Primo operando non uguale al secondo operando
+    X   != Primo operando non uguale al secondo operando
 
     OPERATORI LOGICI
     ! Calcola il NOT logico dell’operando
@@ -64,14 +64,12 @@ int main()
     */
 
     //usiamo l'operatore di assegnamento nella dichiarazione delle variabili
-
     int num1=5;
     int num2=15;
     printf("Le variabili sono le seguenti:\n");
     printf("TIPO\t\t\tNOME\t\t\tVALORE\n");
     printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
     printf("Int\t\t\tnum2\t\t\t%d\n",num2);
-
     //uso degli operatori aritmetici
     printf("\nOperazioni con gli operatori aritmetici:\n");
     int sum=num1+num2;
@@ -106,15 +104,120 @@ int main()
     floor(x)
     ceil(x)
     fabs(x)
-    log(x)
-    log10(x)
-    exp(x)
-    sqrt(x)
-    pow(x, y)
     ....
     ne dobbiamo fare almeno 15 (mai na gioia)
     */
-    
+    printf("\nFunzioni matematiche per il num1(%d)\n", num1);
+    printf("1. Radice quadrata:\t\t\t%lf\n", sqrt(num1));
+    printf("2. e elevato alla num1:\t\t\t%lf\n", exp(num1));
+    printf("3. Logaritmo in base e:\t\t\t%lf\n", log(num1));
+    printf("4. Logaritmo in base 10:\t\t%lf\n", log10(num1));
+    printf("5. Resto num1/num2:\t\t\t%lf\n", fmod(num1, num2));
+    printf("6. Potenza num1^num2:\t\t\t%lf\n", pow(num1, num2));
+    float num6=0.5;
+    printf("\nFunzioni matematiche per il num6(%f)\n", num6);
+    printf("7. Coseno in radianti:\t\t\t%lf\n",  cos(num6));
+    printf("8. Seno in radianti:\t\t\t%lf\n",  sin(num6));
+    printf("9. Arc coseno in radianti:\t\t%lf\n",  acos(num6));
+    printf("10. Arc seno in radianti:\t\t%lf\n",  asin(num6));
+    printf("11. Arc tangente in radianti:\t\t%lf\n",  atan(num6));
+    /*double atan2(double y, double x)
+    Returns the arc tangent in radians of y/x based on the signs of both values to determine the correct quadrant.*/
+    printf("12. Coseno iperbolico in radianti:\t%lf\n",  cosh(num6));
+    printf("13. Seno iperbolico in radianti:\t%lf\n",  sinh(num6));
+    printf("14. Tangente iperbolica in radianti:\t%lf\n",  tanh(num6));
+    printf("15. Minor valore intero >= num6:\t%lf\n",  ceil(num6));
+    printf("16. Maggior valore intero <= num6:\t%lf\n",  floor(num6));
+
+
+    //operatori logici e relazionali applicati con l'istruzione di selezione if
+    int a, b, c, num3, num4, num5, flag;
+    do
+    {
+        printf("\nInserisci 3 numeri interi (int) da confrontare:\na:\t");
+        scanf("%d", &a);
+        fflush(stdin);
+        printf("b:\t");
+        scanf("%d", &b);
+        fflush(stdin);
+        printf("c:\t");
+        scanf("%d", &c);
+        fflush(stdin);
+        if (a!=b&&b!=c&&a!=c)
+        {
+            printf("I numeri sono tutti diversi tra loro.\t");
+            if (a>b)
+            {
+                if(b>c)
+                {
+                    num3 = c;
+                    num4 = b;
+                    num5 = a;
+                }
+                else
+                {
+                    num3=b;
+                    if (c>a)
+                    {
+                        num4 = a;
+                        num5 = c;
+                    }
+                    else
+                    {
+                        num4 = c;
+                        num5 = a;
+                    }
+                }
+            }
+            else
+            {
+                if (a>c)
+                {
+                    num3=c;
+                    num4=a;
+                    num5=b;
+                }
+                else
+                {
+                    num3=a;
+                    if (c>b)
+                    {
+                        num4=b;
+                        num5=c;
+                    }
+                    else
+                    {
+                        num4=c;
+                        num5=b;
+                    }
+                }
+            }
+            printf("Nell'ordine: %d < %d < %d.", num3, num4, num5);
+        }
+        else
+        {
+            printf("Numeri uguali tra loro:\n");
+            if (a==b)
+            {
+                printf("a(%d)=b(%d)", a, b);
+            }
+            if (b==c)
+            {
+                printf("b(%d)=c(%d)", b, c);
+            }
+            if (a==c)
+            {
+                printf("a(%d)=c(%d)", a, c);
+            }
+        }
+        printf("\n\nPer smettere di confrontare numeri, digitare 1:\t");
+        scanf("%d", &flag);
+        fflush(stdin);
+    }
+    while (flag!=1);
+
+    printf("\nFunzioni matematiche:\n");
+    printf("\n\n\n\n");
     system("pause");
     return 0;
 }
