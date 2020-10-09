@@ -19,12 +19,12 @@ int main()
     /* ho riportato qui credo tutti gli operatori studiati che dobbiamo usare
     quelle che ho già inserito ho messo una X a inizio riga
     OPERATORI ARITMETICI p. 86 lucidi 4
-    X  ++op Incrementa di un'unità l'operando prima che venga restituito il suo valore.
-    X  op++ Incrementa di un'unità l'operando dopo averne restituito il suo valore.
-    X  --op Decrementa di un'unità l'operando prima che venga restituito il suo valore.
-    X  op--Decrementa di un'unità l'operando dopo averne restituito il suo valore.
-    X  +op Non ha alcun effetto(nel K&R non esiste) specifica che una costante numerica è positiva
-    X  -op Inverte il segno dell'operando (prima di restituirne il valore).
+    X   ++op Incrementa di un'unità l'operando prima che venga restituito il suo valore.
+    X   op++ Incrementa di un'unità l'operando dopo averne restituito il suo valore.
+    X   --op Decrementa di un'unità l'operando prima che venga restituito il suo valore.
+    X   op--Decrementa di un'unità l'operando dopo averne restituito il suo valore.
+    X   +op Non ha alcun effetto(nel K&R non esiste) specifica che una costante numerica è positiva
+    X   -op Inverte il segno dell'operando (prima di restituirne il valore).
     X   op1 + op2 Somma i due operandi.
     X   op1 - op2 Sottrae dal primo il secondo operando.
     X   op1 * op2 Moltiplica i due operandi.
@@ -100,7 +100,14 @@ int main()
     num1%=num2;
     printf("num1=%3d\n",num1);
     printf("\tnum1 finale =\t%3d\n",num1);
-   
+    //qui usiamo gli operatori aritmetici unari, incremento e decrementano il valore di una variabile
+    printf("\nvalori iniziali delle variabili:  %d  %d\n", num1, num2);
+    printf("incrementi e decrementi:\t  %d  %d\n", num1++, --num2);//num1 invariato perchè assume il valore prima dell'incremento
+    printf("\t\t\t\t  %d  %d\n", ++num1, num2++);//num1 varia perchè assume prima gli incrementi
+    printf("\t\t\t\t  %d  %d\n", --num1, num2--);
+    printf("\t\t\t\t  %d  %d\n", num1++, --num2);
+    printf("valori finali:\t\t\t  %d  %d\n", ++num1, --num2);
+    printf("valori finali cambiati di segno: %d %d\n", -num1, -num2);
     /* FUNZIONI MATEMATICHE math.h nei lucidi 4 p. 137
     floor(x)
     ceil(x)
