@@ -37,7 +37,8 @@
 	 	 Hai pensato a 97!*/
  
  
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 int main() {
 	
