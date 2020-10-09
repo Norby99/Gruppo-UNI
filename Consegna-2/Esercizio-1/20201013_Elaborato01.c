@@ -224,7 +224,6 @@ int main()
     }
     while (flag!=1);
 
-    printf("\nFunzioni matematiche:\n");
     printf("\n\n\n\n");
     system("pause");
     return 0;
