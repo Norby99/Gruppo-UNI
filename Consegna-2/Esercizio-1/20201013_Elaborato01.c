@@ -121,7 +121,7 @@ int main()
     printf("Il valore di x e\' %d\n\n",x);
 
 
-    //qui usiamo gli operatori aritmetici unari, incremento e decrementano il valore di una variabile
+    //qui usiamo gli operatori aritmetici unari, incrementano e decrementano il valore di una variabile
     printf("\nvalori iniziali delle variabili:  %d  %d\n", num1, num2);
     printf("incrementi e decrementi:\t  %d  %d\n", num1++, --num2);//num1 invariato perchè assume il valore prima dell'incremento
     printf("\t\t\t\t  %d  %d\n", ++num1, num2++);//num1 varia perchè assume prima gli incrementi
