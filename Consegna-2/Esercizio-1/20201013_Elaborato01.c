@@ -17,16 +17,12 @@
 void showbits (unsigned int);
 int main()
 {
-    /*sizeof()
-    X   casting
-    */
-
-     //usiamo l'operatore di assegnamento nella dichiarazione delle variabili
+    //usiamo l'operatore di assegnamento nella dichiarazione delle variabili
     int num1=5,num2=15,risultato;
     printf("Le variabili sono le seguenti:\n");
     printf("TIPO\t\t\tNOME\t\t\tVALORE\n");
-    printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
-    printf("Int\t\t\tnum2\t\t\t%d\n",num2);
+    printf("Int (%d byte)\t\tnum1\t\t\t%2d\n", sizeof(int), num1); //uso l'operatore sizeof()
+    printf("Int (%d byte)\t\tnum2\t\t\t%d\n", sizeof(int), num2); //uso l'operatore sizeof()
     printf("Convertite in numeri binari:\n");
     printf("num1(%d)\t\t\t", num1);
     showbits(num1);
@@ -80,7 +76,7 @@ int main()
 
 
     //uso degli operatori aritmetici
-    printf("\nOperazioni con gli operatori aritmetici:\n");
+    printf("\n\n\nOperazioni con gli operatori aritmetici:\n");
     int sum = num1 + num2;
     int sub = num1 - num2;
     int prod = num1 * num2;
@@ -111,24 +107,37 @@ int main()
     printf("num1 = %3d\n\n",num1);
     printf("num1 finale =\t%3d\n",num1);
 
-    //Effetti collaterali
-    int x = 1;
-
+    //dimostrazione di side effects
+    printf("\n\nSide effects nell'uso di una variabile x:");
+    int x = 2;
     x = x++;
-    printf("\nIl valore di x con side effect e\' %d\n\n",x);
-    x = 1;
+    printf("\nIl valore di x con side effect e\' %d\n",x);
+    x = 2;
     x = ++x;
-    printf("Il valore di x e\' %d\n\n",x);
+    printf("Il valore di x e\' %d",x);
 
+    //effetti di conversione implicita e assegnamento inappropriato di valore per il tipo di variabile
+    printf("\n\nApplicando conversioni implicite si ottiene:");
+    int y=7.89, z=10;
+    printf("\nLa variabile in input sarebbe 7.89, ma in quanto int l'output e' %d", y);
+    div=z/x;
+    printf("\nLa divisione tra z(%d) e x(%d) e': %f", z, x, div);
+    div=z/4.0;
+    printf("\nLa divisione tra z(%d) e 4 e': %f", z, div);
 
-    //qui usiamo gli operatori aritmetici unari, incrementano e decrementano il valore di una variabile
-    printf("\nvalori iniziali delle variabili:  %d  %d\n", num1, num2);
-    printf("incrementi e decrementi:\t  %d  %d\n", num1++, --num2);//num1 invariato perchè assume il valore prima dell'incremento
-    printf("\t\t\t\t  %d  %d\n", ++num1, num2++);//num1 varia perchè assume prima gli incrementi
+    //effetti del superamento dei range di memorizzazione del tipo di variabile
+    short int var1=10000, var2=30000, somma;
+    printf("\n\n\nVengono assegnati 2 valori (%d e %d):", var1, var2);
+    printf("\nSi ottiene come risultato:\t%d + %d = %d\n!oltre il range di memorizzazione!", var1, var2, somma=var1+var2);
+
+    //qui usiamo gli operatori aritmetici unari, incremento e decrementano il valore di una variabile
+    printf("\n\n\nValori iniziali delle variabili:  %d  %d\n", num1, num2);
+    printf("Incrementi e decrementi:\t  %d  %d\n", num1++, --num2); //num1 invariato perchè assume il valore prima dell'incremento
+    printf("\t\t\t\t  %d  %d\n", ++num1, num2++); //num1 varia perchè assume prima gli incrementi
     printf("\t\t\t\t  %d  %d\n", --num1, num2--);
     printf("\t\t\t\t  %d  %d\n", num1++, --num2);
-    printf("valori finali:\t\t\t  %d  %d\n", ++num1, --num2);
-    printf("valori finali cambiati di segno: %d %d\n", -num1, -num2);
+    printf("Valori finali:\t\t\t  %d  %d\n", ++num1, --num2);
+    printf("Valori finali cambiati di segno: %d %d\n", -num1, -num2);
 
     //qui usiamo le funzione matematiche
 
@@ -152,94 +161,89 @@ int main()
     printf("15. Minor valore intero >= num6:\t%lf\n",  ceil(num6));
     printf("16. Maggior valore intero <= num6:\t%lf\n",  floor(num6));
 
-    printf("\n\n");
+
 
     //operatori logici e relazionali applicati con l'istruzione di selezione if
+    printf("\n\"Confronto tra 3 numeri\"\n");
     int num3,num4,num5;
-
-    printf("Dammi il primo valore ");
+    printf("Inserire il primo valore ");
     scanf("%d",&num3);
     fflush(stdin);
-    printf("Dammi il secondo valore ");
+    printf("Inserire il secondo valore ");
     scanf("%d",&num4);
     fflush(stdin);
-    printf("Dammi il terzo valore ");
+    printf("Inserire il terzo valore ");
     scanf("%d",&num5);
     fflush(stdin);
-    printf("\n");
-
-    printf("Avviamo il confronto\n");
     if(num3 != num4 && num4!= num5 && num3 != num5)
     {
-        printf("I numeri sono tutti diversi tra loro, stampati in ordine crescente risultano ");
+        printf("\nI numeri sono tutti diversi tra loro, stampati in ordine crescente risultano: ");
         if(num3 < num4 && num4 < num5)
         {
-            printf("%d<%d<%d\n",num3,num4,num5);
+            printf("%d<%d<%d.\n\n",num3,num4,num5);
         }
         else if(num3 < num5 && num5 < num4)
         {
-            printf("%d<%d<%d\n",num3,num5,num4);
+            printf("%d<%d<%d.\n\n",num3,num5,num4);
         }
         else if(num4 < num3 && num3 < num5)
         {
-            printf("%d<%d<%d\n",num4,num3,num5);
+            printf("%d<%d<%d.\n\n",num4,num3,num5);
         }
         else if(num4 < num5 && num5 < num3)
         {
-            printf("%d<%d<%d\n",num4,num5,num3);
+            printf("%d<%d<%d.\n\n",num4,num5,num3);
         }
         else if(num5 < num4 && num4 < num3)
         {
-            printf("%d<%d<%d\n",num5,num4,num3);
+            printf("%d<%d<%d.\n\n",num5,num4,num3);
         }
         else
         {
-            printf("%d<%d<%d\n",num5,num3,num4);
+            printf("%d<%d<%d.\n\n",num5,num3,num4);
         }
     }
     else if(num3 == num4 && num4 == num5)
     {
-        printf("I numeri inseriti sono tutti uguali fra loro");
+        printf("\nI numeri inseriti sono tutti uguali fra loro.\n\n");
     }
     else
     {
-        printf("Almeno 2 valori sono uguali tra loro ");
+        printf("\nDue valori sono uguali tra loro e sono: ");
         if(num3 == num4)
         {
             if(num3 > num5)
             {
-                printf("num3 e num4 sono > di num5, %d e %d > %d\n",num3,num4,num5);
+                printf("%d e %d > %d.\n\n",num3,num4,num5);
             }
             else
             {
-                printf("num3 e num4 sono < di num5, %d e %d < %d\n",num3,num4,num5);
+                printf("%d e %d < %d.\n\n",num3,num4,num5);
             }
         }
         else if(num4 == num5)
         {
              if(num4 > num3)
             {
-                printf("num4 e num5 sono > di num3, %d e %d > %d\n",num4,num5,num3);
+                printf("%d e %d > %d.\n\n",num4,num5,num3);
             }
             else
             {
-                printf("num4 e num5 sono < di num3, %d e %d < %d\n",num4,num5,num3);
+                printf("%d e %d < %d.\n\n",num4,num5,num3);
             }
         }
         else
         {
              if(num5 > num4)
             {
-                printf("num3 e num5 sono > di num4, %d e %d > %d\n",num3,num5,num4);
+                printf("%d e %d > %d.\n\n",num3,num5,num4);
             }
             else
             {
-                printf("num3 e num5 sono < di num4, %d e %d < %d\n",num3,num5,num3);
+                printf("%d e %d < %d.\n\n",num3,num5,num3);
             }
         }
     }
-
-
     system("pause");
     return 0;
 }
