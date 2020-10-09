@@ -56,7 +56,7 @@ int main() {
 
     while(userResponse != '='){     // Ciclo finche' l'IA non ha indovinato il numero
         iaGuess = (max+min)/2;  // Calcolo il valore indovinato dalla IA
-        printf("Il numero e’ minore (<) uguale (=) o maggiore (>) di %d? ", iaGuess);
+        printf("Il numero e\' minore (<) uguale (=) o maggiore (>) di %d? ", iaGuess);
         scanf(" %c", &userResponse);
 
         if(userResponse != '<' && userResponse != '=' && userResponse != '>'){  // Obbligo l'utente ad inserire uno dei tre valori
@@ -70,7 +70,7 @@ int main() {
                 min = iaGuess+1;
     }
 
-    printf("Il numero a cui hai pensato e' %d", iaGuess);
+    printf("Il numero a cui hai pensato e' %d\n\n", iaGuess);
 	
     system("pause");
     return 0;
