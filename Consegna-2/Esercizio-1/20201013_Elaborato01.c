@@ -19,6 +19,7 @@ int main()
 {
     /* ho riportato qui credo tutti gli operatori studiati che dobbiamo usare
     quelle che ho già inserito ho messo una X a inizio riga
+    
     OPERATORI ARITMETICI p. 86 lucidi 4
     X   ++op Incrementa di un'unità l'operando prima che venga restituito il suo valore.
     X   op++ Incrementa di un'unità l'operando dopo averne restituito il suo valore.
@@ -37,7 +38,7 @@ int main()
     X   op1 *= op2 op1 = (op1 * op2)
     X   op1 /= op2 op1 = (op1 / op2)
     X   op1 %= op2 op1 = (op1 % op2)
-
+    
     OPERATORI RELAZIONALI
     < Primo operando minore del secondo operando
     > Primo operando maggiore del secondo operando
@@ -45,20 +46,19 @@ int main()
     >= Primo operando maggiore o uguale al secondo operando
     == Primo operando uguale al secondo operando
     X   != Primo operando non uguale al secondo operando
-
     OPERATORI LOGICI
     ! Calcola il NOT logico dell’operando
     && Calcola l’AND logico tra i due operandi
     || Calcola l’OR logico tra i due operandi
-
+    
     OPERATORI BITWISE - esempi a p. 112 lucidi 4
-    & AND logico bit a bit tra i due operandi
-    | OR logico bit a bit tra i due operandi
-    ^ XOR logico bit a bit tra i due operandi
-    ~ Complemento a 1 dell’operando
-    >> Shifta destra del primo operando per un numero di bit pari alvalore del secondo
-    << Shifta sinistra del primo operando per un numero di bit pari alvalore del secondo
-
+    X   & AND logico bit a bit tra i due operandi
+    X   | OR logico bit a bit tra i due operandi
+    X   ^ XOR logico bit a bit tra i due operandi
+    X   ~ Complemento a 1 dell’operando
+    X   >> Shifta destra del primo operando per un numero di bit pari alvalore del secondo
+    X   << Shifta sinistra del primo operando per un numero di bit pari alvalore del secondo
+    
     non so se anche
     sizeof()
     X   casting
@@ -70,51 +70,59 @@ int main()
     printf("TIPO\t\t\tNOME\t\t\tVALORE\n");
     printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
     printf("Int\t\t\tnum2\t\t\t%d\n",num2);
-          
+    printf("Convertite in numeri binari:\n");
+    printf("num1(%d)\t\t\t", num1);
+    showbits(num1);
+    printf("\nnum2(%d)\t\t", num2);
+    showbits(num2);
+
     //operatori bitwise
-    printf("\n\n  ");
+    printf("\n\n\nOperazioni con gli operatori bitwise tra num1(%d) e num2(%d):\n", num1, num2);
+    printf("\nAND logico bit a bit tra i due operandi:\n  ");
     showbits(num1);
     printf("\n& ");
     showbits(num2);
-    risultato = num1&num2;
+    risultato=num1&num2;
     printf("\n= ");
     showbits(risultato);
-    printf("\n\n  ");
+
+    printf("\n\nOR logico bit a bit tra i due operandi:\n  ");
     showbits(num1);
     printf("\n| ");
     showbits(num2);
-    risultato = num1|num2;
+    risultato=num1|num2;
     printf("\n= ");
     showbits(risultato);
-    printf("\n\n  ");
+
+    printf("\n\nXOR logico bit a bit tra i due operandi:\n  ");
     showbits(num1);
     printf("\n^ ");
     showbits(num2);
-    risultato = num1^num2;
-    printf("= ");
+    risultato=num1^num2;
+    printf("\n= ");
     showbits(risultato);
-    printf("\n\n  ");
+
+    printf("\n\nOperazioni con gli operatori bitwise su num1(%d):\n  ", num1);
+    printf("\nComplemento a 1 dell'operando:\n~ ");
     showbits(num1);
-    printf("\n~ ");
-    risultato = ~num1;
-    printf("= ");
+    risultato=~num1;
+    printf("\n= ");
     showbits(risultato);
-    printf("\n\n  ");
+
+    printf("\n\nShifta destra del primo operando per un numero di bit pari a 2:\n>>2 ");
     showbits(num1);
-    printf("\n>>2 ");
-    risultato = num1 >> 2;
-    printf("= ");
+    risultato=num1>>2;
+    printf("\n=   ");
     showbits(risultato);
-    printf("\n\n  ");
+
+    printf("\n\nShifta sinistra del primo operando per un numero di bit pari a 2:\n<<2 ");
     showbits(num1);
-    printf("\n<<2 ");
-    risultato = num1 << 2;
-    printf("= ");
+    risultato=num1<<2;
+    printf("\n=   ");
     showbits(risultato);
-    printf("\n\n");
-     
+
     //uso degli operatori aritmetici
-    printf("\nOperazioni con gli operatori aritmetici:\n");
+    printf("\n\n\nOperazioni con gli operatori aritmetici:\n");
     int sum=num1+num2;
     int sub=num1-num2;
     int prod=num1*num2;
@@ -272,7 +280,7 @@ int main()
     return 0;
 }
 
-void showbits( unsigned int x )
+void showbits(unsigned int x )
 {
     int i=0;
     for (i = (sizeof(int) * 8) - 1; i >= 0; i--)
