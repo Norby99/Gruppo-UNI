@@ -152,7 +152,7 @@ int main()
     printf("15. Minor valore intero >= num6:\t%lf\n",  ceil(num6));
     printf("16. Maggior valore intero <= num6:\t%lf\n",  floor(num6));
 
-
+    printf("\n\n");
 
     //operatori logici e relazionali applicati con l'istruzione di selezione if
     int num3,num4,num5;
@@ -166,34 +166,35 @@ int main()
     printf("Dammi il terzo valore ");
     scanf("%d",&num5);
     fflush(stdin);
+    printf("\n");
 
-    printf("Avviamo il confronto");
+    printf("Avviamo il confronto\n");
     if(num3 != num4 && num4!= num5 && num3 != num5)
     {
         printf("I numeri sono tutti diversi tra loro, stampati in ordine crescente risultano ");
         if(num3 < num4 && num4 < num5)
         {
-            printf("%d<%d<%d",num3,num4,num5);
+            printf("%d<%d<%d\n",num3,num4,num5);
         }
         else if(num3 < num5 && num5 < num4)
         {
-            printf("%d<%d<%d",num3,num5,num4);
+            printf("%d<%d<%d\n",num3,num5,num4);
         }
         else if(num4 < num3 && num3 < num5)
         {
-            printf("%d<%d<%d",num4,num3,num5);
+            printf("%d<%d<%d\n",num4,num3,num5);
         }
         else if(num4 < num5 && num5 < num3)
         {
-            printf("%d<%d<%d",num4,num5,num3);
+            printf("%d<%d<%d\n",num4,num5,num3);
         }
         else if(num5 < num4 && num4 < num3)
         {
-            printf("%d<%d<%d",num5,num4,num3);
+            printf("%d<%d<%d\n",num5,num4,num3);
         }
         else
         {
-            printf("%d<%d<%d",num5,num3,num4);
+            printf("%d<%d<%d\n",num5,num3,num4);
         }
     }
     else if(num3 == num4 && num4 == num5)
@@ -202,38 +203,38 @@ int main()
     }
     else
     {
-        printf("Almeno 2 valori sono uguali tra loro");
+        printf("Almeno 2 valori sono uguali tra loro ");
         if(num3 == num4)
         {
             if(num3 > num5)
             {
-                printf("num3 e num4 sono > di num5, %d e %d > %d",num3,num4,num5);
+                printf("num3 e num4 sono > di num5, %d e %d > %d\n",num3,num4,num5);
             }
             else
             {
-                printf("num3 e num4 sono < di num5, %d e %d < %d",num3,num4,num5);
+                printf("num3 e num4 sono < di num5, %d e %d < %d\n",num3,num4,num5);
             }
         }
         else if(num4 == num5)
         {
              if(num4 > num3)
             {
-                printf("num4 e num5 sono > di num3, %d e %d > %d",num4,num5,num3);
+                printf("num4 e num5 sono > di num3, %d e %d > %d\n",num4,num5,num3);
             }
             else
             {
-                printf("num4 e num5 sono < di num3, %d e %d < %d",num4,num5,num3);
+                printf("num4 e num5 sono < di num3, %d e %d < %d\n",num4,num5,num3);
             }
         }
         else
         {
              if(num5 > num4)
             {
-                printf("num3 e num5 sono > di num4, %d e %d > %d",num3,num5,num4);
+                printf("num3 e num5 sono > di num4, %d e %d > %d\n",num3,num5,num4);
             }
             else
             {
-                printf("num3 e num5 sono < di num4, %d e %d < %d",num3,num5,num3);
+                printf("num3 e num5 sono < di num4, %d e %d < %d\n",num3,num5,num3);
             }
         }
     }
