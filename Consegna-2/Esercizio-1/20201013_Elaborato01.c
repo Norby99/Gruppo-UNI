@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+void showbits (unsigned int);
 int main()
 {
     /* ho riportato qui credo tutti gli operatori studiati che dobbiamo usare
@@ -64,12 +65,54 @@ int main()
     */
 
     //usiamo l'operatore di assegnamento nella dichiarazione delle variabili
-    int num1=5;
-    int num2=15;
+    int num1=5,num2=15,risultato;
     printf("Le variabili sono le seguenti:\n");
     printf("TIPO\t\t\tNOME\t\t\tVALORE\n");
     printf("Int\t\t\tnum1\t\t\t%2d\n",num1);
     printf("Int\t\t\tnum2\t\t\t%d\n",num2);
+          
+    //operatori bitwise
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n& ");
+    showbits(num2);
+    risultato = num1&num2;
+    printf("\n= ");
+    showbits(risultato);
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n| ");
+    showbits(num2);
+    risultato = num1|num2;
+    printf("\n= ");
+    showbits(risultato);
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n^ ");
+    showbits(num2);
+    risultato = num1^num2;
+    printf("= ");
+    showbits(risultato);
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n~ ");
+    risultato = ~num1;
+    printf("= ");
+    showbits(risultato);
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n>>2 ");
+    risultato = num1 >> 2;
+    printf("= ");
+    showbits(risultato);
+    printf("\n\n  ");
+    showbits(num1);
+    printf("\n<<2 ");
+    risultato = num1 << 2;
+    printf("= ");
+    showbits(risultato);
+    printf("\n\n");
+     
     //uso degli operatori aritmetici
     printf("\nOperazioni con gli operatori aritmetici:\n");
     int sum=num1+num2;
@@ -227,4 +270,13 @@ int main()
     printf("\n\n\n\n");
     system("pause");
     return 0;
+}
+
+void showbits( unsigned int x )
+{
+    int i=0;
+    for (i = (sizeof(int) * 8) - 1; i >= 0; i--)
+    {
+       putchar(x & (1u << i) ? '1' : '0');
+    }
 }
