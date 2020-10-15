@@ -18,19 +18,28 @@
 int main ()
 {
     //link piccinini https://www.programiz.com/c-programming/library-function/ctype.h
-    
+
     //Inserimento di una stringa che termina con #
     printf("Inserire un testo da terminare col carattere #:\n");
     char ch;
-    char bufferA[100];
+    char text[100];
     int i, index = 0;
-    memset(bufferA, '\0', sizeof(bufferA)); /*function memset() used to clear the memory location*/
+    memset(text, '\0', sizeof(text)); //function memset() to clear the memory location
     while ((ch = getchar()) != CARATTERE){  //legge un singolo carattere, restituendolo
-        bufferA[index++]=ch;
+        text[index++]=ch;
     }
-    printf("The input sentence is:\n%s\n", bufferA);
-    //uso le funzioni della libreria <ctype.h>
-    printf("Number of white spaces: %d\n", isspace(bufferA));
+    printf("The input sentence is:\n%s\n", text);
+    /*uso le funzioni della libreria <ctype.h>
+      1. numero spazi bianchi*/
+    int counterA = 0;
+
+    while ((ch=getchar())!=EOF && ch!='\n'){
+        text[index++] = ch;
+        if (isspace(ch)!=0){ //Important to use "!=0" and not "==0"
+                counterA = counterA +1;
+        }
+    }
+    printf("\nThe number of white spaces: %d\n", counterA);
 
     system ("pause");
     return 0;
