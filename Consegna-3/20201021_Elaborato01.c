@@ -23,24 +23,27 @@ int main ()
     printf("Inserire un testo da terminare col carattere #:\n");
     char ch;
     char text[100];
-    int i, index = 0;
+    int i, index = 0, counterA = 0;
     memset(text, '\0', sizeof(text)); //function memset() to clear the memory location
-    while ((ch = getchar()) != CARATTERE){  //legge un singolo carattere, restituendolo
-        text[index++]=ch;
+    while ((ch = getchar()) != CARATTERE) //getchar() legge un singolo carattere, restituendolo
+    {
+        text[index++] = ch;
     }
-    printf("The input sentence is:\n%s\n", text);
+    printf("\nThe input sentence is:\n%s\n", text);
     /*uso le funzioni della libreria <ctype.h>
       1. numero spazi bianchi*/
-    int counterA = 0;
-
-    while ((ch=getchar())!=EOF && ch!='\n'){
+    for (index = 0; (ch = getchar()) != CARATTERE; )
+    {
         text[index++] = ch;
-        if (isspace(ch)!=0){ //Important to use "!=0" and not "==0"
-                counterA = counterA +1;
+        if (isspace(ch)!=0)
+        {
+                counterA++;
         }
     }
     printf("\nThe number of white spaces: %d\n", counterA);
-
     system ("pause");
     return 0;
 }
+    /*per terminare testo con #
+    dispensa 4 es 12 scanf con stringa [^#]
+    sennò modo dispensa 11 usato in questo codice*/
