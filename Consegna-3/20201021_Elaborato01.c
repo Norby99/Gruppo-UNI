@@ -28,17 +28,14 @@ int main ()
     while ((ch = getchar()) != CARATTERE) //getchar() reads a single char, returning it
     {
         text[index++] = ch;
-    }
-    printf("\nThe input sentence is:\n%s\n", text);
-    /*using library <ctype.h> functions
-      1. number of blank spaces*/
-    for (index = 0; (ch = getchar()) != CARATTERE; text[index++] = ch)
-    {
+        /*using library <ctype.h> functions
+            1. number of blank spaces*/
         if (isspace(ch)!=0)
         {
                 counterA++;
         }
     }
+    printf("\nThe input sentence is:\n%s\n", text);
     printf("\nNumber of white spaces: %d\n", counterA);
     system ("pause");
     return 0;
