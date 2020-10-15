@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+//Funzione che mi restituisce i nomi dei singoli mesi in relazione al loro numero.
 char* nomeMese(int num_Mese)
 {
     char* mese;
@@ -58,6 +58,7 @@ char* nomeMese(int num_Mese)
 }
 int main()
 {
+    //Inizializzazione delle variabili.
     int anno, inizioAnno, i, j, num_Mese = 1, ggMese = 0, k = 0;
     char* mese;
 
@@ -70,19 +71,22 @@ int main()
     fflush(stdin);
 
     printf("\nCalendario dell'anno %d\n\n",anno);
+          
+    //Ciclo che mi stampa il calendario per ogni singolo mese.
     while(num_Mese <= 12)
     {
         mese = nomeMese(num_Mese);
         printf("\t%s",mese);
         printf("\n  D  L  MA ME G  V  S\n");
 
+        //Istruzione che assegna il numero di giorni totali per ogni.
         switch(num_Mese)
         {
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:
             ggMese = 31;
             break;
             case 2:
-            if((anno %4 == 0 && anno%100 != 0 )|| anno%400 == 0)
+            if((anno %4 == 0 && anno%100 != 0 )|| anno%400 == 0)//Controllo se l'anno inserito dall'utente è bisestile o meno
             {
                 ggMese = 29;
             }
@@ -95,6 +99,7 @@ int main()
             ggMese = 30;
         }
 
+        //Stampa del calendario.
         for(i = 1;i < inizioAnno; i++)
         {
             printf("   ");
