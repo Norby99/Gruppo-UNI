@@ -58,15 +58,15 @@ char* nomeMese(int num_Mese)
 }
 int main()
 {
-    int anno, start_Day, i, j, num_Mese = 1, ggMese = 0;
+    int anno, inizioAnno, i, j, num_Mese = 1, ggMese = 0, k = 0;
     char* mese;
 
     printf("L'anno di cui vuoi stampare il calendario e\': ");
     scanf("%d",&anno);
     fflush(stdin);
 
-    printf("Inserisci il primo giorno della settimana (1=Domenica, 7=Sabato): ");
-    scanf("%d",&start_Day);
+    printf("Inserisci il primo giorno dell'anno (1=Domenica, 7=Sabato): ");
+    scanf("%d",&inizioAnno);
     fflush(stdin);
 
     printf("\nCalendario dell'anno %d\n\n",anno);
@@ -82,7 +82,7 @@ int main()
             ggMese = 31;
             break;
             case 2:
-            if(anno %4 == 0 || anno%100 == 0)
+            if((anno %4 == 0 && anno%100 != 0 )|| anno%400 == 0)
             {
                 ggMese = 29;
             }
@@ -94,23 +94,32 @@ int main()
             default:
             ggMese = 30;
         }
-        for(i = 1;i < start_Day; i++)
+
+        for(i = 1;i < inizioAnno; i++)
         {
             printf("   ");
+            k++;
         }
-
         for(j = 1; j <= ggMese; j++)
         {
             printf("%3d",j);
-            if((start_Day + j-1)%7 == 0)
+            k++;
+            if((inizioAnno + j-1)%7 == 0)
             {
                 printf("\n");
+                if(k >= 7)
+                {
+                    k = 0;
+                }
             }
         }
+        inizioAnno = k+1;
         num_Mese++;
         printf("\n\n");
     }
-    printf("\n\n\n");
+    printf("\n\n");
+
     system("pause");
     return 0;
 }
+
