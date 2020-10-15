@@ -47,10 +47,10 @@ int main() {
     int iaGuess;
     char userResponse;
 
-    printf("Inserisci il range [formato: min,max]: ");
+    printf("Inserisci il range [formato: min max]: ");
 
     do{     // Obbligo l'utente ad inserire i valori nel formato corretto
-        scanf("%d,%d", &min, &max);
+        scanf("%d %d", &min, &max);
     }while(!(0 < min && min < max));
     
     printf("Pensa ad un numero compreso nell'intervallo inserito\n\n");
