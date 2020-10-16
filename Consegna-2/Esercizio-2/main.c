@@ -51,7 +51,7 @@ int main() {
 
     do{     // Obbligo l'utente ad inserire i valori nel formato corretto
         scanf("%d %d", &min, &max);
-    }while(!(0 < min && min < max));
+    }while(!(0 < min && min <= max));
     
     printf("Pensa ad un numero compreso nell'intervallo inserito\n\n");
 
