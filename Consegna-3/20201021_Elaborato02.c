@@ -2,7 +2,7 @@
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
- DATE:    20201007
+ DATE:    20201016
  NOTE:    Text Ex02: Scrivere un programma C che stampi il calendario di un anno,
           chiedendo all'utente di specificare l'anno in oggetto e il numero che identifica il primo giorno dell'anno
           (1=lunedì, 7=domenica).*/
