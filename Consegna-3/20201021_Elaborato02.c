@@ -10,12 +10,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+//external function to associate months with numbers
 char* nomeMese(int num_Mese)
 {
+    //pointer assignment as string value
     char* mese;
-
-     switch(num_Mese)
+    switch(num_Mese)
     {
         case 1:
         mese = "Gennaio";
@@ -60,19 +60,24 @@ int main()
 {
     int anno, inizioAnno, i, j, num_Mese = 1, ggMese = 0, k = 0;
     char* mese;
-
+    //entering year value
     do
     {
         printf("L'anno di cui vuoi stampare il calendario e\': ");
         scanf("%d",&anno);
         fflush(stdin);
+        if (anno < 0)
+        {
+            printf("\nValore non valido, reinserire anno.\n");
+        }
     }while(anno < 0);
 
-    printf("Inserisci il primo giorno dell'anno (1=Lumedi\', 7=Domenica): ");
+    printf("Inserisci il primo giorno dell'anno (1=Lunedi\', 7=Domenica): ");
     scanf("%d",&inizioAnno);
     fflush(stdin);
 
     printf("\nCalendario dell'anno %d\n\n",anno);
+    //printing calendar values of the input year
     while(num_Mese <= 12)
     {
         mese = nomeMese(num_Mese);
@@ -84,6 +89,7 @@ int main()
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:
             ggMese = 31;
             break;
+            //leap year check
             case 2:
             if((anno %4 == 0 && anno%100 != 0 )|| anno%400 == 0)
             {
@@ -97,7 +103,6 @@ int main()
             default:
             ggMese = 30;
         }
-
         for(i = 1;i < inizioAnno; i++)
         {
             printf("   ");
@@ -121,7 +126,6 @@ int main()
         printf("\n\n");
     }
     printf("\n\n");
-
     system("pause");
     return 0;
 }
