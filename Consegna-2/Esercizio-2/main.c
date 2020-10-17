@@ -48,8 +48,8 @@ int main() {
     char userResponse;
 
     printf("Inserisci il range [formato: min max]: ");
-
-    do{     // Obbligo l'utente ad inserire i valori nel formato corretto
+    // Controllo che l'utente abbia inserito i valori nel formato corretto
+    do{
         scanf("%d %d", &min, &max);
 	if(!(0 < min && min <= max)) printf("I valori inseriti non rispettano la sintassi corretta [0 < min <= max]! Per favore reinserisci i dati:\n");
     }while(!(0 < min && min <= max));
