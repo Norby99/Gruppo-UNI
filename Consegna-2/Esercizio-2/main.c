@@ -3,7 +3,7 @@
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
 
- DATE:   20201007
+ DATE:   20201017
 
  NOTE:   Text Ex02: Pensa a un numero. L’utente pensa ad un numero e il computer lo deve indovinare compiendo le seguenti operazioni.
 	 L’utente fissa un intervallo entro cui generare il valore da indovinare (min, max). Se i valori inseriti non rispettano il vincolo 0<min≤max,
