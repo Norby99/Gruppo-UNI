@@ -51,6 +51,7 @@ int main() {
 
     do{     // Obbligo l'utente ad inserire i valori nel formato corretto
         scanf("%d %d", &min, &max);
+	if(!(0 < min && min <= max)) printf("I valori inseriti non rispettano la sintassi corretta [0 < min <= max]! Per favore reinserisci i dati:\n");
     }while(!(0 < min && min <= max));
     
     printf("Pensa ad un numero compreso nell'intervallo inserito\n\n");
