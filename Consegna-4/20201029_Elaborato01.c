@@ -9,9 +9,14 @@
           Implementare la variante in cui le ripetizioni non sono presenti nel risultato.
           Implementare inoltre anche l'inserimento random dei valori nei vettori.*/
 
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 #include <stdbool.h>
+#include <time.h>
+
+#define RANDOMNUMBER 5
+//DEVO METTERE L'OPZIONE RANDOM E TUTTI I CONTROLLI SIMPATICI PER UTENTI INCAPACI
+int *randomisedArray(int);
 
 int main(void)
 {
@@ -51,21 +56,21 @@ int main(void)
     // finding intersections and storing them in a 3rd array
     int j, a3[n3];
     bool flag;
-    for(i = 0;i < n1;i++)
+    for(i=0; i<n1 ; i++)
     {
-        for(j = 0;j < n2;j++)
+        for(j=0; j<n2; j++)
         {
-            if(a2[i] == a1[j])
+            if(a2[i]==a1[j])
             {
-                flag = 1;
+                flag=1;
             }
         }
-        if(flag == 1)
+        if(flag==1)
         {
             a3[n3]=a2[i];
             n3++;
         }
-        flag = 0;
+        flag=0;
     }
     // output of the final array
     if (flag==0)
@@ -80,4 +85,15 @@ int main(void)
     printf("\n\n\n\n");
     system ("pause");
     return 0;
+}
+// external randomize function
+int *randomisedArray(int length)
+{
+    int *array = malloc(length * sizeof(*array));
+    srand(time(NULL));
+    // filling the array with integer random numbers
+    for(int i=0; i<length; i++){
+        array[i] = -(rand() % RANDOMNUMBER)+(rand() % RANDOMNUMBER);
+    }
+    return array;
 }
