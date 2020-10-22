@@ -14,35 +14,66 @@
 #include <stdbool.h>
 #include <time.h>
 
-#define ARRAYSIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+#define RANDOMNUMBER 5
 
 int *randomisedArray(int);
 
 int main(void)
 {
-    int i, j, n = 6;
+    int i, j, k=0, length;
+    char inputType;
     bool temp;
+    int *vet1;
 
-    int *vet1, vet2[n];
+    printf("Vuoi inserire i dati manualmente o in maniera randomica? Inserisci m per manuale o r per randomica seguito dai numeri di valori ez = [r 8]:\n");
+    scanf(" %c %d", &inputType, &length);
 
-    vet1 = randomisedArray(n);
-/*
-    for (i=0; i<n; i++)
+    /* DA FARE: inserire controllo sugli input!!! */
+    if(inputType == 'm'){
+        for (i=0; i<length; i++)
+        {
+            printf("Inserisci un valore %d:", i+1);
+            scanf("%d", &vet1[i]);
+        } 
+
+    }else if(inputType == 'r'){
+        vet1 = randomisedArray(length);
+    }
+    int vet2[length];
+
+    for (i=0; length>i; i++)
+    {
+        printf("%d, ", vet1[i]);
+    }
+
+    for (i=0; i<length; i++)
     {
         temp=false;
 
-        for (j=0; j<(sizeof (vet2)/sizeof (vet2[0])); j++)
+        for (j=0; j<k; j++)
         {
-            if ((vet2[j] == vet1[i]) || vet2[j]==0)
+            if ((vet2[j] == vet1[i]) || vet1[i] == 0)
+            {
                 temp=true;
+                break;
+            }
         }
         if (temp==false)
-            vet2[(sizeof (vet2)/sizeof (vet2[0]))]=vet1[i];
-    }*/
+            vet2[k++]=vet1[i];
+    }
 
-    for (i=0; n>i; i++)
+
+    /* blocco dei print */
+    printf("\nArray 1:\n");
+    for (i=0; length>i; i++)
     {
         printf("%d, ", vet1[i]);
+    }
+
+    printf("\nArray 2:\n");
+    for (i=0; k>i; i++)
+    {
+        printf("%d, ", vet2[i]);
     }
 
     return 0;
@@ -53,7 +84,7 @@ int *randomisedArray(int length){
     srand(time(NULL));
 
     for(int i=0; i<length; i++){
-        array[i] = (rand() % 100);
+        array[i] = (rand() % RANDOMNUMBER);
     }
     return array;
 }
