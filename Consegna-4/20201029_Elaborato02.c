@@ -20,36 +20,49 @@ int *randomisedArray(int);
 
 int main(void)
 {
+    // entering values
     int i, j, k=0, length;
     char inputType;
     bool temp;
     int *vet1;
-
-    printf("Vuoi inserire i dati manualmente o in maniera randomica? Inserisci m per manuale o r per randomica seguito dai numeri di valori ez = [r 8]:\n");
-    scanf(" %c %d", &inputType, &length);
-
-    /* DA FARE: inserire controllo sugli input!!! */
-    if(inputType == 'm'){
-        for (i=0; i<length; i++)
-        {
-            printf("Inserisci un valore %d:", i+1);
-            scanf("%d", &vet1[i]);
-        } 
-
-    }else if(inputType == 'r'){
-        vet1 = randomisedArray(length);
-    }
-    int vet2[length];
-
-    for (i=0; length>i; i++)
+    // input control
+    do
     {
-        printf("%d, ", vet1[i]);
-    }
-
+        printf("Do you want to manually or randomly enter numbers?\nDigit m for manual and r for random: ");
+        scanf("%c", &inputType);
+        fflush(stdin);
+        if (inputType != 'm' && inputType != 'r')
+            printf("!! The character format is invalid. Please enter m or r.");
+        else
+        {
+            do
+            {
+                printf("Insert length: ");
+                scanf("%d", &length);
+                fflush(stdin);
+                if (length<=0)
+                    printf("!! The length format is invalid. Please put a number >0.");
+            }
+            while (length<=0);
+            if(inputType == 'm')
+            {
+                vet1 = malloc(sizeof(int) * length);
+                for (i=0; i<length; i++)
+                    {
+                        printf("Inserisci un valore %d:", i+1);
+                        scanf(" %d", &vet1[i]);
+                    }
+                }else if(inputType == 'r'){
+                    vet1 = randomisedArray(length);
+                }
+            }
+    }while(inputType != 'm' && inputType != 'r');
+    
+    // formatting the final array without 0s and duplicates
+    int vet2[length];
     for (i=0; i<length; i++)
     {
         temp=false;
-
         for (j=0; j<k; j++)
         {
             if ((vet2[j] == vet1[i]) || vet1[i] == 0)
@@ -61,30 +74,29 @@ int main(void)
         if (temp==false)
             vet2[k++]=vet1[i];
     }
-
-
-    /* blocco dei print */
-    printf("\nArray 1:\n");
+    // printing output
+    printf("\nInput array:\n");
     for (i=0; length>i; i++)
     {
         printf("%d, ", vet1[i]);
     }
-
-    printf("\nArray 2:\n");
+    printf("\n\nFinal formatted array:\n");
     for (i=0; k>i; i++)
     {
         printf("%d, ", vet2[i]);
     }
-
+    printf("\n\n\n\n");
+    system("pause");
     return 0;
 }
-
-int *randomisedArray(int length){
+// external randomize function
+int *randomisedArray(int length)
+{
     int *array = malloc(length * sizeof(*array));
     srand(time(NULL));
-
+    // filling the array with integer random numbers
     for(int i=0; i<length; i++){
-        array[i] = (rand() % RANDOMNUMBER);
+        array[i] = -(rand() % RANDOMNUMBER)+(rand() % RANDOMNUMBER);
     }
     return array;
 }
