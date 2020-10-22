@@ -11,13 +11,14 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include <stdbool.h>
 
 int main()
 {
     //
-    int i, n1, n2, n3;
+    int i, n1, n2, n3=0;
 
-    printf("\"Intersection between 2 arrays\"\nEnter array 1 length: ");
+    printf("\"Intersection between 2 arrays\"\n\nEnter array 1 length: ");
     scanf("%d", &n1);
     fflush(stdin);
     printf("Fill the array:\n");
@@ -48,18 +49,34 @@ int main()
         scanf("%d", &a2[i]);
         fflush(stdin);
     }
-    //
-
-
-
-
-    int a3[n3];
-
-
-    // output of the array
-    printf("\nHere's the full array:\n");
-    for (i=0; i<n3; i++)
-        printf("%d ", a3[i]);
+    // finding intersections and storing them in a 3rd array
+    int j, a3[n3];
+    bool flag;
+    for(i = 0;i < n1;i++)
+    {
+        for(j = 0;j < n2;j++)
+        {
+            if(a2[i] == a1[j])
+            {
+                flag = 1;
+            }
+        }
+        if(flag == 1)
+        {
+            a3[n3]=a2[i];
+            n3++;
+        }
+        flag = 0;
+    }
+    // output of the final array
+    if (flag==0)
+        printf("\nThere's no intersection between the 2 arrays.\n");
+    else
+    {
+        printf("\nHere's the full array with all intersections between the 2 arrays:\n");
+        for (i=0; i<n3; i++)
+            printf("%d ", a3[i]);
+    }
 
     printf("\n\n\n\n");
     system ("pause");
