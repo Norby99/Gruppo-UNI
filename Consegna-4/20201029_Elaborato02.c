@@ -57,7 +57,6 @@ int main(void)
                 }
             }
     }while(inputType != 'm' && inputType != 'r');
-    
     // formatting the final array without 0s and duplicates
     int vet2[length];
     for (i=0; i<length; i++)
