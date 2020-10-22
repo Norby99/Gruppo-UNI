@@ -9,8 +9,8 @@
           Implementare la variante in cui le ripetizioni non sono presenti nel risultato.
           Implementare inoltre anche l'inserimento random dei valori nei vettori.*/
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 int main(void)
@@ -28,7 +28,7 @@ int main(void)
         scanf("%d", &a1[i]);
         fflush(stdin);
     }
-    //do-while loop to check there's a different length in input
+    // do-while loop to check if there's a different input length
     do
     {
         printf("\nEnter array 2 length: ");
