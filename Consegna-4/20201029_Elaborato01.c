@@ -13,11 +13,10 @@
 #include<stdlib.h>
 #include <stdbool.h>
 
-int main()
+int main(void)
 {
-    //
+    // entering array values
     int i, n1, n2, n3=0;
-
     printf("\"Intersection between 2 arrays\"\n\nEnter array 1 length: ");
     scanf("%d", &n1);
     fflush(stdin);
