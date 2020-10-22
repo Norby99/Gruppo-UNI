@@ -11,12 +11,49 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
+#define ARRAYSIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
-int main()
+int *randomisedArray(int);
+
+int main(void)
 {
-    //
+    int i, j, n = 6;
+    bool temp;
 
-    system("pause");
+    int *vet1, vet2[n];
+
+    vet1 = randomisedArray(n);
+/*
+    for (i=0; i<n; i++)
+    {
+        temp=false;
+
+        for (j=0; j<(sizeof (vet2)/sizeof (vet2[0])); j++)
+        {
+            if ((vet2[j] == vet1[i]) || vet2[j]==0)
+                temp=true;
+        }
+        if (temp==false)
+            vet2[(sizeof (vet2)/sizeof (vet2[0]))]=vet1[i];
+    }*/
+
+    for (i=0; n>i; i++)
+    {
+        printf("%d, ", vet1[i]);
+    }
+
     return 0;
+}
+
+int *randomisedArray(int length){
+    int *array = malloc(length * sizeof(*array));
+    srand(time(NULL));
+
+    for(int i=0; i<length; i++){
+        array[i] = (rand() % 100);
+    }
+    return array;
 }
