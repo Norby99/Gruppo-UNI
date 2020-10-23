@@ -11,20 +11,20 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <time.h>
 
 #define RANDOMNUMBER 5
 
 int *randomisedArray(int);
+bool elementInArray(int, int *, int);
 
 int main(void)
 {
     // entering array values
-    int i, n1, n2, n3;
-    int *a1, *a2, *a3, *a4;
+    int i, n1 = 0, n2 = 0, n3=0, n4=0, n5=0;
+    int *a1, *a2, *a3, *a4, *a5;
     char inputType;
-    int j, n4=0;
+    int j;
     bool flag=false, fl=false, f=false;
 
     printf("\"Intersection between 2 arrays\"");
@@ -92,17 +92,23 @@ int main(void)
     } while(inputType != 'm' && inputType != 'r');
 
     // finding intersections and storing them in a 3rd array
-    a3 = malloc(sizeof(int) * n1);
-    a4 = malloc(sizeof(int) * n1);
+    a3 = malloc(sizeof(int) * (n1+n2));
+    a4 = malloc(sizeof(int) * (n1+n2));
+    a5 = malloc(sizeof(int) * (n1+n2));
     for(i=0; i<n1; i++)
     {
         for(j=0; j<n2; j++)
         {
-            if(a2[j] == a1[i])
+            if(a1[i] == a2[j])  // se elemento di a1 in a2
             {
-                flag = true;
-                fl=true;
-                break;
+                if(!elementInArray(j, a5, n5))
+                {
+                    flag = true;
+                    fl=true;
+                    a5[n5++] = j;
+                    break;
+                }
+                
             }
         }
         if(flag == true)
@@ -150,10 +156,22 @@ int main(void)
             printf("%d ", a4[i]);
     }
 
+    printf("\nArray 5:\n");
+        for (i=0; i<n5; i++)
+            printf("%d ", a5[i]);
+
     printf("\n\n\n\n");
-    system("pause");
     return 0;
 }
+
+bool elementInArray(int val, int *array, int length){
+    for(int i=0; i<length; i++){
+        if(array[i] == val)
+            return true;
+    }
+    return false;
+}
+
 // external randomize function
 int *randomisedArray(int length){
     int *array = malloc(length * sizeof(*array));
