@@ -155,10 +155,6 @@ int main(void)
         for (i=0; i<n4; i++)
             printf("%d ", a4[i]);
     }
-
-    printf("\nArray 5:\n");
-        for (i=0; i<n5; i++)
-            printf("%d ", a5[i]);
     printf("\n\n\n\n");
     system ("pause");
     return 0;
