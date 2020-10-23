@@ -43,7 +43,7 @@ int main(void)
                    printf("!! The length format is invalid. Please put a number >0.\n");
                    continue;
                }
-               if (inputType=='m')
+               else if (inputType=='m')
                {
                    printf("Fill the array:\n");
                    for (i=0; i<n1; i++)
@@ -56,7 +56,7 @@ int main(void)
                /*else if(inputType == 'r'){
                     a1 = randomisedArray(n1);
                }*/
-               // do-while loop to check if there's a different input length besides n2 correct value
+               // do-while loop to check if there's a different input length besides checking n2 correct length value
                do
                {
                    printf("\nEnter array 2 length: ");
@@ -70,20 +70,19 @@ int main(void)
                    if (n2==n1)
                    {
                        printf("\n!! Value must be different from the previous one.\n");
-                   }
-               } while (n2==n1||n2<=0);
-               if (inputType=='m')
-               {
-                   printf("Fill the array:\n");
-                   for (i=0; i<n2; i++)
+                   } else if (inputType=='m')
                    {
-                       printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
-                       scanf("%d", &a2[i]);
-                       fflush(stdin);
-                   }
-               } /*else if(inputType == 'r'){
-                    a2 = randomisedArray(n2);
-               }*/
+                       printf("Fill the array:\n");
+                       for (i=0; i<n2; i++)
+                       {
+                           printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
+                           scanf("%d", &a2[i]);
+                           fflush(stdin);
+                       }
+                   } /*else if(inputType == 'r'){
+                        a2 = randomisedArray(n2);
+                   }*/
+               } while (n2==n1||n2<=0);
            } while(n1<=0);
          }
     } while(inputType != 'm' && inputType != 'r');
