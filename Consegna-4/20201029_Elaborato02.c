@@ -49,7 +49,7 @@ int main(void)
                 vet1 = malloc(sizeof(int) * length);
                 for (i=0; i<length; i++)
                     {
-                        printf("Inserisci un valore %d:", i+1);
+                        printf("Enter a value %d:", i+1);
                         scanf(" %d", &vet1[i]);
                     }
                 }else if(inputType == 'r'){
