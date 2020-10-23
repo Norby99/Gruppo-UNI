@@ -100,7 +100,7 @@ int main(void)
     {
         for(j=0; j<n2; j++)
         {
-            if(a1[i] == a2[j])  // se elemento di a1 in a2
+            if(a1[i] == a2[j])
             {
                 if(!elementInArray(j, a5, n5))
                 {
@@ -136,7 +136,6 @@ int main(void)
     }
 
     // output of the final array
-
     if(inputType == 'r'){
         printf("\nArray 1:\n");
         for (i=0; i<n1; i++)
@@ -160,9 +159,8 @@ int main(void)
     printf("\nArray 5:\n");
         for (i=0; i<n5; i++)
             printf("%d ", a5[i]);
-
-    system ("pause");
     printf("\n\n\n\n");
+    system ("pause");
     return 0;
 }
 
