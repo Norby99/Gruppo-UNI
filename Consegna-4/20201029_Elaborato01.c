@@ -53,6 +53,9 @@ int main(void)
                        fflush(stdin);
                    }
                }
+               /*else if(inputType == 'r'){
+                    a1 = randomisedArray(n1);
+               }*/
                // do-while loop to check if there's a different input length besides n2 correct value
                do
                {
@@ -78,7 +81,9 @@ int main(void)
                        scanf("%d", &a2[i]);
                        fflush(stdin);
                    }
-               }
+               } /*else if(inputType == 'r'){
+                    a2 = randomisedArray(n2);
+               }*/
            } while(n1<=0);
          }
     } while(inputType != 'm' && inputType != 'r');
