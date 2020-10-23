@@ -9,77 +9,125 @@
           Implementare la variante in cui le ripetizioni non sono presenti nel risultato.
           Implementare inoltre anche l'inserimento random dei valori nei vettori.*/
 
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
 
 #define RANDOMNUMBER 5
-//DEVO METTERE L'OPZIONE RANDOM E TUTTI I CONTROLLI SIMPATICI PER UTENTI INCAPACI
+
 int *randomisedArray(int);
 
 int main(void)
 {
     // entering array values
-    int i, n1, n2, n3=0;
-    printf("\"Intersection between 2 arrays\"\n\nEnter array 1 length: ");
-    scanf("%d", &n1);
-    fflush(stdin);
-    printf("Fill the array:\n");
-    int a1[n1];
-    for (i=0; i<n1; i++)
-    {
-        printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
-        scanf("%d", &a1[i]);
-        fflush(stdin);
-    }
-    // do-while loop to check if there's a different input length
+    int i, n1=0, n2=0, n3=0, a1[n1], a2[n2];
+    char inputType;
+    printf("\"Intersection between 2 arrays\"");
     do
     {
-        printf("\nEnter array 2 length: ");
-        scanf("%d", &n2);
+        printf("\nDo you want to manually or randomly enter numbers?\nDigit m for manual and r for random: ");
+        scanf("%c", &inputType);
         fflush(stdin);
-        if (n2==n1)
+        if (inputType != 'm' && inputType != 'r')
+            printf("!! The character format is invalid. Please enter m or r.");
+        else
         {
-            printf("\n!! Value must be different from the previous one.\n");
-        }
-    }
-    while (n2==n1);
-    printf("Fill the array:\n");
-    int a2[n2];
-    for (i=0; i<n2; i++)
-    {
-        printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
-        scanf("%d", &a2[i]);
-        fflush(stdin);
-    }
+           do
+           {
+               printf("\n\nEnter array 1 length: ");
+               scanf("%d", &n1);
+               fflush(stdin);
+               if (n1<=0)
+               {
+                   printf("!! The length format is invalid. Please put a number >0.\n");
+                   continue;
+               }
+               if (inputType=='m')
+               {
+                   printf("Fill the array:\n");
+                   for (i=0; i<n1; i++)
+                   {
+                       printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
+                       scanf("%d", &a1[i]);
+                       fflush(stdin);
+                   }
+               }
+               // do-while loop to check if there's a different input length besides n2 correct value
+               do
+               {
+                   printf("\nEnter array 2 length: ");
+                   scanf("%d", &n2);
+                   fflush(stdin);
+                   if (n2<=0)
+                   {
+                       printf("!! The length format is invalid. Please put a number >0.\n");
+                       continue;
+                   }
+                   if (n2==n1)
+                   {
+                       printf("\n!! Value must be different from the previous one.\n");
+                   }
+               } while (n2==n1||n2<=0);
+               if (inputType=='m')
+               {
+                   printf("Fill the array:\n");
+                   for (i=0; i<n2; i++)
+                   {
+                       printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
+                       scanf("%d", &a2[i]);
+                       fflush(stdin);
+                   }
+               }
+           } while(n1<=0);
+         }
+    } while(inputType != 'm' && inputType != 'r');
     // finding intersections and storing them in a 3rd array
-    int j, a3[n3];
-    bool flag;
-    for(i=0; i<n1 ; i++)
+    int j, a3[n3], n4=0, a4[n4];
+    bool flag=0, fl=0, f=0;
+    for(i=0; i<n1; i++)
     {
         for(j=0; j<n2; j++)
         {
-            if(a2[i]==a1[j])
+            if(a2[i] == a1[j])
             {
-                flag=1;
+                flag = 1;
+                fl=1;
             }
         }
-        if(flag==1)
+        if(flag == 1)
         {
             a3[n3]=a2[i];
+            f=0;
+            for (j=0; j<n3; j++)
+            {
+                if (a4[j]==a3[n3])
+                {
+                    f=1;
+                }
+            }
+            if (f==0)
+            {
+                a4[n4]=a3[n3];
+                n4++;
+            }
             n3++;
         }
-        flag=0;
+        flag = 0;
     }
+
+
     // output of the final array
-    if (flag==0)
+    if (fl==0)
         printf("\nThere's no intersection between the 2 arrays.\n");
     else
     {
         printf("\nHere's the full array with all intersections between the 2 arrays:\n");
         for (i=0; i<n3; i++)
             printf("%d ", a3[i]);
+        printf("\nHere's the full array without repetitions all intersections between the 2 arrays:\n");
+        for (i=0; i<n4; i++)
+            printf("%d ", a4[i]);
     }
 
     printf("\n\n\n\n");
