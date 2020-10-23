@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define RANDOMNUMBER 5
@@ -160,6 +161,7 @@ int main(void)
         for (i=0; i<n5; i++)
             printf("%d ", a5[i]);
 
+    system ("pause");
     printf("\n\n\n\n");
     return 0;
 }
