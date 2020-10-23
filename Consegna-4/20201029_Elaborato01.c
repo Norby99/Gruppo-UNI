@@ -54,7 +54,7 @@ int main(void)
                     printf("Fill the array:\n");
                     for (i=0; i<n1; i++)
                     {
-                        printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
+                        printf("%d: ", i);
                         scanf(" %d", &a1[i]);
                     }
                 }
@@ -81,7 +81,7 @@ int main(void)
                         printf("Fill the array:\n");
                         for (i=0; i<n2; i++)
                         {
-                            printf("%d: ", i); //I'd like to put i++ here to order from 1 to 10 the output, but it messes the code up
+                            printf("%d: ", i);
                             scanf(" %d", &a2[i]);
                         }
                     }else if(inputType == 'r'){
