@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isInt(char*);
+
+int main(){
+
+    char *input = "55";
+
+    printf("%s", isInt(input) ? "true" : "false");
+
+
+    return 0;
+}
+
+bool isInt(char *val){
+    for(int i=0; i<strlen(val); i++){
+        if(!(isdigit(val[i])) && val[i] != '\n' && !isspace(val[i])) return false;
+    }
+    return true;
+}
