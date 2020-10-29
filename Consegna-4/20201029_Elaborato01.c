@@ -30,6 +30,7 @@ int main(void)
     char inputType;
     int j;
     bool flag=false, fl=false, f=false;
+    char *input = "55";
 
     printf("\"Intersection between 2 arrays\"");
     do
