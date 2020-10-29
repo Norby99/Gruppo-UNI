@@ -2,7 +2,9 @@
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
+
  DATE:    20201022
+
  NOTE:    Text Ex02: Scrivere un programma C che legga N numeri interi da tastiera e li memorizzi in un vettore.
           Il programma deve generare un secondo vettore compattando i numeri contenuti nel primo vettore. In particolare:
             1. ogni numero che compare ripetuto nel primo vettore, deve comparire una sola volta nel secondo vettore
@@ -13,10 +15,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
 
 #define RANDOMNUMBER 5
 
-int *randomisedArray(int);
+char *randomisedArray(int);
 
 int main(void)
 {
@@ -24,7 +27,7 @@ int main(void)
     int i, j, k=0, length;
     char inputType;
     bool temp;
-    int *vet1;
+    char *vet1;
     // input control
     do
     {
@@ -38,25 +41,39 @@ int main(void)
             do
             {
                 printf("Insert length: ");
-                scanf("%d", &length);
-                fflush(stdin);
+                if(scanf(" %d",&length)!=1)
+                {
+                    fflush(stdin);
+                   continue;
+                }
                 if (length<=0)
+                {
                     printf("!! The length format is invalid. Please put a number >0.");
-            }
-            while (length<=0);
+                    continue;
+                }
+            }while (length<=0);
+
             if(inputType == 'm')
             {
                 vet1 = malloc(sizeof(int) * length);
                 for (i=0; i<length; i++)
                     {
-                        printf("Enter a value %d:", i+1);
-                        scanf(" %d", &vet1[i]);
+                        printf("%d: ", i);
+                        scanf(" %s",&vet1[i]);
+                    }
+                    for(i=0;i<length;i++)
+                    {
+                        if(isdigit(vet1[i])==1)
+                        {
+                            vet1[i]=(int)vet1[i]-'0';
+                        }
                     }
                 }else if(inputType == 'r'){
                     vet1 = randomisedArray(length);
                 }
             }
     }while(inputType != 'm' && inputType != 'r');
+    printf("\n");
     // formatting the final array without 0s and duplicates
     int vet2[length];
     for (i=0; i<length; i++)
@@ -77,21 +94,22 @@ int main(void)
     printf("\nInput array:\n");
     for (i=0; length>i; i++)
     {
-        printf("%d, ", vet1[i]);
+        printf("%d ", vet1[i]);
     }
+    printf("\n");
     printf("\n\nFinal formatted array:\n");
     for (i=0; k>i; i++)
     {
-        printf("%d, ", vet2[i]);
+        printf("%d ", vet2[i]);
     }
     printf("\n\n\n\n");
     system("pause");
     return 0;
 }
 // external randomize function
-int *randomisedArray(int length)
+char *randomisedArray(int length)
 {
-    int *array = malloc(length * sizeof(*array));
+    char *array = malloc(length * sizeof(*array));
     srand(time(NULL));
     // filling the array with integer random numbers
     for(int i=0; i<length; i++){
