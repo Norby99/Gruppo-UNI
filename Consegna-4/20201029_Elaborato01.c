@@ -13,13 +13,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
 #include <ctype.h>
 
 #define RANDOMNUMBER 10
 
 char *randomisedArray(int);
-bool isInt(char*);
 
 int main(void)
 {
@@ -185,13 +183,6 @@ int main(void)
     return 0;
 }
 
-// external function to control the value
-bool isInt(char *val){
-    for(int i=0; i<strlen(val); i++){
-        if(!(isdigit(val[i])) && val[i] != '\n' && !isspace(val[i])) return false;
-    }
-    return true;
-}
 // external randomize function
 char *randomisedArray(int length){
     char *array = malloc(length * sizeof(*array));
