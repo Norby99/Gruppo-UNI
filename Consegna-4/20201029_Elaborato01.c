@@ -16,21 +16,19 @@
 #include <string.h>
 #include <ctype.h>
 
-#define RANDOMNUMBER 5
+#define RANDOMNUMBER 10
 
-int *randomisedArray(int);
-bool elementInArray(int, int *, int);
+char *randomisedArray(int);
 bool isInt(char*);
 
 int main(void)
 {
     // entering array values
-    int i, n1 = 0, n2 = 0, n3=0, n4=0, n5=0;
-    int *a1, *a2, *a3, *a4, *a5;
+    int i, n1=0, n2=0, n3=0, n4=0, n5=0;
+    char *a1, *a2, *a3, *a4, *a5;
     char inputType;
     int j;
     bool flag=false, fl=false, f=false;
-    char *input = "55";
 
     printf("\"Intersection between 2 arrays\"");
     do
@@ -45,8 +43,13 @@ int main(void)
            do
             {
                 printf("\n\nEnter array 1 length: ");
-                scanf(" %d", &n1);
-                a1 = malloc(sizeof(int) * n1);
+                if (scanf(" %d", &n1)!=1)
+                {
+                    fflush(stdin);
+                   continue;
+                }
+
+                a1 = malloc(n1 * sizeof(int));
 
                 if (n1<=0)
                 {
@@ -59,7 +62,14 @@ int main(void)
                     for (i=0; i<n1; i++)
                     {
                         printf("%d: ", i);
-                        scanf(" %d", &a1[i]);
+                        scanf(" %s",&a1[i]);
+                    }
+                    for(i=0;i<n1;i++)
+                    {
+                        if(isdigit(a1[i])==1)
+                        {
+                            a1[i]=(int)a1[i]-'0';
+                        }
                     }
                 }
                 else if(inputType == 'r'){
@@ -69,7 +79,11 @@ int main(void)
                 do
                 {
                     printf("\nEnter array 2 length: ");
-                    scanf("%d", &n2);
+                    if (scanf(" %d", &n2)!=1)
+                    {
+                        fflush(stdin);
+                        continue;
+                    }
                     a2 = malloc(sizeof(int) * n2);
 
                     if (n2<=0)
@@ -86,7 +100,14 @@ int main(void)
                         for (i=0; i<n2; i++)
                         {
                             printf("%d: ", i);
-                            scanf(" %d", &a2[i]);
+                            scanf(" %s",&a2[i]);
+                        }
+                        for(i=0;i<n2;i++)
+                        {
+                            if(isdigit(a2[i])==1)
+                            {
+                                a2[i]=(int)a2[i]-'0';
+                            }
                         }
                     }else if(inputType == 'r'){
                         a2 = randomisedArray(n2);
@@ -100,20 +121,20 @@ int main(void)
     a3 = malloc(sizeof(int) * (n1+n2));
     a4 = malloc(sizeof(int) * (n1+n2));
     a5 = malloc(sizeof(int) * (n1+n2));
+
     for(i=0; i<n1; i++)
     {
         for(j=0; j<n2; j++)
         {
             if(a1[i] == a2[j])
             {
-                if(!elementInArray(j, a5, n5))
-                {
+
                     flag = true;
                     fl=true;
                     a5[n5++] = j;
                     break;
-                }
-                
+
+
             }
         }
         if(flag == true)
@@ -164,29 +185,21 @@ int main(void)
     return 0;
 }
 
-bool elementInArray(int val, int *array, int length){
-    for(int i=0; i<length; i++){
-        if(array[i] == val)
-            return true;
-    }
-    return false;
-}
-
-// external randomize function
-int *randomisedArray(int length){
-    int *array = malloc(length * sizeof(*array));
-    srand(time(NULL));
-
-    for(int i=0; i<length; i++){
-        array[i] = (rand() % RANDOMNUMBER);
-    }
-    return array;
-}
-
 // external function to control the value
 bool isInt(char *val){
     for(int i=0; i<strlen(val); i++){
         if(!(isdigit(val[i])) && val[i] != '\n' && !isspace(val[i])) return false;
     }
     return true;
+}
+// external randomize function
+char *randomisedArray(int length){
+    char *array = malloc(length * sizeof(*array));
+    srand(time(NULL));
+
+    for(int i=0; i<length; i++){
+        array[i] = (rand() % RANDOMNUMBER);
+    }
+    return array;
+
 }
