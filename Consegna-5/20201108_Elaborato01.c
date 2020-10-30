@@ -138,7 +138,7 @@ void initializeMatrix(char m[X][Y]){     // create an empty matrix filled by "."
 void printMatrix(char m[X][Y]){     //prints the 2D matrix
     for(int i=0; i<X; i++){
         for(int j=0; j<Y; j++){
-            printf("%c ", m[i*Y+j]);
+            printf("%c ", m[i][j]);
         }
         printf("\n");
     }
@@ -148,3 +148,4 @@ int randomInt(int minimum_number,int max_number){   //returns a random number in
     srand(time(0));
     return rand() % (max_number + 1 - minimum_number) + minimum_number;
 }
+
