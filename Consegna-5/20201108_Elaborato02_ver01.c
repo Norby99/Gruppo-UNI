@@ -92,12 +92,20 @@ void strReplace (char *s1, char *s2, char val)
         }
         if(flag == true)
         {
-                //first char replacement
-                s1[i]='*';
-        }
-        /*if(flag == true){
             s1[i] = '*';
             s1[i+1] = s1[i+string_length(s2)];
-            i -= string_length(s2);*/
+            i -= string_length(s2);
+        }
+        /*if(flag == true)
+        {
+                //first char replacement
+                s1[i]='*';
+                //moving other chars
+                for (j=0; j<strLength(s2);j++)
+                {
+                    s1[++i] = s1[i+strLength(s2)];
+                }
+                s1[i--]=' ';
+        }*/
     }
 }
