@@ -20,33 +20,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+#define MAX_LENGTH 30
 
 int string_length (char *);
 void getString (char *);
-char str_replace(int, char *, char *);
+void strReplace(char *, char *, char);
 
 int main (void)
 {
     char *s1, *s2;
     int i;
-    printf("Enter a word, max 30 characters: ");
+
     s1=malloc(sizeof(char)*100);
-    getString(s1);
-    printf ("Word: %s\n", s1);
-    printf("Enter a second word, max 30 characters: ");
     s2=malloc(sizeof(char)*100);
+
+    printf("Enter a word, max 30 characters: ");
+    getString(s1);
+
+    printf("Enter a second word, max 30 characters: ");
     getString(s2);
-    printf ("Characters to replace with *: %s\n", s2);
 
-    char newstr[string_length(s1)];
-    for (i=0; i<string_length(s1); i++)
-    {
-        newstr[i]=str_replace(i, s1, s2);
-    }
-    printf ("Replacement:\n%s", newstr);
+    strReplace(s1, s2, '*');
 
-    printf ("\n\n");
-    system ("pause");
+    printf ("Replacement:\n%s", s1);
+
     return 0;
 }
 
@@ -68,17 +67,29 @@ void getString (char *str)
     {
         scanf ("%s", str);
         fflush(stdin);
-    } while (string_length(str)>30);
+    } while (string_length(str)>MAX_LENGTH);
 }
 
-char str_replace (int i, char *str, char *substr)
+void strReplace (char *s1, char *s2, char val)
 {
-    char newchar;
-    if (str[i] != substr[0] && str[i] != '\0')
-    {
-        newchar=str[i];
+    bool flag;
+    int i, j;
+
+    for(i=0;i<string_length(s1);i++){
+        flag = false;
+        if(s1[i] == s2[0]){
+            flag = true;
+            for(j=0; j<string_length(s2); j++){
+                if(s2[j] != s1[j+i]){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if(flag == true){
+            s1[i] = '*';
+            s1[i+1] = s1[i+string_length(s2)];
+            i -= string_length(s2);
+        }
     }
-    else
-        newchar='*';
-    return newchar;
 }
