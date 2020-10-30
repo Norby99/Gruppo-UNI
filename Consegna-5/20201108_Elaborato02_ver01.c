@@ -29,9 +29,11 @@ int main (void)
 {
     //
     char *s1, *s2;
+    printf("Enter a word, max 30 characters: ");
     s1=malloc(sizeof(char)*30);
     getString(s1);
     printf ("Word: %s\n", s1);
+    printf("Enter a second word, max 30 characters: ");
     s2=malloc(sizeof(char)*30);
     getString(s2);
     printf ("Characters to replace with *: %s\n", s2);
