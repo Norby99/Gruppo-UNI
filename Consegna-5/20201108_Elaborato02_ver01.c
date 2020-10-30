@@ -24,7 +24,7 @@
 
 #define MAX_LENGTH 30
 
-int string_length (char *);
+int strLength (char *);
 void getString (char *);
 void strReplace(char *, char *, char);
 
@@ -36,20 +36,20 @@ int main (void)
     s1=malloc(sizeof(char)*100);
     s2=malloc(sizeof(char)*100);
 
-    printf("Enter a word, max 30 characters: ");
+    printf("Enter a word, max 30 characters:\t");
     getString(s1);
 
-    printf("Enter a second word, max 30 characters: ");
+    printf("Enter a second word, max 30 characters:\t");
     getString(s2);
 
     strReplace(s1, s2, '*');
 
-    printf ("Replacement:\n%s", s1);
+    printf ("Replacement:\t\t\t\t%s", s1);
 
     return 0;
 }
 
-int string_length(char* given_string)
+int strLength(char* given_string)
 {
     // variable to store the length of the string
     int length = 0;
@@ -67,7 +67,7 @@ void getString (char *str)
     {
         scanf ("%s", str);
         fflush(stdin);
-    } while (string_length(str)>MAX_LENGTH);
+    } while (strLength(str)>MAX_LENGTH);
 }
 
 void strReplace (char *s1, char *s2, char val)
@@ -75,21 +75,29 @@ void strReplace (char *s1, char *s2, char val)
     bool flag;
     int i, j;
 
-    for(i=0;i<string_length(s1);i++){
+    for(i=0;i<strLength(s1);i++)
+    {
         flag = false;
-        if(s1[i] == s2[0]){
+        if(s1[i] == s2[0])
+        {
             flag = true;
-            for(j=0; j<string_length(s2); j++){
-                if(s2[j] != s1[j+i]){
+            for(j=0; j<strLength(s2); j++)
+            {
+                if(s2[j] != s1[j+i])
+                {
                     flag = false;
                     break;
                 }
             }
         }
-        if(flag == true){
+        if(flag == true)
+        {
+                //first char replacement
+                s1[i]='*';
+        }
+        /*if(flag == true){
             s1[i] = '*';
             s1[i+1] = s1[i+string_length(s2)];
-            i -= string_length(s2);
-        }
+            i -= string_length(s2);*/
     }
 }
