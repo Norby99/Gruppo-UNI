@@ -23,22 +23,27 @@
 
 int string_length (char *);
 void getString (char *);
-void str_replace(char *, char *);
+char str_replace(int, char *, char *);
 
 int main (void)
 {
-    //
     char *s1, *s2;
+    int i;
     printf("Enter a word, max 30 characters: ");
-    s1=malloc(sizeof(char)*30);
+    s1=malloc(sizeof(char)*100);
     getString(s1);
     printf ("Word: %s\n", s1);
     printf("Enter a second word, max 30 characters: ");
-    s2=malloc(sizeof(char)*30);
+    s2=malloc(sizeof(char)*100);
     getString(s2);
     printf ("Characters to replace with *: %s\n", s2);
 
-    printf ("Substitute given characters in word with *:\n%s", str_replace(s1, s2));
+    char newstr[string_length(s1)];
+    for (i=0; i<string_length(s1); i++)
+    {
+        newstr[i]=str_replace(i, s1, s2);
+    }
+    printf ("Replacement:\n%s", newstr);
 
     printf ("\n\n");
     system ("pause");
@@ -66,17 +71,14 @@ void getString (char *str)
     } while (string_length(str)>30);
 }
 
-void str_replace (char *str, char *substr)
+char str_replace (int i, char *str, char *substr)
 {
-    int i;
-    char *newstr;
-    for (i=0; str[i]!='\n'; i++)
+    char newchar;
+    if (str[i] != substr[0] && str[i] != '\0')
     {
-        if (str[i] != substr[0] && str[i] != '\0')
-        {
-            newstr[i]=str[i];
-        }
-        else
-            newstr[i]='*';
+        newchar=str[i];
     }
+    else
+        newchar='*';
+    return newchar;
 }
