@@ -15,7 +15,6 @@
           L M P Q . . . W X .
           . N O . . . . . . .
           . . . . . . . . . .
-
           Ecco un esempio di uscita prematura dal programma:
           A B G H I . . . . .
           . C F . J K . . . .
@@ -27,37 +26,37 @@
           . . . . . . . . . .
           . . . . . . . . . .
           . . . . . . . . . .
-
           Y è bloccata in tutte le direzioni quindi non c’è modo di inserire Z.*/
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdbool.h>
-
+#include <time.h>
 #define X 10
 #define Y 10
 
-void initializeMatrix(char *);
-void printMatrix(char *);
+void initializeMatrix(char [X][Y]);
+void printMatrix(char [X][Y]);
 int randomInt(int,int);
-bool getNextPos(int *, char *);
-bool isFree(int *, char *);
+bool getNextPos(int *, char [X][Y]);
+bool isFree(int *, char [X][Y]);
 bool isInRange(int *);
 void remove_element(int *, int, int);
 
 
-void main() {
+int main() {
     char matrix[X][Y];
     char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int position[2];
 
-    initializeMatrix(&matrix);
+    initializeMatrix(matrix);
 
     for(int i; i<strlen(alphabet); i++){
         if(i==0){
             position[0] = randomInt(0, X); position[1] = randomInt(0, Y);
         }else{
-            if(getNextPos(&position, matrix) == false){
+            if(getNextPos(position, matrix) == false){
                 printf("No free space detected!\n");
                 break;
             }
@@ -69,12 +68,12 @@ void main() {
     return 0;
 }
 
-bool getNextPos(int *pos, char *m){     //returns the next matrix position
+bool getNextPos(int *pos, char m[X][Y]){     //returns the next matrix position
     int len = 4;
     int moves[4] = {0, 1, 2, 3};
     int move;
     int tryPos[2];
-    
+
     while(len>0){
         move = rand() % len;
 
@@ -88,7 +87,7 @@ bool getNextPos(int *pos, char *m){     //returns the next matrix position
             case 2:
                 tryPos[0] = pos[0] + 1; tryPos[1] = pos[1];
                 break;
-                
+
             case 3:
                 tryPos[0] = pos[0]; tryPos[1] = pos[1] + 1;
                 break;
@@ -99,7 +98,7 @@ bool getNextPos(int *pos, char *m){     //returns the next matrix position
             pos[0] = tryPos[0]; pos[1] = tryPos[1];
             break;
         }else{
-            remove_element(&moves, move, len--);
+            remove_element(moves, move, len--);
         }
     }
     if(len == 0)
@@ -107,8 +106,8 @@ bool getNextPos(int *pos, char *m){     //returns the next matrix position
     return true;
 }
 
-bool isFree(int *pos, char *m){     //checks if the next pos is valid
-    if(m[pos[0]*Y+pos[1]] == '.' && isInRange(pos))
+bool isFree(int *pos, char m[X][Y]){     //checks if the next pos is valid
+    if(m[pos[0]][pos[1]] == '.' && isInRange(pos))
         return true;
     else
         return false;
@@ -127,16 +126,16 @@ void remove_element(int *array, int index, int array_length){   // removes an el
    for(i = index; i < array_length - 1; i++) array[i] = array[i + 1];
 }
 
-void initializeMatrix(char *m){     // create an empty matrix filled by "."
+void initializeMatrix(char m[X][Y]){     // create an empty matrix filled by "."
     for(int i=0; i<X; i++){
         for(int j=0; j<Y; j++){
-            m[i*Y+j] = '.';
+            m[i][j] = '.';
         }
     }
 
 }
 
-void printMatrix(char *m){     //prints the 2D matrix
+void printMatrix(char m[X][Y]){     //prints the 2D matrix
     for(int i=0; i<X; i++){
         for(int j=0; j<Y; j++){
             printf("%c ", m[i*Y+j]);
@@ -146,6 +145,6 @@ void printMatrix(char *m){     //prints the 2D matrix
 }
 
 int randomInt(int minimum_number,int max_number){   //returns a random number in range
-    srand(time(0)); 
+    srand(time(0));
     return rand() % (max_number + 1 - minimum_number) + minimum_number;
 }
