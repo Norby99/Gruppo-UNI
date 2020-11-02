@@ -18,9 +18,9 @@
 #define RANDOMNUMBER 10
 
 char *randomisedArray(int);
-bool isIn(int *, int, int);
+bool isIn(char *, int, int);
 
-int main(void)
+int main()
 {
     // entering array values
     int i, n1=0, n2=0, n3=0, n4=0, n5=0;
@@ -127,19 +127,20 @@ int main(void)
         {
             if(a1[i] == a2[j])
             {
-                presence = false;
+                /*presence = false;
                 for(int l=0;l<n5; l++){
                     if(a5[l] == j){
                         presence = true;
                     }
-                }
+                }*/
+                presence = isIn(&*a5,j,n5);
                 if(presence == false){
                     flag = true;
                     intersectionFlag=true;
                     a5[n5++] = j;
                     break;
                 }
-                
+
             }
         }
         if(flag == true)
@@ -202,7 +203,7 @@ char *randomisedArray(int length){
 
 }
 
-bool isIn(int *a, int el, int length){
+bool isIn(char *a, int el, int length){
     printf("%d", a[0]);
     for(int i=0;i<length; i++){
         if(a[i] == el){
