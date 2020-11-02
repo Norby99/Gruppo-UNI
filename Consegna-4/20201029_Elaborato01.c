@@ -18,6 +18,7 @@
 #define RANDOMNUMBER 10
 
 char *randomisedArray(int);
+bool isIn(int *, int, int);
 
 int main(void)
 {
@@ -26,7 +27,7 @@ int main(void)
     char *a1, *a2, *a3, *a4, *a5;
     char inputType;
     int j;
-    bool flag=false, fl=false, f=false;
+    bool flag=false, intersectionFlag=false, f=false, presence = false;
 
     printf("\"Intersection between 2 arrays\"");
     do
@@ -126,13 +127,19 @@ int main(void)
         {
             if(a1[i] == a2[j])
             {
-
+                presence = false;
+                for(int l=0;l<n5; l++){
+                    if(a5[l] == j){
+                        presence = true;
+                    }
+                }
+                if(presence == false){
                     flag = true;
-                    fl=true;
+                    intersectionFlag=true;
                     a5[n5++] = j;
                     break;
-
-
+                }
+                
             }
         }
         if(flag == true)
@@ -167,7 +174,7 @@ int main(void)
         for (i=0; i<n2; i++)
             printf("%d ", a2[i]);
     }
-    if (fl==false)
+    if (intersectionFlag==false)
         printf("\nThere's no intersection between the 2 arrays.\n");
     else
     {
@@ -178,8 +185,8 @@ int main(void)
         for (i=0; i<n4; i++)
             printf("%d ", a4[i]);
     }
+
     printf("\n\n\n\n");
-    system ("pause");
     return 0;
 }
 
@@ -193,4 +200,14 @@ char *randomisedArray(int length){
     }
     return array;
 
+}
+
+bool isIn(int *a, int el, int length){
+    printf("%d", a[0]);
+    for(int i=0;i<length; i++){
+        if(a[i] == el){
+            return true;
+        }
+    }
+    return false;
 }
