@@ -27,7 +27,7 @@ int main()
     char *a1, *a2, *a3, *a4, *a5;
     char inputType;
     int j;
-    bool flag=false, intersectionFlag=false, f=false, presence = false;
+    bool flag=false, intersectionFlag=false, f=false;
 
     printf("\"Intersection between 2 arrays\"");
     do
@@ -125,22 +125,12 @@ int main()
     {
         for(j=0; j<n2; j++)
         {
-            if(a1[i] == a2[j])
+            if(a1[i] == a2[j] && !isIn(&*a5,j,n5))
             {
-                /*presence = false;
-                for(int l=0;l<n5; l++){
-                    if(a5[l] == j){
-                        presence = true;
-                    }
-                }*/
-                presence = isIn(&*a5,j,n5);
-                if(presence == false){
-                    flag = true;
-                    intersectionFlag=true;
-                    a5[n5++] = j;
-                    break;
-                }
-
+                flag = true;
+                intersectionFlag=true;
+                a5[n5++] = j;
+                break;
             }
         }
         if(flag == true)
