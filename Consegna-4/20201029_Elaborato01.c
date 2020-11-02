@@ -194,7 +194,6 @@ char *randomisedArray(int length){
 }
 
 bool isIn(char *a, int el, int length){
-    printf("%d", a[0]);
     for(int i=0;i<length; i++){
         if(a[i] == el){
             return true;
