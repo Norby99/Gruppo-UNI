@@ -31,7 +31,6 @@ void strReplace(char *, char *, char);
 int main (void)
 {
     char *s1, *s2;
-    int i;
 
     s1=malloc(sizeof(char)*100);
     s2=malloc(sizeof(char)*100);
@@ -91,7 +90,6 @@ void strReplace (char *s1, char *s2, char val)
             for(int k=0;k<string_length(s1);k++){
                 s1[i+1+k] = s1[i+k+string_length(s2)];
             }
-            printf("--%s\n",&s1[i+string_length(s2)]);
         }
     }
 }
