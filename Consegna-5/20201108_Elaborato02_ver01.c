@@ -88,7 +88,9 @@ void strReplace (char *s1, char *s2, char val)
         }
         if(flag == true){
             s1[i] = '*';
-            s1[i+1] = &s1[i+string_length(s2)];
+            s1[i+1] = s1[i+string_length(s2)];
+            s1[i+string_length(s2)]='\0';
+            i -= string_length(s2);
         }
     }
 }
