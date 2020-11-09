@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
 #define MAX_VOCI 100
+#define MAX_NAME_LENGTH 50
+#define MAX_PHONE_NUMBER_LENGTH 15
 
 struct voceRubrica
 {
@@ -9,13 +13,56 @@ struct voceRubrica
     
 };
 
+int printMenu();
+void addVoice(struct voceRubrica [MAX_VOCI]);
+
 int main() {
 
     struct voceRubrica rubrica[MAX_VOCI];
+    bool temp = true;
 
-    rubrica[0].name = "Gianfranco";
-
-    printf("%s", rubrica[0].name);
+    while(temp){
+        switch(printMenu()){
+            case 1:
+                addVoice(rubrica);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 0:
+                temp = false;
+                break;
+            default:
+                temp = false;
+                break;
+        }
+    }
 
    return 0;
+}
+
+void addVoice(struct voceRubrica r[MAX_VOCI]){
+    printf("Inserisci il nome desiderato: ");
+    fgets(str, MAX_NAME_LENGTH, stdin); 
+    printf("Inserisci il numero di telefono desiderato: ");
+    r[0].name = "Gianfranco";
+}
+
+int printMenu(){
+    int choice;
+
+    printf("Rubrica\n");
+    printf("1) Aggiungi nuova voce in rubrica\n");
+    printf("2) Ricerca esatta per nome\n");
+    printf("3) Ricerca approssimata per nome\n");
+    printf("4) Stampa completa rubrica\n");
+    printf("0) Esci dal programma\n\n");
+
+    printf("Scegli una tra le seguenti operazioni: ");  // limitare l'inserimento dell'input ai soli valori desiderati
+    scanf(" %d", &choice);
+
+    return choice;
 }
