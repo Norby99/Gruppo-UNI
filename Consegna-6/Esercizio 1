@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_VOCI 100
+
+struct voceRubrica
+{
+    char *name;
+    char *phoneNumber;
+    
+};
+
+int main() {
+
+    struct voceRubrica rubrica[MAX_VOCI];
+
+    rubrica[0].name = "Gianfranco";
+
+    printf("%s", rubrica[0].name);
+
+   return 0;
+}
