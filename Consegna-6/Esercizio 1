@@ -6,20 +6,23 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_PHONE_NUMBER_LENGTH 15
 
-struct voceRubrica
+typedef struct
 {
     char *name;
     char *phoneNumber;
     
-};
+}voceRubrica;
 
 int printMenu();
-void addVoice(struct voceRubrica [MAX_VOCI]);
+void addVoice(voceRubrica [MAX_VOCI]);
 
 int main() {
 
-    struct voceRubrica rubrica[MAX_VOCI];
+    voceRubrica rubrica[MAX_VOCI];
     bool temp = true;
+    rubrica[0].name = "Gianfranco";
+    rubrica[0].phoneNumber = "Gianfranco";
+    printf("----%d\n\n", (sizeof(rubrica) / sizeof(rubrica[0])));
 
     while(temp){
         switch(printMenu()){
@@ -44,9 +47,9 @@ int main() {
    return 0;
 }
 
-void addVoice(struct voceRubrica r[MAX_VOCI]){
+void addVoice(voceRubrica r[MAX_VOCI]){
     printf("Inserisci il nome desiderato: ");
-    fgets(str, MAX_NAME_LENGTH, stdin); 
+    //fgets(str, MAX_NAME_LENGTH, stdin); 
     printf("Inserisci il numero di telefono desiderato: ");
     r[0].name = "Gianfranco";
 }
@@ -65,4 +68,8 @@ int printMenu(){
     scanf(" %d", &choice);
 
     return choice;
+}
+
+int lenArray(voceRubrica r[MAX_VOCI]){
+    return sizeof r / sizeof *r;
 }
