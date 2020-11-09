@@ -6,28 +6,33 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_PHONE_NUMBER_LENGTH 15
 
-typedef struct
-{
+typedef struct{
     char *name;
     char *phoneNumber;
     
 }voceRubrica;
 
+typedef struct{
+    voceRubrica list[MAX_VOCI];
+    int len;
+}Rubrica;
+
+Rubrica *newRubrica();
+void addVoice(Rubrica *, char *, char *);
+bool isIn(Rubrica *, char *);
+
 int printMenu();
-void addVoice(voceRubrica [MAX_VOCI]);
+void tryAddVoice(Rubrica *);
 
 int main() {
 
-    voceRubrica rubrica[MAX_VOCI];
+    Rubrica *rubrica = newRubrica();
     bool temp = true;
-    rubrica[0].name = "Gianfranco";
-    rubrica[0].phoneNumber = "Gianfranco";
-    printf("----%d\n\n", (sizeof(rubrica) / sizeof(rubrica[0])));
 
     while(temp){
         switch(printMenu()){
             case 1:
-                addVoice(rubrica);
+                tryAddVoice(rubrica);
                 break;
             case 2:
                 break;
@@ -47,11 +52,39 @@ int main() {
    return 0;
 }
 
-void addVoice(voceRubrica r[MAX_VOCI]){
-    printf("Inserisci il nome desiderato: ");
-    //fgets(str, MAX_NAME_LENGTH, stdin); 
-    printf("Inserisci il numero di telefono desiderato: ");
-    r[0].name = "Gianfranco";
+void addVoice(Rubrica *r, char *name, char *phoneNumber){
+    r->list[r->len].name = name;
+    r->list[r->len].phoneNumber = phoneNumber;
+    r->len++;
+}
+
+Rubrica *newRubrica(){
+    Rubrica *r;
+    r = (Rubrica*)malloc(sizeof(Rubrica));
+    r->len = 0;
+    return r;
+}
+
+bool isIn(Rubrica *r, char *n){
+    for(int i=0;i < r->len; i++){
+        if(r->list[i].name == n)
+            return true;
+    }
+    return false;
+}
+
+void tryAddVoice(Rubrica *r){
+    char *name, *phoneNumber;
+
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", &name); 
+    if(isIn(r, name)){
+        printf("Nome gia' presente!\n\n");
+    }else{
+        printf("Inserisci il numero di telefono: ");
+        scanf(" %[^\n]%*c", &phoneNumber); 
+        addVoice(r, name, phoneNumber);
+    }
 }
 
 int printMenu(){
