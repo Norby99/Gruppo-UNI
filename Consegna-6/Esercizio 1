@@ -35,10 +35,13 @@ int main() {
                 tryAddVoice(rubrica);
                 break;
             case 2:
+                "cazzo";
                 break;
             case 3:
+                "cazzo";
                 break;
             case 4:
+                "cazzo";
                 break;
             case 0:
                 temp = false;
