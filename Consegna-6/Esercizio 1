@@ -20,9 +20,14 @@ typedef struct{
 Rubrica *newRubrica();
 void addVoice(Rubrica *, char *, char *);
 bool isIn(Rubrica *, char *);
+void ExactSearch(Rubrica *, char *);
+void AproxSearch(Rubrica *, char *);
+void printAllValues(Rubrica *);
 
 int printMenu();
 void tryAddVoice(Rubrica *);
+void tryExactSearch(Rubrica *);
+void tryAproxSearch(Rubrica *);
 
 int main() {
 
@@ -35,24 +40,31 @@ int main() {
                 tryAddVoice(rubrica);
                 break;
             case 2:
-                "cazzo";
+                tryExactSearch(rubrica);
                 break;
             case 3:
-                "cazzo";
+                tryAproxSearch(rubrica);
                 break;
             case 4:
-                "cazzo";
+                printAllValues(rubrica);
                 break;
             case 0:
                 temp = false;
                 break;
             default:
-                temp = false;
+                printf("Valore inserito non valido!!! Reinseriscilo!\n");
                 break;
         }
     }
 
    return 0;
+}
+
+Rubrica *newRubrica(){
+    Rubrica *r;
+    r = (Rubrica*)malloc(MAX_VOCI*sizeof(Rubrica));
+    r->len = 0;
+    return r;
 }
 
 void addVoice(Rubrica *r, char *name, char *phoneNumber){
@@ -61,11 +73,11 @@ void addVoice(Rubrica *r, char *name, char *phoneNumber){
     r->len++;
 }
 
-Rubrica *newRubrica(){
-    Rubrica *r;
-    r = (Rubrica*)malloc(sizeof(Rubrica));
-    r->len = 0;
-    return r;
+void printAllValues(Rubrica *r){
+    for(int i=0;i < r->len; i++){
+        printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
+    }
+    printf("\n");
 }
 
 bool isIn(Rubrica *r, char *n){
@@ -78,16 +90,53 @@ bool isIn(Rubrica *r, char *n){
 
 void tryAddVoice(Rubrica *r){
     char *name, *phoneNumber;
+    name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
+    phoneNumber = (char*)malloc(MAX_PHONE_NUMBER_LENGTH*sizeof(char));
 
     printf("Inserisci il nome: ");
-    scanf(" %[^\n]%*c", &name); 
+    scanf(" %[^\n]%*c", name); 
     if(isIn(r, name)){
         printf("Nome gia' presente!\n\n");
     }else{
         printf("Inserisci il numero di telefono: ");
-        scanf(" %[^\n]%*c", &phoneNumber); 
+        scanf(" %[^\n]%*c", phoneNumber); 
         addVoice(r, name, phoneNumber);
     }
+}
+
+void tryAproxSearch(Rubrica *r){
+    char *name;
+    name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", name);
+    AproxSearch(r, name);
+}
+
+void tryExactSearch(Rubrica *r){
+    char *name;
+    name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", name);
+    ExactSearch(r, name);
+}
+
+void ExactSearch(Rubrica *r, char *n){
+    for(int i=0;i < r->len; i++){
+        if(*r->list[i].name == *n){
+            printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
+            return;
+        }
+    }
+    printf("Il nome selezionato non e' presente nella rubrica!\n\n");
+}
+
+void AproxSearch(Rubrica *r, char *n){
+    for(int i=0;i < r->len; i++){
+        if(strstr(r->list[i].name, n)){
+            printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
+        }
+    }
+    printf("Il nome selezionato non assomiglia a nessun record della rubrica!\n\n");
 }
 
 int printMenu(){
@@ -100,7 +149,7 @@ int printMenu(){
     printf("4) Stampa completa rubrica\n");
     printf("0) Esci dal programma\n\n");
 
-    printf("Scegli una tra le seguenti operazioni: ");  // limitare l'inserimento dell'input ai soli valori desiderati
+    printf("Scegli una tra le seguenti operazioni: ");
     scanf(" %d", &choice);
 
     return choice;
