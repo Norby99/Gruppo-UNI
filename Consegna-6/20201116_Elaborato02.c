@@ -9,8 +9,7 @@
           l'utilizzo della funzione scanf. Visualizzare il valore di ogni variabile in due modi:
           prima tramite accesso diretto alla variabile e a seguito tramite l'utilizzo del suo puntatore (accesso indiretto).
           Visualizzare la posizione in memoria della variabile tramite l'utilizzo diretto della variabile e tramite il suo puntatore.
-          Visualizzare la posizione in memoria del puntatore.
- */
+          Visualizzare la posizione in memoria del puntatore.*/
 
 #include <stdio.h>
 #include <stdlib.h>
