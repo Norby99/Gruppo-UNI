@@ -126,7 +126,7 @@ int main()
     printf("Carattere: %d\n",&p_carattere);
     printf("Numero Reale(float): %d\n",&p_num_RealeF);
     printf("Numero Reale(double): %d\n",&p_num_RealeD);
-    printf("Vettore: ", &p_vet);
+    printf("Vettore: %d", &p_vet);
 
     system("pause");
     return 0;
