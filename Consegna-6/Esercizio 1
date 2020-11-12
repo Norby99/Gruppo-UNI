@@ -1,3 +1,21 @@
+/*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
+          Denny Reggidori(denny.reggidori@studio.unibo.it)
+          Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
+          Sara Romeo(sara.romeo3@studio.unibo.it)
+ DATE:    20201030
+ NOTE:    Text Ex01: Si realizzi un programma in linguaggio C in grado di gestire una rubrica di nomi e numeri telefonici.
+          La rubrica può contenere fino a 100 voci diverse. Ciascuna voce è composta da un nome e da un numero di telefono.
+          Il programma deve fornire all’utente un menù di scelta, con le seguenti voci:
+          1) Aggiungi nuova voce in rubrica
+          2) Ricerca esatta per nome
+          3) Ricerca approssimata per nome
+          4) Stampa completa rubrica
+          0) Esci dal programma
+          Una volta che l’utente ha scelto l’operazione desiderata (1-4),
+          il programma acquisirà i dati necessari dall’utente ed eseguirà il comando.
+          Nota: nella rubrica non possono esistere due voci con lo stesso nome.
+          Realizzare una variante del programma implementando un vettore frastagliato.*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
