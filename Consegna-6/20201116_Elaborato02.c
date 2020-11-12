@@ -126,11 +126,7 @@ int main()
     printf("Carattere: %d\n",&p_carattere);
     printf("Numero Reale(float): %d\n",&p_num_RealeF);
     printf("Numero Reale(double): %d\n",&p_num_RealeD);
-    printf("Vettore: "); //IL VETTORE È DA RIVEDERE
-    for(i=0;i<MAX;i++)
-    {
-        printf("%d ",&p_vet);
-    }
+    printf("Vettore: ", &p_vet);
 
     system("pause");
     return 0;
