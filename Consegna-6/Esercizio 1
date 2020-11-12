@@ -2,7 +2,7 @@
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
- DATE:    20201030
+ DATE:    20201113
  NOTE:    Text Ex01: Si realizzi un programma in linguaggio C in grado di gestire una rubrica di nomi e numeri telefonici.
           La rubrica può contenere fino a 100 voci diverse. Ciascuna voce è composta da un nome e da un numero di telefono.
           Il programma deve fornire all’utente un menù di scelta, con le seguenti voci:
@@ -74,7 +74,7 @@ int main() {
                 break;
         }
     }
-
+   system("pause");
    return 0;
 }
 
