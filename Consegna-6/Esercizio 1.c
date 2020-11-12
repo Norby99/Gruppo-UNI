@@ -24,13 +24,17 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_PHONE_NUMBER_LENGTH 15
 
-typedef struct{ // struttura che tiene traccia dei singoli record
+// struttura che tiene traccia dei singoli record
+typedef struct
+{
     char *name;
     char *phoneNumber;
-    
+
 }voceRubrica;
 
-typedef struct{ // struttura che memorizza l'array di rubriche con e la lunghezza dell'array
+// struttura che memorizza l'array di rubriche con e la lunghezza dell'array
+typedef struct
+{
     voceRubrica list[MAX_VOCI];
     int len;
 }Rubrica;
@@ -42,87 +46,117 @@ void ExactSearch(Rubrica *, char *);
 void AproxSearch(Rubrica *, char *);
 void printAllValues(Rubrica *);
 
+int codeChoiceMenu();
 int printMenu();
 void tryAddVoice(Rubrica *);
 void tryExactSearch(Rubrica *);
 void tryAproxSearch(Rubrica *);
 
-int main() {
 
+int main()
+{
     Rubrica *rubrica = newRubrica();
     bool temp = true;
+    //menu di scelta tra le due variazioni richieste del programma
+    switch(codeChoiceMenu())
+    {
+        case 1: // vettore frastagliato
 
-    while(temp){
-        switch(printMenu()){
-            case 1:
-                tryAddVoice(rubrica);
-                break;
-            case 2:
-                tryExactSearch(rubrica);
-                break;
-            case 3:
-                tryAproxSearch(rubrica);
-                break;
-            case 4:
-                printAllValues(rubrica);
-                break;
-            case 0:
-                temp = false;
-                break;
-            default:
-                printf("Valore inserito non valido!!! Reinseriscilo!\n");
-                break;
-        }
+        case 2: // altra modalità
+            while(temp)
+            {
+                switch(printMenu())
+                {
+                    case 1:
+                        tryAddVoice(rubrica);
+                        break;
+                    case 2:
+                        tryExactSearch(rubrica);
+                        break;
+                    case 3:
+                        tryAproxSearch(rubrica);
+                        break;
+                    case 4:
+                        printAllValues(rubrica);
+                        break;
+                    case 0:
+                        temp = false;
+                        break;
+                    default:
+                        printf("!!Valore inserito non valido!! Riprova.\n");
+                        break;
+                }
+            }
+        case 0:
+            break;
+        default:
+            printf("!!Valore inserito non valido!! Riprova.\n");
+            break;
     }
-   system("pause");
-   return 0;
+
+    system("pause");
+    return 0;
 }
 
-Rubrica *newRubrica(){  // istanzio la nuova rubrica
+// istanzio la nuova rubrica
+Rubrica *newRubrica()
+{
     Rubrica *r;
     r = (Rubrica*)malloc(MAX_VOCI*sizeof(Rubrica));
     r->len = 0;
     return r;
 }
 
-void addVoice(Rubrica *r, char *name, char *phoneNumber){   // aggiunta di un record alla rubrica
+// aggiunta di un record alla rubrica
+void addVoice(Rubrica *r, char *name, char *phoneNumber)
+{
     r->list[r->len].name = name;
     r->list[r->len].phoneNumber = phoneNumber;
     r->len++;   // gestione dell'incrementazione della lunghezza dell'array
 }
 
-void printAllValues(Rubrica *r){    // visualizza tutta la rubrica
+// visualizza tutta la rubrica
+void printAllValues(Rubrica *r)
+{
     for(int i=0;i < r->len; i++){
         printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
     }
     printf("\n");
 }
 
-bool isIn(Rubrica *r, char *n){ // verifica se un certo elemento e' presente tra i record della rubrica
-    for(int i=0;i < r->len; i++){
+// verifica se un certo elemento è presente tra i record della rubrica
+bool isIn(Rubrica *r, char *n)
+{
+    for(int i=0;i < r->len; i++)
+    {
         if(r->list[i].name == n)
             return true;
     }
     return false;
 }
 
-void tryAddVoice(Rubrica *r){   // prende in input un valore, dopo di che se l'elemento non e' giaì presente tra i record dell'array, allora lo aggiunge
+// prende in input un valore, dopo di che se l'elemento non è già presente tra i record dell'array, allora lo aggiunge
+void tryAddVoice(Rubrica *r)
+{
     char *name, *phoneNumber;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
     phoneNumber = (char*)malloc(MAX_PHONE_NUMBER_LENGTH*sizeof(char));
 
     printf("Inserisci il nome: ");
-    scanf(" %[^\n]%*c", name); 
-    if(isIn(r, name)){
+    scanf(" %[^\n]%*c", name);
+    if(isIn(r, name))
+    {
         printf("Nome gia' presente!\n\n");
     }else{
         printf("Inserisci il numero di telefono: ");
-        scanf(" %[^\n]%*c", phoneNumber); 
+        scanf(" %[^\n]%*c", phoneNumber);
         addVoice(r, name, phoneNumber);
     }
 }
 
-void tryAproxSearch(Rubrica *r){    // prende in input un valore e se trova somiglianza con qualche record della rubrica, lo stampa
+// prende in input un valore e se trova somiglianza con qualche record della rubrica, lo stampa
+void tryAproxSearch(Rubrica *r)
+{
     char *name;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
     printf("Inserisci il nome: ");
@@ -130,7 +164,9 @@ void tryAproxSearch(Rubrica *r){    // prende in input un valore e se trova somi
     AproxSearch(r, name);
 }
 
-void tryExactSearch(Rubrica *r){    // prende in input un valore e se e' presente lo stampa
+// prende in input un valore e se è presente lo stampa
+void tryExactSearch(Rubrica *r)
+{
     char *name;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
     printf("Inserisci il nome: ");
@@ -138,7 +174,9 @@ void tryExactSearch(Rubrica *r){    // prende in input un valore e se e' present
     ExactSearch(r, name);
 }
 
-void ExactSearch(Rubrica *r, char *n){  // se presente, stampa il valore della ricerca
+// se presente, stampa il valore della ricerca
+void ExactSearch(Rubrica *r, char *n)
+{
     for(int i=0;i < r->len; i++){
         if(*r->list[i].name == *n){
             printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
@@ -148,7 +186,9 @@ void ExactSearch(Rubrica *r, char *n){  // se presente, stampa il valore della r
     printf("Il nome selezionato non e' presente nella rubrica!\n\n");
 }
 
-void AproxSearch(Rubrica *r, char *n){  // se nella rubrica trova un match con il valore inserito, allora stampa i valori dei record
+// se nella rubrica trova un match con il valore inserito, allora stampa i valori dei record
+void AproxSearch(Rubrica *r, char *n)
+{
     for(int i=0;i < r->len; i++){
         if(strstr(r->list[i].name, n)){
             printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
@@ -157,7 +197,27 @@ void AproxSearch(Rubrica *r, char *n){  // se nella rubrica trova un match con i
     printf("Il nome selezionato non assomiglia a nessun record della rubrica!\n\n");
 }
 
-int printMenu(){    // stampa il menu del programma
+// stampa menu di scelta tra le 2 variazioni richieste del programma
+int codeChoiceMenu()
+{
+    int choice;
+
+    printf("Quale variazione del codice vuoi eseguire?\n");
+    printf("1) Vettore frastagliato\n");
+    printf("2) Altra modalita\'\n");
+    printf("0) Termina il processo ed esci dal programma\n\n");
+
+    printf("Scegli una tra le seguenti operazioni: ");
+    scanf(" %d", &choice);
+    // pulisco lo schermo dal primo menu
+    system("cls");
+
+    return choice;
+}
+
+// stampa menu del programma
+int printMenu()
+{
     int choice;
 
     printf("Rubrica\n");
