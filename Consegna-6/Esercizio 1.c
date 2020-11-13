@@ -45,6 +45,7 @@ bool isIn(Rubrica *, char *);
 void ExactSearch(Rubrica *, char *);
 void AproxSearch(Rubrica *, char *);
 void printAllValues(Rubrica *);
+void destroyer(Rubrica *);
 
 int codeChoiceMenu();
 int printMenu();
@@ -94,7 +95,7 @@ int main()
             break;
     }
 
-    system("pause");
+    destroyer(rubrica);
     return 0;
 }
 
@@ -105,6 +106,11 @@ Rubrica *newRubrica()
     r = (Rubrica*)malloc(MAX_VOCI*sizeof(Rubrica));
     r->len = 0;
     return r;
+}
+
+// distruzione dell'istanza rubrica
+void destroyer(Rubrica *r){
+    free(r);
 }
 
 // aggiunta di un record alla rubrica
