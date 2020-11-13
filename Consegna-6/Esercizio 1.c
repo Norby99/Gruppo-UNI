@@ -17,6 +17,7 @@
           Realizzare una variante del programma implementando un vettore frastagliato.*/
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
@@ -30,99 +31,168 @@ typedef struct
     char *name;
     char *phoneNumber;
 
-}voceRubrica;
+}voceRubrica1;
 
 // struttura che memorizza l'array di rubriche con e la lunghezza dell'array
 typedef struct
 {
-    voceRubrica list[MAX_VOCI];
+    voceRubrica1 list[MAX_VOCI];
     int len;
-}Rubrica;
+}Rubrica1;
 
-Rubrica *newRubrica();
-void addVoice(Rubrica *, char *, char *);
-bool isIn(Rubrica *, char *);
-void ExactSearch(Rubrica *, char *);
-void AproxSearch(Rubrica *, char *);
-void printAllValues(Rubrica *);
-void destroyer(Rubrica *);
+// 2 versione
+typedef struct
+{
+    char name[MAX_VOCI][MAX_NAME_LENGTH];
+    char phoneNumber[MAX_VOCI][MAX_PHONE_NUMBER_LENGTH];
+    int len;
+}Rubrica2;
+
+Rubrica1 *newRubrica1();
+Rubrica2 *newRubrica2();
+void addVoice1(Rubrica1 *, char *, char *);
+void addVoice2(Rubrica2 *, char [], char []);
+bool isIn1(Rubrica1 *, char *);
+bool isIn2(Rubrica2 *, char []);
+void ExactSearch1(Rubrica1 *, char *);
+void ExactSearch2(Rubrica2 *, char []);
+void AproxSearch1(Rubrica1 *, char *);
+void AproxSearch2(Rubrica2 *, char []);
+void printAllValues1(Rubrica1 *);
+void printAllValues2(Rubrica2 *);
+void destroyer1(Rubrica1 *);
+void destroyer2(Rubrica2 *);
 
 int codeChoiceMenu();
 int printMenu();
-void tryAddVoice(Rubrica *);
-void tryExactSearch(Rubrica *);
-void tryAproxSearch(Rubrica *);
+void tryAddVoice1(Rubrica1 *);
+void tryAddVoice2(Rubrica2 *);
+void tryExactSearch1(Rubrica1 *);
+void tryExactSearch2(Rubrica2 *);
+void tryAproxSearch1(Rubrica1 *);
+void tryAproxSearch2(Rubrica2 *);
 
 
 int main()
 {
-    Rubrica *rubrica = newRubrica();
-    bool temp = true;
+    Rubrica1 *rubrica1 = newRubrica1();
+    Rubrica2 *rubrica2 = newRubrica2();
+    bool temp = true, tmp = true;
     //menu di scelta tra le due variazioni richieste del programma
-    switch(codeChoiceMenu())
+    while(tmp)
     {
-        case 1: // vettore frastagliato
-            while(temp)
-            {
-                switch(printMenu())
+        switch(codeChoiceMenu())
+        {
+            case 1: // vettore frastagliato
+                while(temp)
                 {
-                    case 1:
-                        tryAddVoice(rubrica);
-                        break;
-                    case 2:
-                        tryExactSearch(rubrica);
-                        break;
-                    case 3:
-                        tryAproxSearch(rubrica);
-                        break;
-                    case 4:
-                        printAllValues(rubrica);
-                        break;
-                    case 0:
-                        temp = false;
-                        break;
-                    default:
-                        printf("!!Valore inserito non valido!! Riprova.\n");
-                        break;
+                    switch(printMenu())
+                    {
+                        case 1:
+                            tryAddVoice1(rubrica1);
+                            break;
+                        case 2:
+                            tryExactSearch1(rubrica1);
+                            break;
+                        case 3:
+                            tryAproxSearch1(rubrica1);
+                            break;
+                        case 4:
+                            printAllValues1(rubrica1);
+                            break;
+                        case 0:
+                            temp = false;
+                            break;
+                        default:
+                            printf("!!Valore inserito non valido!! Riprova.\n");
+                            break;
+                    }
                 }
+            case 2: // altra modalità
+                while(temp)
+                {
+                    switch(printMenu())
+                    {
+                        case 1:
+                            tryAddVoice2(rubrica2);
+                            break;
+                        case 2:
+                            tryExactSearch2(rubrica2);
+                            break;
+                        case 3:
+                            tryAproxSearch2(rubrica2);
+                            break;
+                        case 4:
+                            printAllValues2(rubrica2);
+                            break;
+                        case 0:
+                            temp = false;
+                            break;
+                        default:
+                            printf("!!Valore inserito non valido!! Riprova.\n");
+                            break;
+                    }
+                }
+            case 0:
+                tmp = false;
+                break;
+            default:
+                printf("!!Valore inserito non valido!! Riprova.\n");
+                break;
             }
-        case 2: // altra modalità
-
-        case 0:
-            break;
-        default:
-            printf("!!Valore inserito non valido!! Riprova.\n");
-            break;
     }
 
-    destroyer(rubrica);
+    destroyer1(rubrica1);
+    destroyer2(rubrica2);
     return 0;
 }
 
 // istanzio la nuova rubrica
-Rubrica *newRubrica()
+Rubrica1 *newRubrica1()
 {
-    Rubrica *r;
-    r = (Rubrica*)malloc(MAX_VOCI*sizeof(Rubrica));
+    Rubrica1 *r;
+    r = (Rubrica1*)malloc(MAX_VOCI*sizeof(Rubrica1));
+    r->len = 0;
+    return r;
+}
+
+// 2 versione
+Rubrica2 *newRubrica2()
+{
+    Rubrica2 *r;
+    r = (Rubrica2*)malloc(MAX_VOCI*sizeof(Rubrica2));
     r->len = 0;
     return r;
 }
 
 // distruzione dell'istanza rubrica
-void destroyer(Rubrica *r){
+void destroyer1(Rubrica1 *r){
+    free(r);
+}
+
+// 2 versione
+void destroyer2(Rubrica2 *r){
     free(r);
 }
 
 // aggiunta di un record alla rubrica
-void addVoice(Rubrica *r, char *name, char *phoneNumber)
+void addVoice1(Rubrica1 *r, char *name, char *phoneNumber)
 {
     r->list[r->len].name = name;
     r->list[r->len].phoneNumber = phoneNumber;
     r->len++;   // gestione dell'incrementazione della lunghezza dell'array
 }
 
+// 2 versione
+void addVoice2(Rubrica2 *r, char name[], char phoneNumber[])
+{
+    strncpy(r->name[r->len], name, MAX_NAME_LENGTH);
+    strncpy(r->phoneNumber[r->len], phoneNumber, MAX_PHONE_NUMBER_LENGTH);
+    r->len++;   // gestione dell'incrementazione della lunghezza dell'array
+}
+
 // visualizza tutta la rubrica
-void printAllValues(Rubrica *r)
+void printAllValues1(Rubrica1 *r)
 {
     for(int i=0;i < r->len; i++){
         printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
@@ -130,10 +200,19 @@ void printAllValues(Rubrica *r)
     printf("\n");
 }
 
-// verifica se un certo elemento è presente tra i record della rubrica
-bool isIn(Rubrica *r, char *n)
+// 2 versione
+void printAllValues2(Rubrica2 *r)
 {
-    for(int i=0;i < r->len; i++)
+    for(int i=0;i < r->len; i++){
+        printf("--%s : %s\n", r->name[i], r->phoneNumber[i]);
+    }
+    printf("\n");
+}
+
+// verifica se un certo elemento è presente tra i record della rubrica
+bool isIn1(Rubrica1 *r, char *n)
+{
+    for(int i=0; i < r->len; i++)
     {
         if(r->list[i].name == n)
             return true;
@@ -141,8 +220,19 @@ bool isIn(Rubrica *r, char *n)
     return false;
 }
 
+// 2 versione
+bool isIn2(Rubrica2 *r, char n[])
+{
+    for(int i=0; i < r->len; i++)
+    {
+        if(strcmp(r->name[i], n) ==0)
+            return true;
+    }
+    return false;
+}
+
 // prende in input un valore, dopo di che se l'elemento non è già presente tra i record dell'array, allora lo aggiunge
-void tryAddVoice(Rubrica *r)
+void tryAddVoice1(Rubrica1 *r)
 {
     char *name, *phoneNumber;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
@@ -150,38 +240,73 @@ void tryAddVoice(Rubrica *r)
 
     printf("Inserisci il nome: ");
     scanf(" %[^\n]%*c", name);
-    if(isIn(r, name))
+    if(isIn1(r, name))
     {
         printf("Nome gia' presente!\n\n");
     }else{
         printf("Inserisci il numero di telefono: ");
         scanf(" %[^\n]%*c", phoneNumber);
-        addVoice(r, name, phoneNumber);
+        addVoice1(r, name, phoneNumber);
+    }
+}
+
+// versione 2
+void tryAddVoice2(Rubrica2 *r)
+{
+    char name[MAX_NAME_LENGTH], phoneNumber[MAX_PHONE_NUMBER_LENGTH];
+
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", &name);
+    if(isIn2(r, name))
+    {
+        printf("Nome gia' presente!\n\n");
+    }else{
+        printf("Inserisci il numero di telefono: ");
+        scanf(" %[^\n]%*c", &phoneNumber);
+        addVoice2(r, name, phoneNumber);
     }
 }
 
 // prende in input un valore e se trova somiglianza con qualche record della rubrica, lo stampa
-void tryAproxSearch(Rubrica *r)
+void tryAproxSearch1(Rubrica1 *r)
 {
     char *name;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
     printf("Inserisci il nome: ");
     scanf(" %[^\n]%*c", name);
-    AproxSearch(r, name);
+    AproxSearch1(r, name);
+}
+
+//2 versione
+void tryAproxSearch2(Rubrica2 *r)
+{
+    char name[MAX_NAME_LENGTH];
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", name);
+    AproxSearch2(r, name);
 }
 
 // prende in input un valore e se è presente lo stampa
-void tryExactSearch(Rubrica *r)
+void tryExactSearch1(Rubrica1 *r)
 {
     char *name;
     name = (char*)malloc(MAX_NAME_LENGTH*sizeof(char));
     printf("Inserisci il nome: ");
     scanf(" %[^\n]%*c", name);
-    ExactSearch(r, name);
+    ExactSearch1(r, name);
+}
+
+// 2 versione
+void tryExactSearch2(Rubrica2 *r)
+{
+    char name[MAX_NAME_LENGTH];
+    printf("Inserisci il nome: ");
+    scanf(" %[^\n]%*c", name);
+    ExactSearch2(r, name);
 }
 
 // se presente, stampa il valore della ricerca
-void ExactSearch(Rubrica *r, char *n)
+void ExactSearch1(Rubrica1 *r, char *n)
 {
     for(int i=0;i < r->len; i++){
         if(*r->list[i].name == *n){
@@ -192,15 +317,48 @@ void ExactSearch(Rubrica *r, char *n)
     printf("Il nome selezionato non e' presente nella rubrica!\n\n");
 }
 
-// se nella rubrica trova un match con il valore inserito, allora stampa i valori dei record
-void AproxSearch(Rubrica *r, char *n)
+// 2 versione
+void ExactSearch2(Rubrica2 *r, char n[])
 {
+    for(int i=0; i < r->len; i++){
+        if(strcmp(r->name[i], n) ==0){
+            printf("--%s : %s\n", r->name[i], r->phoneNumber[i]);
+            return;
+        }
+    }
+    printf("Il nome selezionato non e' presente nella rubrica!\n\n");
+}
+
+// se nella rubrica trova un match con il valore inserito, allora stampa i valori dei record
+void AproxSearch1(Rubrica1 *r, char *n)
+{
+    bool fl=false;
     for(int i=0;i < r->len; i++){
         if(strstr(r->list[i].name, n)){
             printf("--%s : %s\n", r->list[i].name, r->list[i].phoneNumber);
+            fl=true;
         }
     }
-    printf("Il nome selezionato non assomiglia a nessun record della rubrica!\n\n");
+    if (!fl)
+    {
+        printf("Il nome selezionato non assomiglia a nessun record della rubrica!\n\n");
+    }
+}
+
+// 2 versione
+void AproxSearch2(Rubrica2 *r, char n[])
+{
+    bool fl=false;
+    for(int i=0;i < r->len; i++){
+        if(strstr(r->name[i], n)){
+            printf("--%s : %s\n", r->name[i], r->phoneNumber[i]);
+            fl=true;
+        }
+    }
+    if (!fl)
+    {
+        printf("Il nome selezionato non assomiglia a nessun record della rubrica!\n\n");
+    }
 }
 
 // stampa menu di scelta tra le 2 variazioni richieste del programma
@@ -215,6 +373,7 @@ int codeChoiceMenu()
 
     printf("Scegli una tra le seguenti operazioni: ");
     scanf(" %d", &choice);
+
     // pulisco lo schermo dal primo menu
     system("cls");
 
