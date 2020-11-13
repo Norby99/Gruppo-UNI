@@ -61,8 +61,6 @@ int main()
     switch(codeChoiceMenu())
     {
         case 1: // vettore frastagliato
-
-        case 2: // altra modalità
             while(temp)
             {
                 switch(printMenu())
@@ -87,6 +85,8 @@ int main()
                         break;
                 }
             }
+        case 2: // altra modalità
+            
         case 0:
             break;
         default:
