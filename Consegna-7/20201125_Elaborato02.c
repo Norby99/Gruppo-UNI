@@ -3,17 +3,20 @@
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
  DATE:    20201120
- NOTE:    Text Ex02: Si scriva un programma C, adeguatamente commentato, che gestisca un certo numero di studenti iscritti ad un corso di laurea. Il programma utilizza un vettore di strutture, ognuna delle quali memorizza le informazioni di uno studente (numero matricola, nome e cognome, anno di immatricolazione, piano di studi, Ö). Il programma utilizza inoltre un vettore di strutture, ognuna delle quali memorizza le informazioni di un insegnamento (codice, descrizione, anno di somministrazione, crediti, Ö).
-          Il programma deve fornire la possibilit‡ di:
-          - aggiungere un nuovo studente, stampando un messaggio di errore se lo studente Ë gi‡ presente (individuato dalla matricola)
-          o se il vettore Ë pieno; la funzione deve inoltre assegnargli un piano di studi scegliendo fra gli insegnamenti disponibili.
-          - dato il numero di matricola, stampare le informazioni dello studente oppure un messaggio di errore
-          se la matricola non Ë presente nel vettore
-          - dato un numero di matricola, modificare le informazioni del piano di studi aggiungendo un voto
-          oppure stampando un messaggio di errore se la matricola non Ë presente nel vettore.
-          - Calcolare la media dei voti di tutti gli studenti che hanno completato il piano di studi pesata sul numero di crediti
-          di ogni insegnamento.
-          Il piano di studi allíinterno della struttura studente Ë un vettore di NUM_ESAMI elementi ognuno di tipo struttura
+ NOTE:    Text Ex02: Si scriva un programma C, adeguatamente commentato, che gestisca un certo numero di studenti iscritti ad un corso
+          di laurea. Il programma utilizza un vettore di strutture, ognuna delle quali memorizza le informazioni di uno studente
+          (numero matricola, nome e cognome, anno di immatricolazione, piano di studi, ‚Ä¶).
+          Il programma utilizza inoltre un vettore di strutture, ognuna delle quali memorizza le informazioni di un insegnamento
+          (codice, descrizione, anno di somministrazione, crediti, ‚Ä¶). Il programma deve fornire la possibilit√† di:
+            - aggiungere un nuovo studente, stampando un messaggio di errore se lo studente √® gi√† presente (individuato dalla matricola)
+              o se il vettore √® pieno; la funzione deve inoltre assegnargli un piano di studi scegliendo fra gli insegnamenti disponibili.
+            - dato il numero di matricola, stampare le informazioni dello studente oppure un messaggio di errore
+              se la matricola non √® presente nel vettore
+            - dato un numero di matricola, modificare le informazioni del piano di studi aggiungendo un voto
+              oppure stampando un messaggio di errore se la matricola non √® presente nel vettore.
+            - Calcolare la media dei voti di tutti gli studenti che hanno completato il piano di studi pesata sul numero di crediti
+              di ogni insegnamento.
+          Il piano di studi all‚Äôinterno della struttura studente √® un vettore di NUM_ESAMI elementi ognuno di tipo struttura
           contenete il codice dell'insegnamento e il voto corrispondente (0 se non sostenuto).
           Modificare poi il programma in modo che il vettore di studenti venga allocato dinamicamente usando la funzione malloc().*/
 
@@ -23,6 +26,10 @@
 int main ()
 {
     // 2 versioniiiiiiiiiiiiiiiiiiiiiiiii :))))))))))
+          /*if (2versioni==true){
+                versione2=0,99*versione1;    //copia e incolla is the way 99% (come i batteri che elimina l'amuchina)
+          }*/
+    //oky vi saluto e faccio qualcosa di utile entro sera amichi di uni u.u
     system("pause");
     return 0;
 }
