@@ -22,6 +22,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 int main ()
 {
@@ -30,6 +31,101 @@ int main ()
                 versione2=0,99*versione1;    //copia e incolla is the way 99% (come i batteri che elimina l'amuchina)
           }*/
     //oky vi saluto e faccio qualcosa di utile entro sera amichi di uni u.u
+
+    bool temp = true, tmp = true;
+    //menu di scelta tra le due variazioni richieste del programma
+    while(tmp)
+    {
+        switch(codeChoiceMenu())
+        {
+            case 1: // vettore frastagliato
+                while(temp)
+                {
+                    switch(printMenu())
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 0:
+                            temp = false;
+                            break;
+                        default:
+                            printf("!!Valore inserito non valido!! Riprova.\n");
+                            break;
+                    }
+                }
+            case 2: // altra modalità
+                while(temp)
+                {
+                    switch(printMenu())
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 0:
+                            temp = false;
+                            break;
+                        default:
+                            printf("!!Valore inserito non valido!! Riprova.\n");
+                            break;
+                    }
+                }
+            case 0:
+                tmp = false;
+                break;
+            default:
+                printf("!!Valore inserito non valido!! Riprova.\n");
+                break;
+            }
+    }
     system("pause");
     return 0;
+}
+
+// stampa menu di scelta tra le 2 variazioni richieste del programma
+int codeChoiceMenu()
+{
+    int choice;
+
+    printf("Quale variazione del codice vuoi eseguire?\n");
+    printf("1) Allocazione dinamica della memoria\n");
+    printf("2) Altra modalita\'\n");
+    printf("0) Termina il processo ed esci dal programma\n\n");
+
+    printf("Scegli una tra le seguenti operazioni: ");
+    scanf(" %d", &choice);
+
+    // pulisco lo schermo dal primo menu
+    system("cls");
+
+    return choice;
+}
+
+// stampa menu del programma
+int printMenu()
+{
+    int choice;
+
+    printf("Rubrica\n");
+    printf("1) Aggiungere un nuovo studente\n");
+    printf("2) Stampare le informazioni di uno studente fornendo il numero di matricola\n");
+    printf("3) Modificare le informazioni del piano di studi aggiungendo un voto di uno studente fornendo il numero di matricola\n");
+    printf("4) Stampare la media dei voti di tutti gli studenti che hanno completato il piano di studi\n");
+    printf("   (calcolo automaticamente effettuato in base al numero di crediti di ogni insegnamento)\n");
+    printf("0) Esci dal programma\n\n");
+
+    printf("Scegli una tra le seguenti operazioni: ");
+    scanf(" %d", &choice);
+
+    return choice;
 }
