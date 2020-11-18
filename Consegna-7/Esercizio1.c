@@ -39,27 +39,84 @@ Agenda newAgenda(){
 void inserisci_appuntamento(Agenda*, Appuntamento);
 void elimina_appuntamento(Agenda*, int);
 void stampa_appuntamenti_del_mese(Agenda);
+int printMenu();
 
 int main()
 {
     Agenda agenda = newAgenda();
 
+    switch(printMenu())
+    {
+        case 1:
+        inserisci_appuntamento();
+        break;
+        case 2:
+        elimina_appuntamento():
+        break;
+        case 3:
+        stampa_appuntamenti_del_mese();                
+        break;
+    }
 
     return 0;
 }
 
-void inserisci_appuntamento(Agenda* ag, Appuntamento ap){
+void inserisci_appuntamento(Agenda a, Appuntamento ap)
+{
+    int i=0;
 
+    printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
+    printf("Inserisci il giorno: ");
+    scanf("%d ",&ap.giorno);
+    printf("Inserisci l'ora di inzio: ");
+    scanf("%d ",&ap.ora_inizio);
+    printf("inserisci l'ora di fine: ");
+    scanf("%d ",&ap.ora_fine);
+    printf("Inserisci la descrizione: ");
+    scanf("%d ",&ap.descrizione);
+
+    i++;
 }
 
-void elimina_appuntamento(Agenda* a, int index){
-    for(int i = index; i < a->len - 1; i++) a[i] = a[i + 1];
+void elimina_appuntamento(Agenda* a, int index)
+{
+    for(int i = index; i < a->len - 1; i++)
+    {
+        a[i] = a[i + 1];
+    }
 }
 
-void stampa_appuntamenti_del_mese(Agenda a){
+void stampa_appuntamenti_del_mese(Agenda a)
+{
     for(int i = 0; i < a.len; i++)
     {
         printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a.len, a.appuntamenti[i].giorno, a.appuntamenti[i].mese, a.appuntamenti[i].ora_inizio, a.appuntamenti[i].ora_fine, a.appuntamenti[i].descrizione);
     }
-    
+
+}
+
+int printMenu()
+{
+    int choice;
+
+    printf("MENU\' DI GESTIONE DELLA TUA AGENDA\n");
+    printf("1) Inserimento nuovo appuntamento\n");
+    printf("2) Elimina appuntamento\n");
+    printf("3) Stampa dell'agenda\n");
+
+    printf("\nScegli una tra le seguenti operazioni: ");
+    scanf(" %d", &choice);
+    fflush(stdin);
+
+    while(choice!=1 && choice!=2 && choice!=3)
+    {
+        if(choice!=1 || choice!=2 || choice!=3)
+        {
+            printf("\nL'operazione inserita non e\' presente nel menu\' di scelta, riprova: ");
+            scanf(" %d", &choice);
+            fflush(stdin);
+        }
+    }
+
+    return choice;
 }
