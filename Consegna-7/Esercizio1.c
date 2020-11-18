@@ -1,3 +1,15 @@
+/*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
+          Denny Reggidori(denny.reggidori@studio.unibo.it)
+          Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
+          Sara Romeo(sara.romeo3@studio.unibo.it)
+ DATE:    20201120
+ NOTE:    Text Ex01: Scrivere un programma C che simuli la gestione di un’agenda annuale e dei relativi appuntamenti.
+          Ogni appuntamento deve essere rappresentato da una struttura contenente giorno, mese, ora inizio, ora fine e descrizione.
+          Scrivere le funzioni:
+          inserisci_appuntamento (verificare che nello stesso giorno e alla stessa ora non ci sia già un altro appuntamento),
+          elimina_appuntamento,
+          stampa_appuntamenti_del_mese*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
