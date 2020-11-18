@@ -38,7 +38,7 @@ int main ()
     {
         switch(codeChoiceMenu())
         {
-            case 1: // vettore frastagliato
+            case 1: // allocazione dinamica
                 while(temp)
                 {
                     switch(printMenu())
@@ -92,7 +92,7 @@ int main ()
     return 0;
 }
 
-// stampa menu di scelta tra le 2 variazioni richieste del programma
+// stampa menu di scelta tra le 2 varianti richieste del programma
 int codeChoiceMenu()
 {
     int choice;
