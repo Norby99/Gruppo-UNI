@@ -24,14 +24,51 @@
 #include<stdlib.h>
 #include<stdbool.h>
 
+#define MAX_STUDENTI_CORSO 244
+// ogni anno 60 CFU -> x3 anni tot. 180 CFU & ogni materia minimo 6 CFU => 180/6= 30 MAX_INSEGNAMENTI_CORSO
+#define MAX_INSEGNAMENTI_CORSO 30
+
+// creazione sinonimo di tipo "STUDENTE" per identificare la struttura con i campi per ogni studente inserito
+typedef struct {
+    char s_Nmatricola[10], s_nome[30], s_cognome[30]; //MEMO qnd inserisco n_matricola voglio trattarlo come char, in quanto codice, ma input must isdigit()
+    int s_annoImm;
+    //piano di studi mi serve un tipo specifico apposta mi sa
+}STUDENTE;
+
+typedef struct {
+    char i_codice[10], i_descrizione[100];
+    int i_annoSomm, i_crediti;
+}INSEGNAMENTO;
+
+/* creazione sinonimo di tipo "STUDENTI_CORSO" per identificare la struttura che memorizza l'array
+   (contenente strutture degli studenti con relative info) e la sua lunghezza*/
+typedef struct
+{
+    STUDENTE list[MAX_STUDENTI_CORSO];
+    int len;
+}STUDENTI_CORSO;
+
+typedef struct
+{
+    INSEGNAMENTO list[MAX_INSEGNAMENTI_CORSO];
+    int len;
+}INSEGNAMENTI_CORSO;
+
+/*********************** PROTOTIPI delle FUNZIONI ************************/
+
+int codeChoiceMenu();
+int printMenu();
+
+/********************************* MAIN **********************************/
+
+/* 2 versioniiiiiiiiiiiiiiiiiiiiiiiii :))))))))))
+          if (2versioni==true){
+                versione2=0,99*versione1;    //copia e incolla is the way 99% (come i batteri che elimina l'amuchina)
+          }
+    oky vi saluto e faccio qualcosa di utile entro sera amichi di uni, promesso u.u*/
+
 int main ()
 {
-    // 2 versioniiiiiiiiiiiiiiiiiiiiiiiii :))))))))))
-          /*if (2versioni==true){
-                versione2=0,99*versione1;    //copia e incolla is the way 99% (come i batteri che elimina l'amuchina)
-          }*/
-    //oky vi saluto e faccio qualcosa di utile entro sera amichi di uni u.u
-
     bool temp = true, tmp = true;
     //menu di scelta tra le due variazioni richieste del programma
     while(tmp)
