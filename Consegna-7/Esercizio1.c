@@ -64,16 +64,16 @@ int main()
 void inserisci_appuntamento(Agenda a, Appuntamento ap)
 {
     int i=0;
-
+          
     printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
     printf("Inserisci il giorno: ");
-    scanf("%d ",&ap.giorno);
+    
     printf("Inserisci l'ora di inzio: ");
-    scanf("%d ",&ap.ora_inizio);
+    
     printf("inserisci l'ora di fine: ");
-    scanf("%d ",&ap.ora_fine);
+    
     printf("Inserisci la descrizione: ");
-    scanf("%d ",&ap.descrizione);
+    
 
     i++;
 }
@@ -88,7 +88,13 @@ void elimina_appuntamento(Agenda* a, int index)
 
 void stampa_appuntamenti_del_mese(Agenda a)
 {
-    for(int i = 0; i < a.len; i++)
+    int num_mese;
+          
+    printf("Di quale mese vuoi stampare la tua agenda? ");
+    scanf("%d ",&num_mese);
+    fflush(stdin);
+          
+    for(int i = 0; i < a.len && a.appuntamenti[i].mese==num_mese ; i++)
     {
         printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a.len, a.appuntamenti[i].giorno, a.appuntamenti[i].mese, a.appuntamenti[i].ora_inizio, a.appuntamenti[i].ora_fine, a.appuntamenti[i].descrizione);
     }
