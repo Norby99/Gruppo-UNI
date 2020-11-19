@@ -270,12 +270,10 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, INSEGNAMENTI_CORSO *ic) // verifica s
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %[^\n]%*c", s_Nmatricola);
     fflush(stdin);
-    if(isIn1(sc, s_Nmatricola)==true)
+    if(isIn1(sc, s_Nmatricola))
     {
         printf("Numero di matricola gia' presente!!\n\n");
     }else{
-        char c=isIn1(sc, s_Nmatricola);
-        printf(" %s quindi?\n", c);
         printf("- nome:\t\t\t\t");
         scanf(" %[^\n]%*c", s_nome);
         fflush(stdin);
@@ -324,12 +322,12 @@ void printStudente1(STUDENTI_CORSO1 *sc, INSEGNAMENTI_CORSO *ic)
     {
         for(int i=0; i < sc->len; i++)
         {
-            printf("%s \n", sc->list[i].s_Nmatricola);
-            printf("%s \n", sc->list[i].s_nome);
-            printf("%s \n", sc->list[i].s_cognome);
-            printf("%d \n", sc->list[i].s_annoImm);
-            printf("%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
-            printf("%d \n\n", sc->list[i].s_pianoStudi.ps_voto);
+            printf("Numero di matricola:\t\t%s \n", sc->list[i].s_Nmatricola);
+            printf("Nome:\t\t%s \n", sc->list[i].s_nome);
+            printf("Cognome:\t\t%s \n", sc->list[i].s_cognome);
+            printf("Anno di immatricolazione:\t%d \n", sc->list[i].s_annoImm);
+            printf("Insegnamento:\t\t%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
+            printf("Voto:\t\t\t%d \n\n", sc->list[i].s_pianoStudi.ps_voto);
         }
     }else{
         printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
