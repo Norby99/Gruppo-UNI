@@ -30,53 +30,59 @@ typedef struct{
     int len;
 }Agenda;
 
-Agenda newAgenda(){
-    Agenda a;
-    a.len = 0;
+Agenda *newAgenda(){
+    Agenda *a;
+    a = (Agenda*)malloc(MAX_DAYS*sizeof(Agenda));
+    a->len = 0;
     return a;
 }
 
-void inserisci_appuntamento(Agenda*, Appuntamento);
+void inserisci_appuntamento(Agenda*);
 void elimina_appuntamento(Agenda*, int);
-void stampa_appuntamenti_del_mese(Agenda);
+void stampa_appuntamenti_del_mese(Agenda*);
+void destroyer(Agenda *);
 
 Appuntamento creaAppuntament();
 int printMenu();
 
 int main()
 {
-    Agenda agenda = newAgenda();
+    Agenda *agenda = newAgenda();
     bool temp=true;
     //esempio di funzionamento
     /*inserisci_appuntamento(&agenda, creaAppuntament());
     printf("\n-- %d", agenda.appuntamenti[0].giorno);*/
-    
+
     while(temp)
-    {          
+    {
        switch(printMenu())
        {
           case 1:
-          inserisci_appuntamento();
+          inserisci_appuntamento(agenda);
           break;
           case 2:
-          elimina_appuntamento():
+          //elimina_appuntamento();
           break;
           case 3:
-          stampa_appuntamenti_del_mese();                
+          stampa_appuntamenti_del_mese(agenda);
           break;
           case 0:
           temp=false;
-          break;                
+          break;
         }
-    }         
+    }
 
+    destroyer(agenda);
     return 0;
 }
 
 // metodi di Agenda
 
-void inserisci_appuntamento(Agenda* a, Appuntamento ap)
+void inserisci_appuntamento(Agenda* a)
 {
+    Appuntamento ap;
+    creaAppuntament(ap);
+
     a->appuntamenti[a->len].giorno = ap.giorno;
     a->appuntamenti[a->len].mese = ap.mese;
     a->appuntamenti[a->len].ora_inizio = ap.ora_inizio;
@@ -93,17 +99,17 @@ void elimina_appuntamento(Agenda* a, int index)
     }
 }
 
-void stampa_appuntamenti_del_mese(Agenda a)
+void stampa_appuntamenti_del_mese(Agenda* a)
 {
     int num_mese;
-          
+
     printf("Di quale mese vuoi stampare la tua agenda? ");
     scanf("%d ",&num_mese);
     fflush(stdin);
-          
-    for(int i = 0; i < a.len && a.appuntamenti[i].mese==num_mese ; i++)
+
+    for(int i = 0; i < a->len && a->appuntamenti[i].mese==num_mese ; i++)
     {
-        printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a.len, a.appuntamenti[i].giorno, a.appuntamenti[i].mese, a.appuntamenti[i].ora_inizio, a.appuntamenti[i].ora_fine, a.appuntamenti[i].descrizione);
+        printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a->len, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio, a->appuntamenti[i].ora_fine, a->appuntamenti[i].descrizione);
     }
 
 }
@@ -150,3 +156,9 @@ int printMenu()
     system("cls");
     return choice;
 }
+
+void destroyer(Agenda *a)
+{
+    free(a);
+}
+
