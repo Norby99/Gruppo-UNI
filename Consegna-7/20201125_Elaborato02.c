@@ -11,7 +11,6 @@ ok ho finito lo sclero notturno, abbiate pietà :_) <3
 aggiornamento mattutino, ho perso la salute per una &.
 Comunque a inserirne un altro esplode lo stesso quindi ancora non la spunto....
 
-
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
@@ -233,8 +232,7 @@ void addStudente1 (STUDENTI_CORSO1 *sc, char *m, char *n, char *c, int *a, INSEG
     sc->len++;
 }
 
-// controllo se nome studente già registrato
-bool isIn1(STUDENTI_CORSO1 *sc, char *m)
+bool isIn1(STUDENTI_CORSO1 *sc, char *m) // controlla se matricola studente già registrata
 {
     for(int i=0; i < sc->len; i++)
     {
@@ -246,7 +244,9 @@ bool isIn1(STUDENTI_CORSO1 *sc, char *m)
 
 void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non sia già presente
 {
+    printf("1\tPRINTA....\n\n");
     char *s_Nmatricola = (char*)malloc(MAX_CODE_LEN*sizeof(char)), *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    printf("2\tPRINTA!!\n\n");
     char *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     INSEGNAMENTO *ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_NAME_LEN*sizeof(INSEGNAMENTO));
     int *s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int)), *ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
@@ -282,10 +282,38 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non 
 
 void printStudente1(STUDENTI_CORSO1 *sc)
 {
+    char *n_matr;
+    printf("Quale studente vuoi visualizzare? Inserire numero di matricola:");
+    scanf(" %[^\n]%*c", n_matr);
+    fflush(stdin);
+    if(isIn1(sc, n_matr))
+    {
+        for(int i=0; i < sc->len; i++)
+        {
+            printf("%s \n", sc->list[i].s_Nmatricola);
+            printf("%s \n", sc->list[i].s_nome);
+            printf("%s \n", sc->list[i].s_cognome);
+            printf("%d \n", sc->list[i].s_annoImm);
+            printf("%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
+            printf("%d \n\n", sc->list[i].s_pianoStudi.ps_voto);
+        }
+    }else{
+        printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
+    }
 }
 
 void addVoto1(STUDENTI_CORSO1 *sc)
 {
+    char *n_matr = (char*)malloc(MAX_CODE_LEN*sizeof(char));
+    printf("A quale studente vuoi aggiungere un voto? Inserire numero di matricola:");
+    scanf(" %[^\n]%*c", n_matr);
+    fflush(stdin);
+    if(isIn1(sc, n_matr))
+    {   //funzione per aggiungere il voto
+        printf("Insegnamento: ");   //controlla se insegnamento esiste se non esiste chiedere se aggiungerlo?
+    }else{
+        printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
+    }
 }
 
 void mediaVoti1(STUDENTI_CORSO1 *sc)
@@ -354,18 +382,13 @@ void destroyer (INSEGNAMENTI_CORSO *ic, STUDENTI_CORSO1 *sc)
 int codeChoiceMenu()
 {
     int choice;
-
     printf("Quale variazione del codice vuoi eseguire?\n");
     printf("1) Allocazione dinamica della memoria\n");
     printf("2) Altra modalita\'\n");
     printf("0) Termina il processo ed esci dal programma\n\n");
-
     printf("Scegli una tra le seguenti operazioni: ");
     scanf(" %d", &choice);
-
-    // pulisco lo schermo dal primo menu
     system("cls");
-
     return choice;
 }
 
@@ -373,7 +396,7 @@ int printMenu()
 {
     int choice;
 
-    printf("Rubrica\n");
+    printf("\t\t\t\tOPZIONI ARCHIVIO\n");
     printf("1) Aggiungere un nuovo studente\n");
     printf("2) Stampare le informazioni di uno studente fornendo il numero di matricola\n");
     printf("3) Aggiungere un voto di uno studente fornendo il numero di matricola\n");
