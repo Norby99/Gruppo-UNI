@@ -46,23 +46,29 @@ int printMenu();
 int main()
 {
     Agenda agenda = newAgenda();
-
+    bool temp=true;
     //esempio di funzionamento
     /*inserisci_appuntamento(&agenda, creaAppuntament());
     printf("\n-- %d", agenda.appuntamenti[0].giorno);*/
-
-    switch(printMenu())
-    {
-        case 1:
-        inserisci_appuntamento();
-        break;
-        case 2:
-        elimina_appuntamento():
-        break;
-        case 3:
-        stampa_appuntamenti_del_mese();                
-        break;
-    }
+    
+    while(temp)
+    {          
+       switch(printMenu())
+       {
+          case 1:
+          inserisci_appuntamento();
+          break;
+          case 2:
+          elimina_appuntamento():
+          break;
+          case 3:
+          stampa_appuntamenti_del_mese();                
+          break;
+          case 0:
+          temp=false;
+          break;                
+        }
+    }         
 
     return 0;
 }
@@ -126,20 +132,21 @@ int printMenu()
     printf("1) Inserimento nuovo appuntamento\n");
     printf("2) Elimina appuntamento\n");
     printf("3) Stampa dell'agenda\n");
+    printf("\n(Premi 0 per uscire dal programma)\n");
 
-    printf("\nScegli una tra le seguenti operazioni: ");
+    printf("\n\nScegli una tra le seguenti operazioni: ");
     scanf(" %d", &choice);
     fflush(stdin);
 
-    while(choice!=1 && choice!=2 && choice!=3)
+    while(choice!=1 && choice!=2 && choice!=3 && choice!=0)
     {
-        if(choice!=1 || choice!=2 || choice!=3)
+        if(choice!=1 || choice!=2 || choice!=3 || choice!=0)
         {
             printf("\nL'operazione inserita non e\' presente nel menu\' di scelta, riprova: ");
             scanf(" %d", &choice);
             fflush(stdin);
         }
     }
-
+    system("cls");
     return choice;
 }
