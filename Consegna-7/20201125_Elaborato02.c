@@ -7,7 +7,7 @@ if (2versioni==true)
                    printf("the smallest bug the biggest time guys");
           }
 }
-ok ho finito lo sclero, abbiate pietà :_) <3
+ok ho finito lo sclero notturno, abbiate pietà :_) <3
 
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
@@ -198,10 +198,14 @@ int main ()
     /********************print da usare per DEBUG********************/
 void printAllValues(STUDENTI_CORSO1 *sc)
 {
-    printf("AAAAAAAAAAAH\n");
-    for(int i=0; i< sc->len; i++)
+    for(int i=0; i < sc->len; i++)
     {
-        printf("%c : \n", sc->list[i].s_Nmatricola);
+        printf("%c \n", sc->list[i].s_Nmatricola);
+        printf("%c \n", sc->list[i].s_nome);
+        printf("%c \n", sc->list[i].s_cognome);
+        printf("%d \n", sc->list[i].s_annoImm);
+        printf("%c \n", sc->list[i].s_pianoStudi.ps_insegnamento);
+        printf("%d \n", sc->list[i].s_pianoStudi.ps_voto);
     }
     printf("\n");
 }
@@ -250,29 +254,28 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non 
     s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int));
     ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
 
-    printf("Inserire:\n- numero di matricola: ");
+    printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %[^\n]%*c", s_Nmatricola);
     fflush(stdin);
     if(isIn1(sc, s_Nmatricola))
     {
         printf("Numero di matricola gia' presente!!\n\n");
     }else{
-        printf("- nome: ");
+        printf("- nome:\t\t\t\t");
         scanf(" %[^\n]%*c", s_nome);
         fflush(stdin);
-        printf("- cognome: ");
+        printf("- cognome:\t\t\t");
         scanf(" %[^\n]%*c", s_cognome);
         fflush(stdin);
-        printf("- anno di immatricolazione: ");
-        scanf(" %[^\n]%*d", s_annoImm);
+        printf("- anno di immatricolazione:\t");
+        scanf(" %*d", s_annoImm);
         fflush(stdin);
-        printf("\nPiano di studi:\n- insegnamento: ");
+        printf("Piano di studi:\n- insegnamento:\t\t\t");
         scanf(" %[^\n]%*c", ps_insegnamento);
         fflush(stdin);
-        printf("- voto: ");
-        scanf(" %[^\n]%*d", ps_voto);
+        printf("- voto:\t\t\t\t");
+        scanf(" %*d", ps_voto);
         fflush(stdin);
-        //crea funzione piano di studi
         addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, ps_insegnamento, ps_voto);
     }
 
