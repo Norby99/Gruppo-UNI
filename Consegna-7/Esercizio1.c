@@ -18,11 +18,16 @@
 #define MAX_DAYS 365
 
 typedef struct{
+    int ora;
+    int minuto;
+}orario;
+
+typedef struct{
     int giorno;
     int mese;
-    int ora_inizio;
-    int ora_fine;
-    char *descrizione;
+    orario ora_inizio;
+    orario ora_fine;
+    char descrizione[40];
 }Appuntamento;
 
 typedef struct{
@@ -84,10 +89,13 @@ void inserisci_appuntamento(Agenda* a)
     creaAppuntament(ap);
 
     a->appuntamenti[a->len].giorno = ap.giorno;
+    //printf("%d",a->appuntamenti[a->len].giorno);
     a->appuntamenti[a->len].mese = ap.mese;
-    a->appuntamenti[a->len].ora_inizio = ap.ora_inizio;
-    a->appuntamenti[a->len].ora_fine = ap.ora_fine;
-    a->appuntamenti[a->len].descrizione = ap.descrizione;
+    a->appuntamenti[a->len].ora_inizio.ora = ap.ora_inizio.ora;
+    a->appuntamenti[a->len].ora_inizio.minuto = ap.ora_inizio.minuto;
+    a->appuntamenti[a->len].ora_fine.ora = ap.ora_fine.ora;
+    a->appuntamenti[a->len].ora_fine.minuto = ap.ora_fine.minuto;
+    a->appuntamenti[a->len].descrizione[40] = ap.descrizione[40];
     a->len++;
 }
 
@@ -103,13 +111,13 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 {
     int num_mese;
 
-    printf("Di quale mese vuoi stampare la tua agenda? ");
-    scanf("%d ",&num_mese);
-    fflush(stdin);
+    //printf("Di quale mese vuoi stampare la tua agenda? ");
+    //scanf("%d ",&num_mese);
+    //fflush(stdin);
 
-    for(int i = 0; i < a->len && a->appuntamenti[i].mese==num_mese ; i++)
+    for(int i = 0; i < a->len; i++)
     {
-        printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a->len, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio, a->appuntamenti[i].ora_fine, a->appuntamenti[i].descrizione);
+        printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:%d alle %d:%d\n Descrizione: %s", a->len, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio.ora, a->appuntamenti[i].ora_inizio.minuto, a->appuntamenti[i].ora_fine.ora, a->appuntamenti[i].ora_fine.minuto, a->appuntamenti[i].descrizione);
     }
 
 }
@@ -122,10 +130,12 @@ Appuntamento creaAppuntament()
     printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
     printf("Inserisci il giorno e il mese [formato: gg/mm]: ");
     scanf(" %d %d", &ap.giorno, &ap.mese);
-    printf("Inserisci l'ora di inzio e l'ora di fine [formato: Hi-Hf]: ");
-    scanf(" %d %d", &ap.ora_inizio, &ap.ora_fine);
+    printf("Inserisci l'ora di inzio");
+    scanf(" %d %d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+    printf("Inserisci l'ora di fine");
+    scanf(" %d %d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
     printf("Inserisci la descrizione: ");
-    scanf(" %s", ap.descrizione);
+    scanf(" %[^\n]%*c", ap.descrizione);
 
     return ap;
 }
@@ -161,4 +171,3 @@ void destroyer(Agenda *a)
 {
     free(a);
 }
-
