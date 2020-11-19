@@ -39,11 +39,17 @@ Agenda newAgenda(){
 void inserisci_appuntamento(Agenda*, Appuntamento);
 void elimina_appuntamento(Agenda*, int);
 void stampa_appuntamenti_del_mese(Agenda);
+
+Appuntamento creaAppuntament();
 int printMenu();
 
 int main()
 {
     Agenda agenda = newAgenda();
+
+    //esempio di funzionamento
+    /*inserisci_appuntamento(&agenda, creaAppuntament());
+    printf("\n-- %d", agenda.appuntamenti[0].giorno);*/
 
     switch(printMenu())
     {
@@ -61,6 +67,18 @@ int main()
     return 0;
 }
 
+<<<<<<< HEAD
+// metodi di Agenda
+
+void inserisci_appuntamento(Agenda* a, Appuntamento ap)
+{
+    a->appuntamenti[a->len].giorno = ap.giorno;
+    a->appuntamenti[a->len].mese = ap.mese;
+    a->appuntamenti[a->len].ora_inizio = ap.ora_inizio;
+    a->appuntamenti[a->len].ora_fine = ap.ora_fine;
+    a->appuntamenti[a->len].descrizione = ap.descrizione;
+    a->len++;
+=======
 void inserisci_appuntamento(Agenda a, Appuntamento ap)
 {
     int i=0;
@@ -76,6 +94,7 @@ void inserisci_appuntamento(Agenda a, Appuntamento ap)
     
 
     i++;
+>>>>>>> a4f7bdee80965590123a4adc914db90264b22b41
 }
 
 void elimina_appuntamento(Agenda* a, int index)
@@ -99,6 +118,22 @@ void stampa_appuntamenti_del_mese(Agenda a)
         printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:00 alle %d:00\n Descrizione: %s", a.len, a.appuntamenti[i].giorno, a.appuntamenti[i].mese, a.appuntamenti[i].ora_inizio, a.appuntamenti[i].ora_fine, a.appuntamenti[i].descrizione);
     }
 
+}
+
+// funzioni generiche
+
+Appuntamento creaAppuntament()
+{
+    Appuntamento ap;
+    printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
+    printf("Inserisci il giorno e il mese [formato: gg/mm]: ");
+    scanf(" %d %d", &ap.giorno, &ap.mese);
+    printf("Inserisci l'ora di inzio e l'ora di fine [formato: Hi-Hf]: ");
+    scanf(" %d %d", &ap.ora_inizio, &ap.ora_fine);
+    printf("Inserisci la descrizione: ");
+    scanf(" %s", ap.descrizione);
+
+    return ap;
 }
 
 int printMenu()
