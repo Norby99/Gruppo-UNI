@@ -67,7 +67,6 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
 // metodi di Agenda
 
 void inserisci_appuntamento(Agenda* a, Appuntamento ap)
@@ -78,23 +77,6 @@ void inserisci_appuntamento(Agenda* a, Appuntamento ap)
     a->appuntamenti[a->len].ora_fine = ap.ora_fine;
     a->appuntamenti[a->len].descrizione = ap.descrizione;
     a->len++;
-=======
-void inserisci_appuntamento(Agenda a, Appuntamento ap)
-{
-    int i=0;
-          
-    printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
-    printf("Inserisci il giorno: ");
-    
-    printf("Inserisci l'ora di inzio: ");
-    
-    printf("inserisci l'ora di fine: ");
-    
-    printf("Inserisci la descrizione: ");
-    
-
-    i++;
->>>>>>> a4f7bdee80965590123a4adc914db90264b22b41
 }
 
 void elimina_appuntamento(Agenda* a, int index)
