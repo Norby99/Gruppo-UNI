@@ -8,6 +8,9 @@ if (2versioni==true)
           }
 }
 ok ho finito lo sclero notturno, abbiate pietà :_) <3
+aggiornamento mattutino, ho perso la salute per una &.
+Comunque a inserirne un altro esplode lo stesso quindi ancora non la spunto....
+
 
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
@@ -195,16 +198,16 @@ int main ()
     return 0;
 }
 
-    /********************print da usare per DEBUG********************/
+/********************print da usare per DEBUG********************/
 void printAllValues(STUDENTI_CORSO1 *sc)
 {
     for(int i=0; i < sc->len; i++)
     {
-        printf("%c \n", sc->list[i].s_Nmatricola);
-        printf("%c \n", sc->list[i].s_nome);
-        printf("%c \n", sc->list[i].s_cognome);
+        printf("%s \n", sc->list[i].s_Nmatricola);
+        printf("%s \n", sc->list[i].s_nome);
+        printf("%s \n", sc->list[i].s_cognome);
         printf("%d \n", sc->list[i].s_annoImm);
-        printf("%c \n", sc->list[i].s_pianoStudi.ps_insegnamento);
+        printf("%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
         printf("%d \n", sc->list[i].s_pianoStudi.ps_voto);
     }
     printf("\n");
@@ -243,16 +246,10 @@ bool isIn1(STUDENTI_CORSO1 *sc, char *m)
 
 void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non sia già presente
 {
-    char *s_Nmatricola, *s_nome, *s_cognome;
-    INSEGNAMENTO *ps_insegnamento;
-    int *s_annoImm, *ps_voto;
-
-    s_Nmatricola = (char*)malloc(MAX_CODE_LEN*sizeof(char));
-    s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_NAME_LEN*sizeof(INSEGNAMENTO));
-    s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int));
-    ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
+    char *s_Nmatricola = (char*)malloc(MAX_CODE_LEN*sizeof(char)), *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    char *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    INSEGNAMENTO *ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_NAME_LEN*sizeof(INSEGNAMENTO));
+    int *s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int)), *ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
 
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %[^\n]%*c", s_Nmatricola);
@@ -268,13 +265,13 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non 
         scanf(" %[^\n]%*c", s_cognome);
         fflush(stdin);
         printf("- anno di immatricolazione:\t");
-        scanf(" %*d", s_annoImm);
+        scanf(" %d", &s_annoImm);
         fflush(stdin);
         printf("Piano di studi:\n- insegnamento:\t\t\t");
         scanf(" %[^\n]%*c", ps_insegnamento);
         fflush(stdin);
         printf("- voto:\t\t\t\t");
-        scanf(" %*d", ps_voto);
+        scanf(" %d", &ps_voto);
         fflush(stdin);
         addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, ps_insegnamento, ps_voto);
     }
