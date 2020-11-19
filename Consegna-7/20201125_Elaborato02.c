@@ -9,7 +9,8 @@ if (2versioni==true)
 }
 ok ho finito lo sclero notturno, abbiate pietà :_) <3
 aggiornamento mattutino, ho perso la salute per una &.
-Comunque a inserirne un altro esplode lo stesso quindi ancora non la spunto....
+Comunque non capisce se qualcosa is in qualcos'altro, cosicchè possa con gioia essere impossibilitata a far funzionare tutto il resto.
+Che bello :)
 
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
@@ -44,6 +45,7 @@ Comunque a inserirne un altro esplode lo stesso quindi ancora non la spunto....
 #define MAX_NAME_LEN 30
 #define MAX_ANNO 3000
 #define MAX_VOTO 30
+#define MAX_CREDITI 12
 
 typedef struct {
     char *i_codice, *i_descrizione;
@@ -82,7 +84,7 @@ typedef struct
 }STUDENTI_CORSO2;
 
 
-    /********************print da usare per DEBUG********************/
+/********************print da usare per DEBUG********************/
 void printAllValues(STUDENTI_CORSO1 *);
 
 
@@ -103,10 +105,11 @@ void destroyer(INSEGNAMENTI_CORSO *, STUDENTI_CORSO1 *);
 void addInsegnamento(INSEGNAMENTI_CORSO *, char *, char *, int *, int *);
 //**** 1) malloc ****
 bool isIn1(STUDENTI_CORSO1 *, char *);
+bool ins_isIn1(INSEGNAMENTI_CORSO *, char *);
 void addStudente1(STUDENTI_CORSO1 *, char *, char *, char *, int *, INSEGNAMENTO *, int *);
-void tryAddStudente1(STUDENTI_CORSO1 *);
-void printStudente1(STUDENTI_CORSO1 *);
-void addVoto1(STUDENTI_CORSO1 *);
+void tryAddStudente1(STUDENTI_CORSO1 *, INSEGNAMENTI_CORSO *);
+void printStudente1(STUDENTI_CORSO1 *, INSEGNAMENTI_CORSO *);
+void addVoto1(STUDENTI_CORSO1 *, INSEGNAMENTI_CORSO *);
 void mediaVoti1(STUDENTI_CORSO1 *);
 //**** 2) no malloc ****
 bool isIn2();
@@ -137,13 +140,13 @@ int main ()
                     switch(printMenu())
                     {
                         case 1:
-                            tryAddStudente1(s_corso);
+                            tryAddStudente1(s_corso, ins_corso);
                             break;
                         case 2:
-                            printStudente1(s_corso);
+                            printStudente1(s_corso, ins_corso);
                             break;
                         case 3:
-                            addVoto1(s_corso);
+                            addVoto1(s_corso, ins_corso);
                             break;
                         case 4:
                             mediaVoti1(s_corso);
@@ -190,8 +193,7 @@ int main ()
             }
     }
 
-    // cancellazione dalla memoria
-    destroyer(ins_corso, s_corso);
+    destroyer(ins_corso, s_corso);  // restituisce al s.o. la gestione della memoria
 
     system("pause");
     return 0;
@@ -214,8 +216,13 @@ void printAllValues(STUDENTI_CORSO1 *sc)
 
 /******************************* FUNZIONI MENU ***************************/
 
-void addInsegnamento(INSEGNAMENTI_CORSO *ic, char *i_codice, char *i_descrizione, int *i_annoSomm, int *i_crediti)
+void addInsegnamento (INSEGNAMENTI_CORSO *ic, char *cod, char *d, int *a, int *cfu)
 {
+    ic->list[ic->len].i_codice = cod;
+    ic->list[ic->len].i_descrizione = d;
+    ic->list[ic->len].i_annoSomm = a;
+    ic->list[ic->len].i_crediti = cfu;
+    ic->len++;      // incrementa array di insegnamenti per ogni insegnamento che viene aggiunto
 }
 
 /**** 1) malloc ****/
@@ -229,7 +236,7 @@ void addStudente1 (STUDENTI_CORSO1 *sc, char *m, char *n, char *c, int *a, INSEG
     sc->list[sc->len].s_annoImm = a;
     sc->list[sc->len].s_pianoStudi.ps_insegnamento = i;
     sc->list[sc->len].s_pianoStudi.ps_voto = v;
-    sc->len++;
+    sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
 }
 
 bool isIn1(STUDENTI_CORSO1 *sc, char *m) // controlla se matricola studente già registrata
@@ -241,23 +248,34 @@ bool isIn1(STUDENTI_CORSO1 *sc, char *m) // controlla se matricola studente già
     }
     return false;
 }
-
-void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non sia già presente
+/********************************/
+bool ins_isIn1(INSEGNAMENTI_CORSO *ic, char *i) // controlla se codice insegnamento già registrato
 {
-    printf("1\tPRINTA....\n\n");
-    char *s_Nmatricola = (char*)malloc(MAX_CODE_LEN*sizeof(char)), *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    printf("2\tPRINTA!!\n\n");
-    char *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    INSEGNAMENTO *ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_NAME_LEN*sizeof(INSEGNAMENTO));
-    int *s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int)), *ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
+    for(int i=0; i < ic->len; i++)
+    {
+        if(ic->list[i].i_codice == i)
+            return true;
+    }
+    return false;
+}
+
+void tryAddStudente1 (STUDENTI_CORSO1 *sc, INSEGNAMENTI_CORSO *ic) // verifica se studente in input non sia già presente
+{
+    char *s_Nmatricola = (char*)malloc(sizeof(char)*MAX_CODE_LEN), *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    char *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char)), *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    INSEGNAMENTO *ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_CODE_LEN*sizeof(INSEGNAMENTO));
+    int *s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int)), *i_annoSomm = (int*)malloc(MAX_ANNO*sizeof(int));
+    int *ps_voto = (int*)malloc(MAX_VOTO*sizeof(int)), *i_crediti = (int*)malloc(MAX_CREDITI*sizeof(int));
 
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %[^\n]%*c", s_Nmatricola);
     fflush(stdin);
-    if(isIn1(sc, s_Nmatricola))
+    if(isIn1(sc, s_Nmatricola)==true)
     {
         printf("Numero di matricola gia' presente!!\n\n");
     }else{
+        char c=isIn1(sc, s_Nmatricola);
+        printf(" %s quindi?\n", c);
         printf("- nome:\t\t\t\t");
         scanf(" %[^\n]%*c", s_nome);
         fflush(stdin);
@@ -267,26 +285,42 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non 
         printf("- anno di immatricolazione:\t");
         scanf(" %d", &s_annoImm);
         fflush(stdin);
-        printf("Piano di studi:\n- insegnamento:\t\t\t");
+        printf("Piano di studi:\n- codice insegnamento:\t\t\t");
         scanf(" %[^\n]%*c", ps_insegnamento);
         fflush(stdin);
+
+        if (ins_isIn1(ic, ps_insegnamento))
+        {
+                printf("Insegnamento assente:\n");
+                printf("\t- descrizione:\t\t");
+                scanf(" %[^\n]%*c", i_descrizione);
+                fflush(stdin);
+                printf("\t- anno di somministrazione:\t");
+                scanf(" %d", &i_annoSomm);
+                fflush(stdin);
+                printf("\t- crediti (CFU):\t");
+                scanf(" %d", &i_crediti);
+                fflush(stdin);
+                addInsegnamento(ic, ps_insegnamento, *i_descrizione, *i_annoSomm, *i_crediti);
+        }
+
         printf("- voto:\t\t\t\t");
         scanf(" %d", &ps_voto);
         fflush(stdin);
         addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, ps_insegnamento, ps_voto);
     }
 
-    printAllValues(sc);
+    printAllValues(sc); //print di debug
     printf("\n\n\n\n");
 }
 
-void printStudente1(STUDENTI_CORSO1 *sc)
+void printStudente1(STUDENTI_CORSO1 *sc, INSEGNAMENTI_CORSO *ic)
 {
-    char *n_matr;
-    printf("Quale studente vuoi visualizzare? Inserire numero di matricola:");
+    char *n_matr = (char*)malloc(MAX_CODE_LEN*sizeof(char));
+    printf("Quale studente vuoi visualizzare? Inserire numero di matricola: ");
     scanf(" %[^\n]%*c", n_matr);
     fflush(stdin);
-    if(isIn1(sc, n_matr))
+    if(isIn1(sc, n_matr)==true)
     {
         for(int i=0; i < sc->len; i++)
         {
@@ -302,13 +336,13 @@ void printStudente1(STUDENTI_CORSO1 *sc)
     }
 }
 
-void addVoto1(STUDENTI_CORSO1 *sc)
+void addVoto1(STUDENTI_CORSO1 *sc, INSEGNAMENTI_CORSO *ic)
 {
     char *n_matr = (char*)malloc(MAX_CODE_LEN*sizeof(char));
     printf("A quale studente vuoi aggiungere un voto? Inserire numero di matricola:");
     scanf(" %[^\n]%*c", n_matr);
     fflush(stdin);
-    if(isIn1(sc, n_matr))
+    if(isIn1(sc, n_matr)==true)
     {   //funzione per aggiungere il voto
         printf("Insegnamento: ");   //controlla se insegnamento esiste se non esiste chiedere se aggiungerlo?
     }else{
@@ -318,6 +352,23 @@ void addVoto1(STUDENTI_CORSO1 *sc)
 
 void mediaVoti1(STUDENTI_CORSO1 *sc)
 {
+    char *n_matr = (char*)malloc(MAX_CODE_LEN*sizeof(char));
+    printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
+    scanf(" %[^\n]%*c", n_matr);
+    fflush(stdin);
+    if(isIn1(sc, n_matr)==true)
+    {
+        int sum=0;
+        float media=0;  // serve vettore piano di studi per studente
+        /*for(int i=0; i < ps->len; i++)
+        {
+            sum+=sc->list[i].s_pianoStudi.ps_voto;
+        }
+        media=sum/(ps->len);
+        printf("\nMedia =\t%g\n\n", media)*/
+    }else{
+        printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
+    }
 }
 
 /**** 2) no malloc ****/
@@ -357,6 +408,8 @@ STUDENTI_CORSO1 *s_corso_init1 ()
 {
     STUDENTI_CORSO1 *sc;
     sc = (STUDENTI_CORSO1*)malloc(MAX_STUDENTI_CORSO*sizeof(STUDENTI_CORSO1));
+    // senza la riga seguente non mi fa inserire + studenti di 1 e crasha
+    sc->list = (STUDENTE*)malloc(MAX_STUDENTI_CORSO*sizeof(STUDENTE)); // allocazione dinamica del vettore di strutture studenti
     sc->len=0;
     return sc;
 }
@@ -387,7 +440,7 @@ int codeChoiceMenu()
     printf("2) Altra modalita\'\n");
     printf("0) Termina il processo ed esci dal programma\n\n");
     printf("Scegli una tra le seguenti operazioni: ");
-    scanf(" %d", &choice);
+    scanf("%d", &choice);
     system("cls");
     return choice;
 }
@@ -395,7 +448,6 @@ int codeChoiceMenu()
 int printMenu()
 {
     int choice;
-
     printf("\t\t\t\tOPZIONI ARCHIVIO\n");
     printf("1) Aggiungere un nuovo studente\n");
     printf("2) Stampare le informazioni di uno studente fornendo il numero di matricola\n");
@@ -403,9 +455,7 @@ int printMenu()
     printf("4) Stampare la media dei voti di tutti gli studenti che hanno completato il piano di studi\n");
     printf("   (calcolo automaticamente effettuato in base al numero di crediti di ogni insegnamento)\n");
     printf("0) Esci dal programma\n\n");
-
     printf("Scegli una tra le seguenti operazioni: ");
-    scanf(" %d", &choice);
-
+    scanf("%d", &choice);
     return choice;
 }
