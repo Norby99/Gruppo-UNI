@@ -11,6 +11,7 @@ ok ho finito lo sclero notturno, abbiate pietà :_) <3
 aggiornamento mattutino, ho perso la salute per una &.
 Comunque non capisce se qualcosa is in qualcos'altro, cosicchè possa con gioia essere impossibilitata a far funzionare tutto il resto.
 Che bello :)
+mi arrendo, è il punto più sano che mi è venuto, ho fatto altri tentativi ma è stato solo peggio. a domani guyz
 
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
