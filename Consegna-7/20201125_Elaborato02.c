@@ -1,3 +1,14 @@
+/* rega ci ho provato, anche se non credo il tutto sia  così comprensibile.... mi sono bloccata già all'inserimento, sono molto simpatiche queste struct annidate....
+comunque dai, su col morale, dobbiamo solo farne due versioni.... :))))))))))
+if (2versioni==true)
+{
+          versione2=0.99*versione1; //99% copy and paste is the wayyyy, 99% come i batteri che ammazza l'amuchina ezy
+          for(i=0; i<0,1%; ){
+                   printf("the smallest bug the biggest time guys");
+          }
+}
+ok ho finito lo sclero, abbiate pietà :_) <3
+
 /*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
@@ -30,9 +41,10 @@
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 30
 #define MAX_ANNO 3000
+#define MAX_VOTO 30
 
 typedef struct {
-    char *i_codice, *i_descrizione; //MEMO qnd inserisco codice voglio trattarlo come char, in quanto codice, ma input must isdigit()
+    char *i_codice, *i_descrizione;
     int *i_annoSomm, *i_crediti;
 }INSEGNAMENTO;
 
@@ -41,16 +53,16 @@ typedef struct
     INSEGNAMENTO *list;
     int len;
 }INSEGNAMENTI_CORSO;
-//rivedi!!!!!!!!!1
+
 typedef struct {
     INSEGNAMENTO *ps_insegnamento;
-    int *voto, len;
+    int *ps_voto;
 }PIANO_STUDI;
 
 typedef struct {
-    char *s_Nmatricola, *s_nome, *s_cognome; //MEMOx2 qnd inserisco n_matricola voglio trattarlo come char, in quanto codice, ma input must isdigit()
+    char *s_Nmatricola, *s_nome, *s_cognome;
     int *s_annoImm;
-    PIANO_STUDI *s_pianoStudi; // RIVEDI!!!!!!! array contenente strutture di ogni INSEGNAMENTO e relativo voto
+    PIANO_STUDI s_pianoStudi;
 }STUDENTE;
 
 /**** 1) malloc ****/
@@ -89,7 +101,7 @@ void destroyer(INSEGNAMENTI_CORSO *, STUDENTI_CORSO1 *);
 void addInsegnamento(INSEGNAMENTI_CORSO *, char *, char *, int *, int *);
 //**** 1) malloc ****
 bool isIn1(STUDENTI_CORSO1 *, char *);
-void addStudente1(STUDENTI_CORSO1 *, char *, char *, char *, int *, PIANO_STUDI *);
+void addStudente1(STUDENTI_CORSO1 *, char *, char *, char *, int *, INSEGNAMENTO *, int *);
 void tryAddStudente1(STUDENTI_CORSO1 *);
 void printStudente1(STUDENTI_CORSO1 *);
 void addVoto1(STUDENTI_CORSO1 *);
@@ -186,8 +198,10 @@ int main ()
     /********************print da usare per DEBUG********************/
 void printAllValues(STUDENTI_CORSO1 *sc)
 {
-    for(int i=0;i < sc->len; i++){
-        printf("%s : \n", sc->list[i].s_nome);
+    printf("AAAAAAAAAAAH\n");
+    for(int i=0; i< sc->len; i++)
+    {
+        printf("%c : \n", sc->list[i].s_Nmatricola);
     }
     printf("\n");
 }
@@ -200,45 +214,66 @@ void addInsegnamento(INSEGNAMENTI_CORSO *ic, char *i_codice, char *i_descrizione
 
 /**** 1) malloc ****/
 
+// aggiunge effettivamente i dati nella struttura studente dentro l'array con tutti gli studenti del corso
+void addStudente1 (STUDENTI_CORSO1 *sc, char *m, char *n, char *c, int *a, INSEGNAMENTO *i, int *v)
+{
+    sc->list[sc->len].s_Nmatricola = m;
+    sc->list[sc->len].s_nome = n;
+    sc->list[sc->len].s_cognome = c;
+    sc->list[sc->len].s_annoImm = a;
+    sc->list[sc->len].s_pianoStudi.ps_insegnamento = i;
+    sc->list[sc->len].s_pianoStudi.ps_voto = v;
+    sc->len++;
+}
+
 // controllo se nome studente già registrato
-bool isIn1(STUDENTI_CORSO1 *sc, char *n)
+bool isIn1(STUDENTI_CORSO1 *sc, char *m)
 {
     for(int i=0; i < sc->len; i++)
     {
-        if(sc->list[i].s_nome == n)
+        if(sc->list[i].s_Nmatricola == m)
             return true;
     }
     return false;
 }
 
-// aggiunge effettivamente studente all'array
-void addStudente1 (STUDENTI_CORSO1 *sc, char *m, char *n, char *c, int *a, PIANO_STUDI *ps)
-{
-    sc->list[sc->len].s_Nmatricola = m;
-    sc->len++;
-}
-
 void tryAddStudente1 (STUDENTI_CORSO1 *sc) // verifica se studente in input non sia già presente
 {
     char *s_Nmatricola, *s_nome, *s_cognome;
-    int *s_annoImm;
-    PIANO_STUDI *s_pianoStudi;
+    INSEGNAMENTO *ps_insegnamento;
+    int *s_annoImm, *ps_voto;
 
     s_Nmatricola = (char*)malloc(MAX_CODE_LEN*sizeof(char));
     s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
+    ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_NAME_LEN*sizeof(INSEGNAMENTO));
     s_annoImm = (int*)malloc(MAX_ANNO*sizeof(int));
-    s_pianoStudi = (PIANO_STUDI*)malloc(N_ESAMI*sizeof(PIANO_STUDI));
+    ps_voto = (int*)malloc(MAX_VOTO*sizeof(int));
 
-    printf("Inserire il numero di matricola: ");
+    printf("Inserire:\n- numero di matricola: ");
     scanf(" %[^\n]%*c", s_Nmatricola);
     fflush(stdin);
     if(isIn1(sc, s_Nmatricola))
     {
-        printf("Numero di matricola gia' presente!\n\n");
+        printf("Numero di matricola gia' presente!!\n\n");
     }else{
-        //inserimento altri daati
-        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_pianoStudi);
+        printf("- nome: ");
+        scanf(" %[^\n]%*c", s_nome);
+        fflush(stdin);
+        printf("- cognome: ");
+        scanf(" %[^\n]%*c", s_cognome);
+        fflush(stdin);
+        printf("- anno di immatricolazione: ");
+        scanf(" %[^\n]%*d", s_annoImm);
+        fflush(stdin);
+        printf("\nPiano di studi:\n- insegnamento: ");
+        scanf(" %[^\n]%*c", ps_insegnamento);
+        fflush(stdin);
+        printf("- voto: ");
+        scanf(" %[^\n]%*d", ps_voto);
+        fflush(stdin);
+        //crea funzione piano di studi
+        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, ps_insegnamento, ps_voto);
     }
 
     printAllValues(sc);
