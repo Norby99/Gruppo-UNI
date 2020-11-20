@@ -17,16 +17,12 @@
 
 #define MAX_DAYS 365
 
-typedef struct{
-    int ora;
-    int minuto;
-}orario;
-
+//Dichiarazione delle strutture
 typedef struct{
     int giorno;
     int mese;
-    orario ora_inizio;
-    orario ora_fine;
+    int ora_inizio;
+    int ora_fine;
     char *descrizione;
 }Appuntamento;
 
@@ -35,6 +31,7 @@ typedef struct{
     int len;
 }Agenda;
 
+//Istanzio la nuova rubrica
 Agenda *newAgenda(){
     Agenda *a;
     a = (Agenda*)malloc(MAX_DAYS*sizeof(Agenda));
@@ -42,6 +39,7 @@ Agenda *newAgenda(){
     return a;
 }
 
+//Dichirazione delle funzioni
 void inserisci_appuntamento(Agenda*, Appuntamento);
 void controllo_lunghezzaAgenda(Agenda *);
 void elimina_appuntamento(Agenda*, int);
@@ -90,10 +88,8 @@ void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 
     a->appuntamenti[a->len].giorno = ap.giorno;
     a->appuntamenti[a->len].mese = ap.mese;
-    a->appuntamenti[a->len].ora_inizio.ora = ap.ora_inizio.ora;
-    a->appuntamenti[a->len].ora_inizio.minuto = ap.ora_inizio.minuto;
-    a->appuntamenti[a->len].ora_fine.ora = ap.ora_fine.ora;
-    a->appuntamenti[a->len].ora_fine.minuto = ap.ora_fine.minuto;
+    a->appuntamenti[a->len].ora_inizio = ap.ora_inizio;
+    a->appuntamenti[a->len].ora_fine= ap.ora_fine;
     a->appuntamenti[a->len].descrizione = ap.descrizione;
     a->len++;
 
@@ -139,14 +135,13 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 {
     int num_mese;
 
-    //printf("Di quale mese vuoi stampare la tua agenda? ");
-    //scanf("%d ",&num_mese);
-    //fflush(stdin);
+    printf("Di quale mese vuoi stampare la tua agenda? ");
+    scanf(" %d",&num_mese);
+    printf("\n\n");
 
-    printf("Agenda 2021");
-    for(int i = 0; i < a->len; i++)
+    for(int i = 0; i < a->len && a->appuntamenti[i].mese == num_mese; i++)
     {
-        printf("Appuntamento n %d\n\nData %d/%d\nDalle ore %d:%d alle %d:%d\nDescrizione: %s\n\n", i+1, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio.ora, a->appuntamenti[i].ora_inizio.minuto, a->appuntamenti[i].ora_fine.ora, a->appuntamenti[i].ora_fine.minuto, a->appuntamenti[i].descrizione);
+        printf("Appuntamento n %d\n\nData %d/%d\nDalle ore %d:00 alle %d:00\nDescrizione: %s\n\n", i+1, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio, a->appuntamenti[i].ora_fine, a->appuntamenti[i].descrizione);
     }
 
 }
@@ -203,16 +198,15 @@ Appuntamento creaAppuntament(Agenda *a)
 
         }
     }
-    //printf("%d ",ap.giorno);
-    printf("Inserisci l'ora di inzio [formato: hh:mm]: ");
-    scanf(" %d:%d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+    printf("Inserisci l'ora di inzio [formato: hh:00]: ");
+    scanf(" %d:00", &ap.ora_inizio);
 
     while(true)
     {
-        if(!(ap.ora_inizio.ora>=0 && ap.ora_inizio.ora<=23 && ap.ora_inizio.minuto>=0 && ap.ora_inizio.minuto<=59))
+        if(!(ap.ora_inizio>=0 && ap.ora_inizio<=23))
         {
             printf("Orario sbagliato, ritenta: ");
-            scanf(" %d:%d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+            scanf(" %d:00", &ap.ora_inizio);
         }
         else
         {
@@ -221,15 +215,15 @@ Appuntamento creaAppuntament(Agenda *a)
 
     }
 
-    printf("Inserisci l'ora di fine [formato: hh:mm]: ");
-    scanf(" %d:%d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
+    printf("Inserisci l'ora di fine [formato: hh:00]: ");
+    scanf(" %d:00", &ap.ora_fine);
 
      while(true)
     {
-        if(!(ap.ora_fine.ora>=0 && ap.ora_fine.ora<=23 && ap.ora_fine.minuto>=0 && ap.ora_fine.minuto<=59))
+        if(!(ap.ora_fine>=0 && ap.ora_fine<=23)) //controllo sull'ora uguale di inizio/fine uguale per lo stesso appuntamento
         {
             printf("Orario sbagliato, ritenta: ");
-            scanf(" %d:%d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
+            scanf(" %d:00", &ap.ora_fine);
         }
         else
         {
@@ -249,7 +243,7 @@ Appuntamento creaAppuntament(Agenda *a)
         }
         else
         {
-            printf("In questo giorno a quest'ora e\' gia\' presente un appuntamento, ritenta inserimento: \n");
+            printf("/nIn questo giorno a quest'ora e\' gia\' presente un appuntamento, ritenta inserimento: \n");
             ap = creaAppuntament(a);
         }
    }
@@ -258,15 +252,16 @@ Appuntamento creaAppuntament(Agenda *a)
     return ap;
 }
 
+
 bool controllo_accavallamentoAppuntamenti (Agenda *a, Appuntamento ap)
 {
     for(int i=0; i<a->len; i++)
     {
         if(a->appuntamenti[i].mese==ap.mese && a->appuntamenti[i].giorno==ap.giorno)
         {
-            if((a->appuntamenti[i].ora_inizio.ora<ap.ora_inizio.ora && ap.ora_inizio.ora<a->appuntamenti[i].ora_fine.ora )&&(a->appuntamenti[i].ora_inizio.ora<ap.ora_fine.ora && ap.ora_fine.ora<a->appuntamenti[i].ora_fine.ora ))
-            {
-                return true;
+            if(((ap.ora_inizio<a->appuntamenti[i].ora_inizio && a->appuntamenti[i].ora_inizio<ap.ora_fine ) || (ap.ora_inizio<a->appuntamenti[i].ora_fine && a->appuntamenti[i].ora_fine<ap.ora_fine ))||((a->appuntamenti[i].ora_inizio<ap.ora_inizio && ap.ora_inizio<a->appuntamenti[i].ora_fine ) || (a->appuntamenti[i].ora_inizio<ap.ora_fine && ap.ora_fine<a->appuntamenti[i].ora_fine )))
+            }
+                    return true;
             }
         }
     }
