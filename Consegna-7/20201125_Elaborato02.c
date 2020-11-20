@@ -216,12 +216,9 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_nome = n;
     sc->list[sc->len].s_cognome = c;
     sc->list[sc->len].s_annoImm = a;
+    sc->list[sc->len]->s_pianoStudi[s_ps->len]->ps_insegnamento.i_codice = i;
+    s_ps->list[s_ps->len].ps_voto = v;
 
-    for(int j=0; j < s_ps->len; j++)
-    {
-        s_ps->list[s_ps->len].ps_insegnamento = i[j];
-        s_ps->list[s_ps->len].ps_voto = v[j];
-    }
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
 }
@@ -371,7 +368,7 @@ void mediaVoti2()
 
 INSEGNAMENTO *ins_c_init()              //sistemare i valori
 {
-    INSEGNAMENTO *ic=malloc(2*sizeof(INSEGNAMENTO));
+    INSEGNAMENTO *ic=(INSEGNAMENTO*)malloc(2*sizeof(INSEGNAMENTO));
     ic[0].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
     ic[0].i_descrizione="Fisica";
     ic[0].i_codice=0;
