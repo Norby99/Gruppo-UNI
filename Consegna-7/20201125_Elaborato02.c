@@ -181,25 +181,25 @@ int main ()
 
     destroyer(ins_corso, s_piano_studi, s_corso);  // restituisce al s.o. la gestione della memoria
 
-    system("pause");
+    //system("pause");
     return 0;
 }
 
 /********************print da usare per DEBUG********************/
 void printAllValues(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic, S_PIANO_STUDI *s_ps)
 {
-    printf("AAAAAA");
     for(int i=0; i < sc->len; i++)
     {
         printf("N matr %d \n", sc->list[i].s_Nmatricola);
         printf("nome %s \n", sc->list[i].s_nome);
         printf("cognom %s \n", sc->list[i].s_cognome);
         printf("anno imm %d \n", sc->list[i].s_annoImm);
-        for (int j=0; j<N_ESAMI; j++)
-        {
-            printf("codice ins %s \n", s_ps->list[s_ps->len].ps_insegnamento);
-            printf("voto %d \n", s_ps->list[s_ps->len].ps_voto);
+
+        for(int k=0; k<N_ESAMI; k++){
+            printf("codice ins %d \n", sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
+            printf("voto %d \n", sc->list[0].s_pianoStudi[0].ps_voto[k]);
         }
+        
     }
 
     printf("\n");
@@ -216,8 +216,10 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_nome = n;
     sc->list[sc->len].s_cognome = c;
     sc->list[sc->len].s_annoImm = a;
-    sc->list[sc->len]->s_pianoStudi[s_ps->len]->ps_insegnamento.i_codice = i;
-    s_ps->list[s_ps->len].ps_voto = v;
+    sc->list[sc->len].s_pianoStudi = (PIANO_STUDI*)malloc(100*sizeof(PIANO_STUDI));
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento = (INSEGNAMENTO*)malloc(100*sizeof(INSEGNAMENTO));
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_codice = i;
+    sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
 
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
@@ -259,6 +261,7 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         scanf(" %d", &s_annoImm);
         fflush(stdin);
         printf("Piano di studi:\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
+
         for(int i=0; i<2; i++)
         {
             printf("\tDescrizione:\t%s\n", ic[i].i_descrizione);
@@ -428,7 +431,7 @@ int codeChoiceMenu()
     printf("0) Termina il processo ed esci dal programma\n\n");
     printf("Scegli una tra le seguenti operazioni: ");
     scanf("%d", &choice);
-    system("cls");
+    //system("cls");
     return choice;
 }
 
