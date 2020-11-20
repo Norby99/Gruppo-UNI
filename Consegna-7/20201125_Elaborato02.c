@@ -26,12 +26,12 @@
 
 #define MAX_INSEGNAMENTI_CORSO 30 // 1 anno = 60 CFU -> x3 = 180 CFU & ogni materia minimo 6 CFU => 180/6= 30 MAX_INSEGNAMENTI_CORSO
 #define MAX_STUDENTI_CORSO 244
-#define N_ESAMI 10 // max 10 esami all'anno
+#define N_ESAMI 2 // max 10 esami all'anno
 #define MAX_CODE_LEN 10
 #define MAX_NAME_LEN 30
-#define MAX_ANNO 3000
 #define MAX_VOTO 30
-#define MAX_CREDITI 12
+
+/************************** STRUTTURE dei TIPI ***************************/
 
 typedef struct {
     char *i_descrizione;
@@ -49,15 +49,19 @@ typedef struct {
     PIANO_STUDI *s_pianoStudi;
 }STUDENTE;
 
+/********************* STRUTTURE degli ARRAY di STRUTTURE ****************/
 
-
+typedef struct {
+    PIANO_STUDI *list;
+    int len;
+}S_PIANO_STUDI;                 // array che archivia tutti gli insegnamenti di un PIANO DI STUDI di 1 STUDENTE
 
 /**** 1) malloc ****/
 typedef struct
 {
     STUDENTE *list;
     int len;
-}STUDENTI_CORSO1;
+}STUDENTI_CORSO1;               // array che archivia tutti gli studenti inseriti
 
 /**** 2) no malloc ****/
 typedef struct
@@ -66,9 +70,8 @@ typedef struct
     int len;
 }STUDENTI_CORSO2;
 
-
 /********************print da usare per DEBUG********************/
-void printAllValues(STUDENTI_CORSO1 *, INSEGNAMENTO *);
+void printAllValues(STUDENTI_CORSO1 *, INSEGNAMENTO *, S_PIANO_STUDI *);
 
 
 /*********************** PROTOTIPI delle FUNZIONI ************************/
@@ -78,20 +81,21 @@ int printMenu();
 
 // prototipi funzioni per l'inizializzazione gruppi di strutture...
 INSEGNAMENTO *ins_c_init();
+S_PIANO_STUDI *s_ps_init ();
 STUDENTI_CORSO1 *s_corso_init1();    //**** 1) malloc ****
 STUDENTI_CORSO2 s_corso_init2();     //**** 2) no malloc ****
 
 // ... e la loro cancellazione dalla memoria
-void destroyer(INSEGNAMENTO *, STUDENTI_CORSO1 *);
+void destroyer(INSEGNAMENTO *, S_PIANO_STUDI *, STUDENTI_CORSO1 *);
 
 // funzioni del menu
 //**** 1) malloc ****
 bool isIn1(STUDENTI_CORSO1 *, int *);
-void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, INSEGNAMENTO *, int *);
-void tryAddStudente1(STUDENTI_CORSO1 *, INSEGNAMENTO *);
-void printStudente1(STUDENTI_CORSO1 *, INSEGNAMENTO *);
-void addVoto1(STUDENTI_CORSO1 *, INSEGNAMENTO *);
-void mediaVoti1(STUDENTI_CORSO1 *);
+void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, S_PIANO_STUDI *, PIANO_STUDI *, int *);
+void tryAddStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
+void printStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
+void addVoto1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
+void mediaVoti1(STUDENTI_CORSO1 *, S_PIANO_STUDI *);
 //**** 2) no malloc ****
 bool isIn2();
 void addStudente2();
@@ -106,6 +110,7 @@ int main ()
 {
     // creazione istanze
     INSEGNAMENTO *ins_corso = ins_c_init();
+    S_PIANO_STUDI *s_piano_studi = s_ps_init ();
     STUDENTI_CORSO1 *s_corso = s_corso_init1();        //**** 1) malloc ****
     STUDENTI_CORSO2 s_corso_init2();                   //**** 2) no malloc ****
 
@@ -121,16 +126,16 @@ int main ()
                     switch(printMenu())
                     {
                         case 1:
-                            tryAddStudente1(s_corso, ins_corso);
+                            tryAddStudente1(s_corso, s_piano_studi, ins_corso);
                             break;
                         case 2:
-                            printStudente1(s_corso, ins_corso);
+                            printStudente1(s_corso, s_piano_studi, ins_corso);
                             break;
                         case 3:
-                            addVoto1(s_corso, ins_corso);
+                            addVoto1(s_corso, s_piano_studi, ins_corso);
                             break;
                         case 4:
-                            mediaVoti1(s_corso);
+                            mediaVoti1(s_corso, s_piano_studi);
                             break;
                         case 0:
                             temp = false;
@@ -174,34 +179,27 @@ int main ()
             }
     }
 
-    destroyer(ins_corso, s_corso);  // restituisce al s.o. la gestione della memoria
+    destroyer(ins_corso, s_piano_studi, s_corso);  // restituisce al s.o. la gestione della memoria
 
     system("pause");
     return 0;
 }
 
 /********************print da usare per DEBUG********************/
-void printAllValues(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
+void printAllValues(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic, S_PIANO_STUDI *s_ps)
 {
     printf("AAAAAA");
     for(int i=0; i < sc->len; i++)
     {
-        printf("%d \n", sc->list[i].s_Nmatricola);
-        printf("%s \n", sc->list[i].s_nome);
-        printf("%s \n", sc->list[i].s_cognome);
-        printf("%d \n", sc->list[i].s_annoImm);
-        /*printf("%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
-        printf("%d \n", sc->list[i].s_pianoStudi.ps_voto);*/
-    }
-
-    printf("\n");
-
-    for(int i=0; i < 2; i++)
-    {
-        printf("%s \n", ic[i].i_descrizione);
-        printf("%d \n", ic[i].i_codice);
-        printf("%d \n", ic[i].i_annoSomm);
-        printf("%d \n", ic[i].i_crediti);
+        printf("N matr %d \n", sc->list[i].s_Nmatricola);
+        printf("nome %s \n", sc->list[i].s_nome);
+        printf("cognom %s \n", sc->list[i].s_cognome);
+        printf("anno imm %d \n", sc->list[i].s_annoImm);
+        for (int j=0; j<N_ESAMI; j++)
+        {
+            printf("codice ins %s \n", s_ps->list[s_ps->len].ps_insegnamento);
+            printf("voto %d \n", s_ps->list[s_ps->len].ps_voto);
+        }
     }
 
     printf("\n");
@@ -212,14 +210,19 @@ void printAllValues(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
 /**** 1) malloc ****/
 
 // aggiunge effettivamente i dati nella struttura studente dentro l'array con tutti gli studenti del corso
-void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, INSEGNAMENTO *i, int *v)
+void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, PIANO_STUDI *i, int *v)
 {
     sc->list[sc->len].s_Nmatricola = m;
     sc->list[sc->len].s_nome = n;
     sc->list[sc->len].s_cognome = c;
     sc->list[sc->len].s_annoImm = a;
-    sc->list[sc->len].s_pianoStudi.ps_insegnamento = i;
-    sc->list[sc->len].s_pianoStudi.ps_voto = v;
+
+    for(i=0; i < s_ps->len; i++)
+    {
+        s_ps->list[s_ps->len].ps_insegnamento = i;
+        s_ps->list[s_ps->len].ps_voto = v;
+    }
+    s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
 }
 
@@ -233,12 +236,12 @@ bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già 
     return false;
 }
 
-void tryAddStudente1 (STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic) // verifica se studente in input non sia già presente
+void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic) // verifica se studente in input non sia già presente
 {
     int *s_Nmatricola, *s_annoImm, *i_annoSomm, *ps_voto, *i_crediti; //controllo voti e anno e crediti
     char *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char)), *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    //INSEGNAMENTO *ps_insegnamento = (INSEGNAMENTO*)malloc(MAX_CODE_LEN*sizeof(INSEGNAMENTO));
+    PIANO_STUDI *ps_insegnamento = (PIANO_STUDI*)malloc(N_ESAMI*sizeof(PIANO_STUDI));
 
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %d", &s_Nmatricola);
@@ -256,22 +259,32 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic) // verifica se stud
         printf("- anno di immatricolazione:\t");
         scanf(" %d", &s_annoImm);
         fflush(stdin);
+        printf("Piano di studi:\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)", N_ESAMI);
+        for(int i=0; i < 2; i++)
+        {
+            printf("%s \n", ic[i].i_descrizione);
+            printf("%d \n", ic[i].i_codice);
+            printf("%d \n", ic[i].i_annoSomm);
+            printf("%d \n", ic[i].i_crediti);
+        }
+        for (int i=0; i<N_ESAMI; i++)
+        {
+            printf("\n- codice insegnamento:\t\t\t");
+            scanf(" %[^\n]%*c", ps_insegnamento);
+            fflush(stdin);
+            printf("- voto:\t\t\t\t");
+            scanf(" %d", &ps_voto);
+            fflush(stdin);
+        }
 
-
-        /*printf("Piano di studi:\n- codice insegnamento:\t\t\t");
-        scanf(" %[^\n]%*c", ps_insegnamento);
-        fflush(stdin);
-        printf("- voto:\t\t\t\t");
-        scanf(" %d", &ps_voto);
-        fflush(stdin);
-        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, ps_insegnamento, ps_voto);*/
+        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
     }
 
-    printAllValues(sc, ic); //print di debug
+    printAllValues(sc, ic, s_ps); //print di debug
     printf("\n\n\n\n");
 }
 
-void printStudente1(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
+void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
     int *n_matr;
     printf("Quale studente vuoi visualizzare? Inserire numero di matricola: ");
@@ -285,15 +298,15 @@ void printStudente1(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
             printf("Nome:\t\t%s \n", sc->list[i].s_nome);
             printf("Cognome:\t\t%s \n", sc->list[i].s_cognome);
             printf("Anno di immatricolazione:\t%d \n", sc->list[i].s_annoImm);
-            printf("Insegnamento:\t\t%s \n", sc->list[i].s_pianoStudi.ps_insegnamento);
-            printf("Voto:\t\t\t%d \n\n", sc->list[i].s_pianoStudi.ps_voto);
+            printf("Insegnamento:\t\t%s \n", s_ps->list[s_ps->len].ps_insegnamento);
+            printf("Voto:\t\t\t%d \n\n", s_ps->list[s_ps->len].ps_voto);
         }
     }else{
         printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
     }
 }
 
-void addVoto1(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
+void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
     int *n_matr;
     printf("A quale studente vuoi aggiungere un voto? Inserire numero di matricola:");
@@ -307,7 +320,7 @@ void addVoto1(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic)
     }
 }
 
-void mediaVoti1(STUDENTI_CORSO1 *sc)
+void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps)
 {
     int *n_matr;
     printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
@@ -380,6 +393,14 @@ STUDENTI_CORSO1 *s_corso_init1 ()
     return sc;
 }
 
+S_PIANO_STUDI *s_ps_init ()
+{
+    S_PIANO_STUDI *s_ps;
+    s_ps = (S_PIANO_STUDI*)malloc(N_ESAMI*sizeof(S_PIANO_STUDI));
+    s_ps->len=0;
+    return s_ps;
+}
+
 /*STUDENTI_CORSO2 *s_corso_init2 ()
 {
     STUDENTI_CORSO2 *sc;
@@ -389,10 +410,11 @@ STUDENTI_CORSO1 *s_corso_init1 ()
 }*/
 
 // cancellazione dalla memoria
-void destroyer (INSEGNAMENTO *ic, STUDENTI_CORSO1 *sc)
+void destroyer (INSEGNAMENTO *ic, S_PIANO_STUDI *s_ps, STUDENTI_CORSO1 *sc)
 {
     free(ic);
     free(sc);
+    free(s_ps);
 }
 
 /**************************** STAMPA MENU *******************************/
