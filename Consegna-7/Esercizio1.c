@@ -53,9 +53,6 @@ int main()
 {
     Agenda *agenda = newAgenda();
     bool temp=true;
-    //esempio di funzionamento
-    /*inserisci_appuntamento(&agenda, creaAppuntament());
-    printf("\n-- %d", agenda.appuntamenti[0].giorno);*/
 
     while(temp)
     {
@@ -81,7 +78,7 @@ int main()
     return 0;
 }
 
-// metodi di Agenda
+//Funzione che inserisce gli appuntamenti all'interno dell'agenda
 
 void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 {
@@ -96,6 +93,8 @@ void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 
 }
 
+//Funzione che elimina un appuntamento all'interno dell'agenda
+
 void elimina_appuntamento(Agenda* a, int index)
 {
 
@@ -106,6 +105,8 @@ void elimina_appuntamento(Agenda* a, int index)
     }
     a->len--;
 }
+
+//Funzione che controlla se l'appuntamento da eliminare è effettivamente presente nell'agenda
 
 void controllo_lunghezzaAgenda(Agenda *a)
 {
@@ -131,6 +132,8 @@ void controllo_lunghezzaAgenda(Agenda *a)
 
 }
 
+//Funzione che stampa gli appuntamenti di un mese inserito dall'utente
+
 void stampa_appuntamenti_del_mese(Agenda* a)
 {
     int num_mese;
@@ -146,7 +149,7 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 
 }
 
-// funzioni generiche
+//Funzione che inserisce gli appuntamenti
 
 Appuntamento creaAppuntament(Agenda *a)
 {
@@ -257,6 +260,7 @@ Appuntamento creaAppuntament(Agenda *a)
     return ap;
 }
 
+//Funzione che controlla se gli appuntamenti scritti in uno stesso giorno si accavvallano
 
 bool controllo_accavallamentoAppuntamenti (Agenda *a, Appuntamento ap)
 {
@@ -272,6 +276,8 @@ bool controllo_accavallamentoAppuntamenti (Agenda *a, Appuntamento ap)
     }
     return false;
 }
+
+//Funzione che stampa il menù di scelta
 
 int printMenu()
 {
@@ -299,6 +305,8 @@ int printMenu()
     system("cls");
     return choice;
 }
+
+//Funzione distruttore della malloc
 
 void destroyer(Agenda *a)
 {
