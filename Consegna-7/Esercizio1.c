@@ -27,7 +27,7 @@ typedef struct{
     int mese;
     orario ora_inizio;
     orario ora_fine;
-    char descrizione[40];
+    char *descrizione;
 }Appuntamento;
 
 typedef struct{
@@ -42,7 +42,8 @@ Agenda *newAgenda(){
     return a;
 }
 
-void inserisci_appuntamento(Agenda*);
+void inserisci_appuntamento(Agenda*, Appuntamento);
+void controllo_lunghezzaAgenda(Agenda *);
 void elimina_appuntamento(Agenda*, int);
 void stampa_appuntamenti_del_mese(Agenda*);
 void destroyer(Agenda *);
@@ -63,10 +64,10 @@ int main()
        switch(printMenu())
        {
           case 1:
-          inserisci_appuntamento(agenda);
+          inserisci_appuntamento(agenda, creaAppuntament());
           break;
           case 2:
-          //elimina_appuntamento();
+          controllo_lunghezzaAgenda(agenda);
           break;
           case 3:
           stampa_appuntamenti_del_mese(agenda);
@@ -75,6 +76,7 @@ int main()
           temp=false;
           break;
         }
+        printf("\n\n");
     }
 
     destroyer(agenda);
@@ -83,28 +85,53 @@ int main()
 
 // metodi di Agenda
 
-void inserisci_appuntamento(Agenda* a)
+void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 {
-    Appuntamento ap;
-    creaAppuntament(ap);
 
     a->appuntamenti[a->len].giorno = ap.giorno;
-    //printf("%d",a->appuntamenti[a->len].giorno);
     a->appuntamenti[a->len].mese = ap.mese;
     a->appuntamenti[a->len].ora_inizio.ora = ap.ora_inizio.ora;
     a->appuntamenti[a->len].ora_inizio.minuto = ap.ora_inizio.minuto;
     a->appuntamenti[a->len].ora_fine.ora = ap.ora_fine.ora;
     a->appuntamenti[a->len].ora_fine.minuto = ap.ora_fine.minuto;
-    a->appuntamenti[a->len].descrizione[40] = ap.descrizione[40];
+    a->appuntamenti[a->len].descrizione = ap.descrizione;
     a->len++;
+
 }
 
 void elimina_appuntamento(Agenda* a, int index)
 {
+
+    //printf("%d",a->appuntamenti[0].giorno);
     for(int i = index; i < a->len - 1; i++)
     {
-        a[i] = a[i + 1];
+        a->appuntamenti[i]=a->appuntamenti[i+1];
     }
+    a->len--;
+}
+
+void controllo_lunghezzaAgenda(Agenda *a)
+{
+    int temp;
+
+    do
+    {
+        printf("Quale appuntamento vuoi eliminare dalla tua agenda? ");
+        scanf(" %d",&temp);
+
+        if(temp>=0 && temp <= a->len)
+        {
+            break;
+        }
+        else
+        {
+            printf("\nDato inserito non corretto\n");
+        }
+    }while(true);
+
+    elimina_appuntamento(a,temp);
+    printf("\nElemento %d",temp);
+
 }
 
 void stampa_appuntamenti_del_mese(Agenda* a)
@@ -115,9 +142,10 @@ void stampa_appuntamenti_del_mese(Agenda* a)
     //scanf("%d ",&num_mese);
     //fflush(stdin);
 
+    printf("Agenda 2021");
     for(int i = 0; i < a->len; i++)
     {
-        printf("Appuntamnto n%d\nData %d/%d/%d\nDalle ore %d:%d alle %d:%d\n Descrizione: %s", a->len, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio.ora, a->appuntamenti[i].ora_inizio.minuto, a->appuntamenti[i].ora_fine.ora, a->appuntamenti[i].ora_fine.minuto, a->appuntamenti[i].descrizione);
+        printf("Appuntamento n %d\n\nData %d/%d\nDalle ore %d:%d alle %d:%d\nDescrizione: %s\n\n", i+1, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio.ora, a->appuntamenti[i].ora_inizio.minuto, a->appuntamenti[i].ora_fine.ora, a->appuntamenti[i].ora_fine.minuto, a->appuntamenti[i].descrizione);
     }
 
 }
@@ -127,13 +155,53 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 Appuntamento creaAppuntament()
 {
     Appuntamento ap;
+
+    int max_giorni;
+
     printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
-    printf("Inserisci il giorno e il mese [formato: gg/mm]: ");
-    scanf(" %d %d", &ap.giorno, &ap.mese);
-    printf("Inserisci l'ora di inzio");
-    scanf(" %d %d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
-    printf("Inserisci l'ora di fine");
-    scanf(" %d %d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
+    printf("Inserisci il mese e il giorno [formato: mm/gg]: ");
+    scanf(" %d/%d", &ap.mese, &ap.giorno);
+
+    while(ap.mese<1 || ap.mese>12)
+    {
+        if(ap.mese>=1 && ap.mese<=12)
+        {
+            switch(ap.mese)
+            {
+                case 4: case 6: case 9: case 11:
+                    max_giorni=30;
+                break;
+
+                case 2:
+                    max_giorni=28;
+                break;
+                default:
+                    max_giorni=31;
+                break;
+            }
+
+            while(ap.giorno<1 || ap.giorno>max_giorni)
+            {
+                if(!(ap.giorno>=1 && ap.giorno<=max_giorni))
+                {
+                    printf("Errore di inserimento, riprova a inserire il giorno: ");
+                    scanf(" %d",&ap.giorno);
+                }
+            }
+        }
+        else
+        {
+            printf("Errore di inserimento, riprova a inserire il mese: ");
+            scanf(" %d",&ap.mese);
+        }
+    }
+    //printf("%d ",ap.giorno);
+    printf("Inserisci l'ora di inzio [formato: hh:mm]: ");
+    scanf(" %d:%d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+    printf("Inserisci l'ora di fine [formato: hh:mm]: ");
+    scanf(" %d:%d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
+
+    ap.descrizione = (char*)malloc(40);
     printf("Inserisci la descrizione: ");
     scanf(" %[^\n]%*c", ap.descrizione);
 
