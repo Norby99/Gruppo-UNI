@@ -217,10 +217,10 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_cognome = c;
     sc->list[sc->len].s_annoImm = a;
 
-    for(i=0; i < s_ps->len; i++)
+    for(int j=0; j < s_ps->len; j++)
     {
-        s_ps->list[s_ps->len].ps_insegnamento = i[i];
-        s_ps->list[s_ps->len].ps_voto = v[i];
+        s_ps->list[s_ps->len].ps_insegnamento = i[j];
+        s_ps->list[s_ps->len].ps_voto = v[j];
     }
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
@@ -272,10 +272,10 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         for (int i=0; i<N_ESAMI; i++)
         {
             printf("\n- codice insegnamento:\t\t\t");
-            scanf(" %d", ps_insegnamento[i]);
+            scanf(" %d", &ps_insegnamento[i]);
             fflush(stdin);
             printf("- voto:\t\t\t\t");
-            scanf(" %d", ps_voto[i]);
+            scanf(" %d", &ps_voto[i]);
             fflush(stdin);
         }
 
