@@ -151,6 +151,7 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 Appuntamento creaAppuntament(Agenda *a)
 {
     Appuntamento ap;
+    ap.descrizione=NULL;
 
     int max_giorni;
 
@@ -198,15 +199,15 @@ Appuntamento creaAppuntament(Agenda *a)
 
         }
     }
-    printf("Inserisci l'ora di inzio [formato: hh:00]: ");
-    scanf(" %d:00", &ap.ora_inizio);
+    printf("Inserisci l'ora di inzio [formato: hh]: ");
+    scanf(" %d", &ap.ora_inizio);
 
     while(true)
     {
         if(!(ap.ora_inizio>=0 && ap.ora_inizio<=23))
         {
-            printf("Orario sbagliato, ritenta: ");
-            scanf(" %d:00", &ap.ora_inizio);
+            printf("Orario di inzio sbagliato, ritenta: ");
+            scanf(" %d", &ap.ora_inizio);
         }
         else
         {
@@ -215,15 +216,15 @@ Appuntamento creaAppuntament(Agenda *a)
 
     }
 
-    printf("Inserisci l'ora di fine [formato: hh:00]: ");
-    scanf(" %d:00", &ap.ora_fine);
+    printf("Inserisci l'ora di fine [formato: hh]: ");
+    scanf(" %d", &ap.ora_fine);
 
      while(true)
     {
-        if(!(ap.ora_fine>=0 && ap.ora_fine<=23)) //controllo sull'ora uguale di inizio/fine uguale per lo stesso appuntamento
+        if(!(ap.ora_fine>=0 && ap.ora_fine<=23) || !(ap.ora_inizio<ap.ora_fine))
         {
-            printf("Orario sbagliato, ritenta: ");
-            scanf(" %d:00", &ap.ora_fine);
+            printf("Orario di fine sbagliato, ritenta: ");
+            scanf(" %d", &ap.ora_fine);
         }
         else
         {
@@ -236,14 +237,18 @@ Appuntamento creaAppuntament(Agenda *a)
    {
         if(!controllo_accavallamentoAppuntamenti(a,ap))
         {
-            ap.descrizione = (char*)malloc(40);
-            printf("Inserisci la descrizione: ");
-            scanf(" %[^\n]%*c", ap.descrizione);
+            //printf("%s",ap.descrizione);
+            if(ap.descrizione == NULL)
+            {
+                ap.descrizione = (char*)malloc(40);
+                printf("Inserisci la descrizione: ");
+                scanf(" %[^\n]%*c", ap.descrizione);
+            }
             break;
         }
         else
         {
-            printf("/nIn questo giorno a quest'ora e\' gia\' presente un appuntamento, ritenta inserimento: \n");
+            printf("\nIn questo giorno a quest'ora e\' gia\' presente un appuntamento, ritenta inserimento: \n");
             ap = creaAppuntament(a);
         }
    }
@@ -260,8 +265,8 @@ bool controllo_accavallamentoAppuntamenti (Agenda *a, Appuntamento ap)
         if(a->appuntamenti[i].mese==ap.mese && a->appuntamenti[i].giorno==ap.giorno)
         {
             if(((ap.ora_inizio<a->appuntamenti[i].ora_inizio && a->appuntamenti[i].ora_inizio<ap.ora_fine ) || (ap.ora_inizio<a->appuntamenti[i].ora_fine && a->appuntamenti[i].ora_fine<ap.ora_fine ))||((a->appuntamenti[i].ora_inizio<ap.ora_inizio && ap.ora_inizio<a->appuntamenti[i].ora_fine ) || (a->appuntamenti[i].ora_inizio<ap.ora_fine && ap.ora_fine<a->appuntamenti[i].ora_fine )))
-            }
-                    return true;
+            {
+              return true;
             }
         }
     }
