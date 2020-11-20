@@ -47,8 +47,8 @@ void controllo_lunghezzaAgenda(Agenda *);
 void elimina_appuntamento(Agenda*, int);
 void stampa_appuntamenti_del_mese(Agenda*);
 void destroyer(Agenda *);
-
-Appuntamento creaAppuntament();
+bool controllo_accavallamentoAppuntamenti (Agenda*, Appuntamento);
+Appuntamento creaAppuntament(Agenda *);
 int printMenu();
 
 int main()
@@ -64,7 +64,7 @@ int main()
        switch(printMenu())
        {
           case 1:
-          inserisci_appuntamento(agenda, creaAppuntament());
+          inserisci_appuntamento(agenda, creaAppuntament(agenda));
           break;
           case 2:
           controllo_lunghezzaAgenda(agenda);
@@ -96,6 +96,7 @@ void inserisci_appuntamento(Agenda* a, Appuntamento ap)
     a->appuntamenti[a->len].ora_fine.minuto = ap.ora_fine.minuto;
     a->appuntamenti[a->len].descrizione = ap.descrizione;
     a->len++;
+
 
 }
 
@@ -152,7 +153,7 @@ void stampa_appuntamenti_del_mese(Agenda* a)
 
 // funzioni generiche
 
-Appuntamento creaAppuntament()
+Appuntamento creaAppuntament(Agenda *a)
 {
     Appuntamento ap;
 
@@ -162,7 +163,7 @@ Appuntamento creaAppuntament()
     printf("Inserisci il mese e il giorno [formato: mm/gg]: ");
     scanf(" %d/%d", &ap.mese, &ap.giorno);
 
-    while(ap.mese<1 || ap.mese>12)
+    while(true)
     {
         if(ap.mese>=1 && ap.mese<=12)
         {
@@ -180,32 +181,96 @@ Appuntamento creaAppuntament()
                 break;
             }
 
-            while(ap.giorno<1 || ap.giorno>max_giorni)
+            while(true)
             {
                 if(!(ap.giorno>=1 && ap.giorno<=max_giorni))
                 {
-                    printf("Errore di inserimento, riprova a inserire il giorno: ");
-                    scanf(" %d",&ap.giorno);
+                    printf("\nErrore di inserimento, riprova a reinserire la data: ");
+                    scanf(" %d/%d", &ap.mese, &ap.giorno);
+
+                }
+                else
+                {
+                    break;
                 }
             }
+            break;
         }
         else
         {
-            printf("Errore di inserimento, riprova a inserire il mese: ");
-            scanf(" %d",&ap.mese);
+            printf("\nErrore di inserimento, riprova a reinserire la data: ");
+            scanf(" %d/%d", &ap.mese, &ap.giorno);
+
         }
     }
     //printf("%d ",ap.giorno);
     printf("Inserisci l'ora di inzio [formato: hh:mm]: ");
     scanf(" %d:%d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+
+    while(true)
+    {
+        if(!(ap.ora_inizio.ora>=0 && ap.ora_inizio.ora<=23 && ap.ora_inizio.minuto>=0 && ap.ora_inizio.minuto<=59))
+        {
+            printf("Orario sbagliato, ritenta: ");
+            scanf(" %d:%d", &ap.ora_inizio.ora, &ap.ora_inizio.minuto);
+        }
+        else
+        {
+            break;
+        }
+
+    }
+
     printf("Inserisci l'ora di fine [formato: hh:mm]: ");
     scanf(" %d:%d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
 
-    ap.descrizione = (char*)malloc(40);
-    printf("Inserisci la descrizione: ");
-    scanf(" %[^\n]%*c", ap.descrizione);
+     while(true)
+    {
+        if(!(ap.ora_fine.ora>=0 && ap.ora_fine.ora<=23 && ap.ora_fine.minuto>=0 && ap.ora_fine.minuto<=59))
+        {
+            printf("Orario sbagliato, ritenta: ");
+            scanf(" %d:%d", &ap.ora_fine.ora, &ap.ora_fine.minuto);
+        }
+        else
+        {
+            break;
+        }
+
+    }
+
+   while(true)
+   {
+        if(!controllo_accavallamentoAppuntamenti(a,ap))
+        {
+            ap.descrizione = (char*)malloc(40);
+            printf("Inserisci la descrizione: ");
+            scanf(" %[^\n]%*c", ap.descrizione);
+            break;
+        }
+        else
+        {
+            printf("In questo giorno a quest'ora e\' gia\' presente un appuntamento, ritenta inserimento: \n");
+            ap = creaAppuntament(a);
+        }
+   }
+
 
     return ap;
+}
+
+bool controllo_accavallamentoAppuntamenti (Agenda *a, Appuntamento ap)
+{
+    for(int i=0; i<a->len; i++)
+    {
+        if(a->appuntamenti[i].mese==ap.mese && a->appuntamenti[i].giorno==ap.giorno)
+        {
+            if((a->appuntamenti[i].ora_inizio.ora<ap.ora_inizio.ora && ap.ora_inizio.ora<a->appuntamenti[i].ora_fine.ora )&&(a->appuntamenti[i].ora_inizio.ora<ap.ora_fine.ora && ap.ora_fine.ora<a->appuntamenti[i].ora_fine.ora ))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 int printMenu()
