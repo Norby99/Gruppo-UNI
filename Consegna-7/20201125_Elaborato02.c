@@ -91,7 +91,7 @@ void destroyer(INSEGNAMENTO *, S_PIANO_STUDI *, STUDENTI_CORSO1 *);
 // funzioni del menu
 //**** 1) malloc ****
 bool isIn1(STUDENTI_CORSO1 *, int *);
-void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, S_PIANO_STUDI *, PIANO_STUDI *, int *);
+void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, S_PIANO_STUDI *, int *, int *);
 void tryAddStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void printStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void addVoto1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
@@ -210,7 +210,7 @@ void printAllValues(STUDENTI_CORSO1 *sc, INSEGNAMENTO *ic, S_PIANO_STUDI *s_ps)
 /**** 1) malloc ****/
 
 // aggiunge effettivamente i dati nella struttura studente dentro l'array con tutti gli studenti del corso
-void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, PIANO_STUDI *i, int *v)
+void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, int *i, int *v)
 {
     sc->list[sc->len].s_Nmatricola = m;
     sc->list[sc->len].s_nome = n;
@@ -219,8 +219,8 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
 
     for(i=0; i < s_ps->len; i++)
     {
-        s_ps->list[s_ps->len].ps_insegnamento = i;
-        s_ps->list[s_ps->len].ps_voto = v;
+        s_ps->list[s_ps->len].ps_insegnamento = i[i];
+        s_ps->list[s_ps->len].ps_voto = v[i];
     }
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
@@ -238,10 +238,12 @@ bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già 
 
 void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic) // verifica se studente in input non sia già presente
 {
-    int *s_Nmatricola, *s_annoImm, *i_annoSomm, *ps_voto, *i_crediti; //controllo voti e anno e crediti
+    int *s_Nmatricola, *s_annoImm, *i_annoSomm, *i_crediti; //controllo voti e anno e crediti
     char *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char)), *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
-    PIANO_STUDI *ps_insegnamento = (PIANO_STUDI*)malloc(N_ESAMI*sizeof(PIANO_STUDI));
+
+    int *ps_insegnamento = (int*)malloc(N_ESAMI*sizeof(int));
+    int *ps_voto = (int*)malloc(N_ESAMI*sizeof(int));
 
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %d", &s_Nmatricola);
@@ -259,21 +261,21 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         printf("- anno di immatricolazione:\t");
         scanf(" %d", &s_annoImm);
         fflush(stdin);
-        printf("Piano di studi:\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)", N_ESAMI);
-        for(int i=0; i < 2; i++)
+        printf("Piano di studi:\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
+        for(int i=0; i<2; i++)
         {
-            printf("%s \n", ic[i].i_descrizione);
-            printf("%d \n", ic[i].i_codice);
-            printf("%d \n", ic[i].i_annoSomm);
-            printf("%d \n", ic[i].i_crediti);
+            printf("\tDescrizione:\t%s\n", ic[i].i_descrizione);
+            printf("\tCodice:\t%d \n", ic[i].i_codice);
+            printf("\tAnno di somministrazione:\t%d\n", ic[i].i_annoSomm);
+            printf("\tCFU:\t%d\n", ic[i].i_crediti);
         }
         for (int i=0; i<N_ESAMI; i++)
         {
             printf("\n- codice insegnamento:\t\t\t");
-            scanf(" %[^\n]%*c", ps_insegnamento);
+            scanf(" %d", ps_insegnamento[i]);
             fflush(stdin);
             printf("- voto:\t\t\t\t");
-            scanf(" %d", &ps_voto);
+            scanf(" %d", ps_voto[i]);
             fflush(stdin);
         }
 
