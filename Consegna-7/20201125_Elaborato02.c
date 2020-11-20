@@ -298,14 +298,14 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
         {
             if(n_matr==sc->list[i].s_Nmatricola)
             {
-                printf("N matr %d \n", sc->list[i].s_Nmatricola);
-                printf("nome %s \n", sc->list[i].s_nome);
-                printf("cognom %s \n", sc->list[i].s_cognome);
-                printf("anno imm %d \n", sc->list[i].s_annoImm);
+                printf("Numero di matricola:\t%d\n", sc->list[i].s_Nmatricola);
+                printf("Nome:\t%s\n", sc->list[i].s_nome);
+                printf("Cognome:\t\t%s\n", sc->list[i].s_cognome);
+                printf("Anno di immatricolazione:\t%d\n", sc->list[i].s_annoImm);
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("codice ins %d \n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
-                    printf("voto %d \n", sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                    printf("Codice di insegnamento:\t%d\n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
+                    printf("Voto:\t\t\t%d\n", sc->list[i].s_pianoStudi[0].ps_voto[k]);
                 }
                 break;
             }
