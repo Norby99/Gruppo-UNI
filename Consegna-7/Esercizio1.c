@@ -9,7 +9,7 @@
           inserisci_appuntamento (verificare che nello stesso giorno e alla stessa ora non ci sia già un altro appuntamento),
           elimina_appuntamento,
           stampa_appuntamenti_del_mese*/
-
+//ciao
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
