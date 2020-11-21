@@ -257,9 +257,9 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
                   printf("\n- codice insegnamento:\t\t\t");
                   scanf(" %d", &ps_insegnamento[i]);
                   fflush(stdin);
-                  if (ps_insegnamento[i] < 0 || ps_insegnamento[i] > 6)
+                  if (ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6)
                     printf("\n!!Il codice insegnamento non e\' corretto!! Reinserire correttamente:\n");
-                }while(ps_insegnamento[i] < 0 || ps_insegnamento[i] > 6);
+                }while(ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6);
                        ps_voto[i]=0;
                        continue;
         }
