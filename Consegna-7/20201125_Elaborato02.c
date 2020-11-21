@@ -239,7 +239,7 @@ bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già 
 
 void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic) // verifica se studente in input non sia già presente
 {
-    int *s_Nmatricola, *s_annoImm, *i_annoSomm, *i_crediti; //controllo voti e anno
+    int *s_Nmatricola=(int*)malloc(sizeof(int)), *s_annoImm, *i_annoSomm, *i_crediti; //controllo voti e anno
     char *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char)), *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
@@ -264,10 +264,10 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         fflush(stdin);
         printf("Piano di studi:\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
 
-        for(int i=0; i<3; i++)
+        for(int i=0; i<6; i++)
         {
-            printf("\tDescrizione:\t\t%s\n", ic[i].i_descrizione);
-            printf("\tCodice:\t\t\t%d \n", ic[i].i_codice);
+            printf("\tDescrizione:\t\t\t%s\n", ic[i].i_descrizione);
+            printf("\tCodice:\t\t\t\t%d \n", ic[i].i_codice);
             printf("\tAnno di somministrazione:\t%d\n", ic[i].i_annoSomm);
             printf("\tCFU:\t\t\t%d\n", ic[i].i_crediti);
         }
@@ -278,17 +278,15 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
             fflush(stdin);
             ps_voto[i]=0;
         }
-
         addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
     }
-
     printAllValues(sc, ic, s_ps); //print di debug
     printf("\n\n\n\n");
 }
 
 void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr;
+    int *n_matr=(int*)malloc(sizeof(int));
     printf("Quale studente vuoi visualizzare? Inserire numero di matricola: ");
     scanf("%d", &n_matr);
     fflush(stdin);
@@ -317,7 +315,7 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 
 void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr, c_ins;
+    int *n_matr=(int*)malloc(sizeof(int)), c_ins;
     bool fl=false;
     printf("A quale studente vuoi aggiungere un voto? Inserire numero di matricola:");
     scanf(" %d", &n_matr);
@@ -335,9 +333,14 @@ void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 {
                     if(c_ins == sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k])
                     {
-                        printf("- voto:\t\t\t\t");
-                        scanf(" %d", &sc->list[i].s_pianoStudi[0].ps_voto[k]);
-                        fflush(stdin);
+                        do
+                        {
+                            printf("- voto:\t\t\t\t");
+                            scanf(" %d", &sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                            fflush(stdin);
+                            if (sc->list[i].s_pianoStudi[0].ps_voto[k] < 0 || sc->list[i].s_pianoStudi[0].ps_voto[k] > 30)
+                                printf("\n!!Il voto dev'essere compreso tra 0 e 30!! Reinserire correttamente:\n");
+                        }while(sc->list[i].s_pianoStudi[0].ps_voto[k] < 0 || sc->list[i].s_pianoStudi[0].ps_voto[k] > 30);
                         fl=true;
                         continue;
                     }
@@ -355,7 +358,7 @@ void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 
 void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr, sum=0, sum1=0;
+    int *n_matr=(int*)malloc(sizeof(int)), sum=0, sum1=0, prod=0;
     float media=0;
     printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
     scanf(" %d", &n_matr);
@@ -368,8 +371,11 @@ void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
             {
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    sum=sum+((sc->list[i].s_pianoStudi[0].ps_voto[k])*(sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]));
+                    printf("1-ENTRA\tsum:\t%d\tsum1:\t%d\n", sum, sum1);
+                    prod=(sc->list[i].s_pianoStudi[0].ps_voto[k]) * (sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    sum+=prod;
                     sum1=sum1+sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k];
+                    printf("2-ENTRA\tsum:\t%d\tsum1:\t%d\n", sum, sum1);
                 }
             }
         }
@@ -408,7 +414,7 @@ void mediaVoti2()
 
 INSEGNAMENTO *ins_c_init()
 {
-    INSEGNAMENTO *ic=(INSEGNAMENTO*)malloc(2*sizeof(INSEGNAMENTO));
+    INSEGNAMENTO *ic=(INSEGNAMENTO*)malloc(6*sizeof(INSEGNAMENTO));
     ic[0].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
     ic[0].i_descrizione="Fisica";
     ic[0].i_codice=01;
