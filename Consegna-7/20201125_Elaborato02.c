@@ -358,30 +358,33 @@ void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 
 void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr=(int*)malloc(sizeof(int)), sum=0, sum1=0, prod=0;
+    int *n_matr=(int *)malloc(sizeof(int)), sum=0, sum1=0, voti=0, crediti=0;
     float media=0;
+
     printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
     scanf(" %d", &n_matr);
     fflush(stdin);
+
     if(isIn1(sc, n_matr))
     {
         for(int i=0; i < sc->len; i++)
         {
-            if(n_matr == sc->list[i].s_Nmatricola)
-            {
-                for(int k=0; k<N_ESAMI; k++)
+                if(n_matr == sc->list[i].s_Nmatricola)
                 {
-                    printf("1-ENTRA\tsum:\t%d\tsum1:\t%d\n", sum, sum1);
-                    prod=(sc->list[i].s_pianoStudi[0].ps_voto[k]) * (sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
-                    sum+=prod;
-                    sum1=sum1+sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k];
-                    printf("2-ENTRA\tsum:\t%d\tsum1:\t%d\n", sum, sum1);
+                    for(int k=0; k<N_ESAMI; k++)
+                    {
+                        voti = sc->list[i].s_pianoStudi[0].ps_voto[k];
+                        crediti = sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k];
+                        sum= sum + (voti * crediti);
+                        sum1= sum1 + crediti;
+                    }
                 }
-            }
         }
-        media=sum/sum1;
-        printf("\nMedia =\t%g\n\n", media);
-    }else{
+        media=(float)sum/sum1;
+        printf("\nMedia =\t%.2f\n\n", media);
+    }
+    else
+    {
         printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
     }
 }
