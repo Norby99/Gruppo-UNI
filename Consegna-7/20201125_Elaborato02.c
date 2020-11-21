@@ -224,7 +224,7 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
 }
-/***************** dopo che si esegue la funzione media voti non restituisce valore corretto *****************/
+
 bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già registrata
 {
     printf("\n\n --%d\n\n", m);     // debug
