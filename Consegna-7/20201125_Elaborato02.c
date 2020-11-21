@@ -232,9 +232,15 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         printf("- cognome:\t\t\t");
         scanf(" %[^\n]%*c", s_cognome);
         fflush(stdin);
-        printf("- anno di immatricolazione:\t");
-        scanf(" %d", &s_annoImm);
-        fflush(stdin);
+        do
+            {
+                printf("- anno di immatricolazione:\t");
+                scanf(" %d", &s_annoImm);
+                fflush(stdin);
+                if (s_annoImm < 1 || s_annoImm > 3)
+                printf("\n!!L'anno di immatricolazione dev'essere compreso tra 0 e 3!! Reinserire correttamente:\n");
+            }while(s_annoImm < 1 || s_annoImm > 3);
+        
         printf("****\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
         for(int i=0; i<6; i++)
         {
@@ -246,10 +252,16 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         printf("****\nPiano di studi:\n");
         for (int i=0; i<N_ESAMI; i++)
         {
-            printf("- codice insegnamento:\t");
-            scanf(" %d", &ps_insegnamento[i]);
-            fflush(stdin);
-            ps_voto[i]=0;
+            do
+                {
+                  printf("\n- codice insegnamento:\t\t\t");
+                  scanf(" %d", &ps_insegnamento[i]);
+                  fflush(stdin);
+                  if (ps_insegnamento[i] < 0 || ps_insegnamento[i] > 6)
+                    printf("\n!!Il codice insegnamento non e\' corretto!! Reinserire correttamente:\n");
+                }while(ps_insegnamento[i] < 0 || ps_insegnamento[i] > 6);
+                       ps_voto[i]=0;
+                       continue;
         }
         addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
     }
