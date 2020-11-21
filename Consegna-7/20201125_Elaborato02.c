@@ -424,6 +424,21 @@ INSEGNAMENTO *ins_c_init()
     ic[2].i_codice=03;
     ic[2].i_annoSomm=1;
     ic[2].i_crediti=12;
+    ic[3].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[3].i_descrizione="Inglese";
+    ic[3].i_codice=04;
+    ic[3].i_annoSomm=1;
+    ic[3].i_crediti=6;
+    ic[4].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[4].i_descrizione="Algebra";
+    ic[4].i_codice=05;
+    ic[4].i_annoSomm=3;
+    ic[4].i_crediti=12;
+    ic[5].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[5].i_descrizione="Geometria";
+    ic[5].i_codice=06;
+    ic[5].i_annoSomm=2;
+    ic[5].i_crediti=12;
     return ic;
 }
 
