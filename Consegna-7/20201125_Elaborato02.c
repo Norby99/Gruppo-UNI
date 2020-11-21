@@ -239,7 +239,7 @@ bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già 
 
 void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic) // verifica se studente in input non sia già presente
 {
-    int *s_Nmatricola=(int*)malloc(sizeof(int)), *s_annoImm, *i_annoSomm, *i_crediti; //controllo voti e anno
+    int *s_Nmatricola=(int*)malloc(sizeof(int)), *s_annoImm, *i_annoSomm, *i_crediti;
     char *s_nome = (char*)malloc(MAX_NAME_LEN*sizeof(char)), *s_cognome = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
