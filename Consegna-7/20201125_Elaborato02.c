@@ -205,7 +205,6 @@ bool isIn1(STUDENTI_CORSO1 *sc, int *m) // controlla se matricola studente già 
 {
     for(int i=0; i < sc->len; i++)
     {
-        printf("\n\n --%d\t%d\n\n", m, sc->list[i].s_Nmatricola);
         if(sc->list[i].s_Nmatricola == m)
             return true;
     }
@@ -247,7 +246,7 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
             printf("\tDescrizione:\t\t\t%s\n", ic[i].i_descrizione);
             printf("\tCodice:\t\t\t\t%d \n", ic[i].i_codice);
             printf("\tAnno di somministrazione:\t%d\n", ic[i].i_annoSomm);
-            printf("\tCFU:\t\t\t%d\n", ic[i].i_crediti);
+            printf("\tCFU:\t\t\t\t%d\n", ic[i].i_crediti);
         }
         printf("****\nPiano di studi:\n");
         for (int i=0; i<N_ESAMI; i++)
