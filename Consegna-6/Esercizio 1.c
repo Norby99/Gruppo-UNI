@@ -366,7 +366,7 @@ int codeChoiceMenu()
     scanf(" %d", &choice);
 
     // pulisco lo schermo dal primo menu
-    //system("cls");
+    system("cls");
 
     return choice;
 }
