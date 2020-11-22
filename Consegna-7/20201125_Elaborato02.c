@@ -237,10 +237,10 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
                 printf("- anno di immatricolazione:\t");
                 scanf(" %d", &s_annoImm);
                 fflush(stdin);
-                if (s_annoImm < 1 || s_annoImm > 3)
+                if (s_annoImm < (int*)1 || s_annoImm > (int*)3)
                 printf("\n!!L'anno di immatricolazione dev'essere compreso tra 0 e 3!! Reinserire correttamente:\n");
-            }while(s_annoImm < 1 || s_annoImm > 3);
-        
+            }while(s_annoImm < (int*)1 || s_annoImm > (int*)3);
+
         printf("****\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
         for(int i=0; i<6; i++)
         {
@@ -427,7 +427,7 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
             printf("\tDescrizione:\t\t\t%s\n", ic[i].i_descrizione);
             printf("\tCodice:\t\t\t\t%d \n", ic[i].i_codice);
             printf("\tAnno di somministrazione:\t%d\n", ic[i].i_annoSomm);
-            printf("\tCFU:\t\t\t%d\n", ic[i].i_crediti);
+            printf("\tCFU:\t\t\t\t%d\n", ic[i].i_crediti);
         }
         printf("****\nPiano di studi:\n");
         for (int i=0; i<N_ESAMI; i++)
