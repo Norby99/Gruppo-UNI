@@ -551,36 +551,30 @@ void mediaVoti2(STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 INSEGNAMENTO *ins_c_init()
 {
     INSEGNAMENTO *ic=(INSEGNAMENTO*)malloc(6*sizeof(INSEGNAMENTO));
-    ic[0].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
     ic[0].i_descrizione="Fisica";
-    ic[0].i_codice=01;
-    ic[0].i_annoSomm=2;
-    ic[0].i_crediti=6;
-    ic[1].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[0].i_codice=(int*)01;
+    ic[0].i_annoSomm=(int*)2;
+    ic[0].i_crediti=(int*)6;
     ic[1].i_descrizione="Matematica";
-    ic[1].i_codice=02;
-    ic[1].i_annoSomm=1;
-    ic[1].i_crediti=12;
-    ic[2].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[1].i_codice=(int*)02;
+    ic[1].i_annoSomm=(int*)1;
+    ic[1].i_crediti=(int*)12;
     ic[2].i_descrizione="Programmazione";
-    ic[2].i_codice=03;
-    ic[2].i_annoSomm=1;
-    ic[2].i_crediti=12;
-    ic[3].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[2].i_codice=(int*)03;
+    ic[2].i_annoSomm=(int*)1;
+    ic[2].i_crediti=(int*)12;
     ic[3].i_descrizione="Inglese";
-    ic[3].i_codice=04;
-    ic[3].i_annoSomm=1;
-    ic[3].i_crediti=6;
-    ic[4].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[3].i_codice=(int*)04;
+    ic[3].i_annoSomm=(int*)1;
+    ic[3].i_crediti=(int*)6;
     ic[4].i_descrizione="Algebra";
-    ic[4].i_codice=05;
-    ic[4].i_annoSomm=3;
-    ic[4].i_crediti=12;
-    ic[5].i_descrizione=malloc(MAX_NAME_LEN*sizeof(char));
+    ic[4].i_codice=(int*)05;
+    ic[4].i_annoSomm=(int*)3;
+    ic[4].i_crediti=(int*)12;
     ic[5].i_descrizione="Geometria";
-    ic[5].i_codice=06;
-    ic[5].i_annoSomm=2;
-    ic[5].i_crediti=12;
+    ic[5].i_codice=(int*)06;
+    ic[5].i_annoSomm=(int*)2;
+    ic[5].i_crediti=(int*)12;
     return ic;
 }
 
