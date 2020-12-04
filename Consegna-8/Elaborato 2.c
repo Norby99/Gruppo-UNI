@@ -59,6 +59,7 @@ void LookAndSay(myArray a, int repetitions){
         }
         printMyArray(array);
         LookAndSay(array, --repetitions);
+        destroyer(&array);
     }
 }
 
@@ -75,6 +76,7 @@ void appendMyArray(myArray *a, int el){
 }
 
 void destroyer(myArray *a){
+    free(a->element);
     free(a);
 }
 
