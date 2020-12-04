@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #define MAX_LENGTH 500
 
@@ -22,6 +24,8 @@ int main()
 
     free(sentence);
     free(newSentence);
+
+    system("pause");
     return 0;
 }
 
