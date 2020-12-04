@@ -20,7 +20,7 @@ int main()
 
     checkEachWord(sentence, newSentence);
 
-    //printf("La nuova frase e':\n%s", newSentence);
+    printf("La nuova frase e':\n%s", newSentence);
 
     free(sentence);
     free(newSentence);
@@ -82,6 +82,4 @@ void checkEachWord(char *s1, char *s2){
                 break;
         }
     }
-    printf("%s\n\n", s2);
-    
 }
