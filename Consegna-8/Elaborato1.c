@@ -22,6 +22,8 @@
 
 #define MAX_LENGTH 500
 
+/*********ABBIAMO FATTO L'ELABORATO CHE PRENDE LA STRINGA DA TASTIERA E NON DA RIGA DI COMANDO.********/
+
 //Dichiarazione delle funzioni
 void checkEachWord(char *, char *);
 char *strsep(char **stringp, const char *delim);
