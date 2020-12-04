@@ -22,6 +22,7 @@
 
 #define MAX_LENGTH 500
 
+//Dichiarazione delle funzioni
 void checkEachWord(char *, char *);
 char *strsep(char **stringp, const char *delim);
 void createNewWord(char *);
@@ -30,7 +31,7 @@ int main()
 {
     char *sentence = (char*)malloc((MAX_LENGTH+1)*sizeof(char));
     char *newSentence = (char*)malloc((MAX_LENGTH+1)*sizeof(char));
-    newSentence[0] = '\0';  // inizializzo la 2a stringa
+    newSentence[0] = '\0';
     printf("Inserisci la frase: ");
     scanf(" %[^\n]%*c", sentence);
 
@@ -45,6 +46,7 @@ int main()
     return 0;
 }
 
+//Funzione che mi crea la nuova parola spostando la prima lettera di ogni parola alla fine di essa
 void createNewWord(char *w){
     char firtsChar;
     char *nw = (char*)malloc((MAX_LENGTH+1)*sizeof(char)); nw[0] = '\0';
@@ -52,7 +54,6 @@ void createNewWord(char *w){
 
     strcpy(nw, w);
 
-    // * 1 - 3 - 4
     firtsChar = nw[0];
     if(isalpha(firtsChar)){
         strcpy(&nw[0], &nw[1]);
@@ -63,7 +64,7 @@ void createNewWord(char *w){
         }
     }
 
-    // * 2
+    //Aggiungo "an" per le parole lunghe 3 o meno caratteri e "o" per le parole lunghe più di 3 caratteri
     if(strlen(nw) <= 3)
             strcat(nw, "an");
         else
@@ -71,6 +72,7 @@ void createNewWord(char *w){
     strcpy(w, nw);
 }
 
+//Funzione che divide la stringa inziale in parole per poter eseguire le richieste della consegna
 void checkEachWord(char *s1, char *s2){
     char *word = (char*)malloc((MAX_LENGTH+1)*sizeof(char)); word[0] = '\0';
     int i = 0;
