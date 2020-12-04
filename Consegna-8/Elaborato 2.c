@@ -27,6 +27,7 @@ int main()
     myArray array = newMyArray();
     appendMyArray(&array, 1);
 
+    printf("\t\t\t\t\t\t");
     printMyArray(array);
     LookAndSay(array, MAX_REPETITIONS);
 
@@ -35,6 +36,7 @@ int main()
 
 void LookAndSay(myArray a, int repetitions){
     if(repetitions){
+        printf("Numero di ripetizioni rimaste: %d\t\t", repetitions-1);
         int j;
         int cont;
         myArray array = newMyArray();
