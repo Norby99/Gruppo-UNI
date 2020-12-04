@@ -23,7 +23,7 @@ void destroyer(myArray*);
 
 int main()
 {
-    
+    printf("Questa programma genera la sequenza di Look And say,\ndove abbiamo la prima riga che e' una costante (ovvero 1)\ne le successive si generano in base al contenuto di quella precedente.\nIl procedimento e' il seguente:\nSi individua il primo numero e si fa il conteggio di quante volte compare\ndi fila e si printail numero ottenuto e il numero stesso e cosi' via\n\n");
     myArray array = newMyArray();
     appendMyArray(&array, 1);
 
