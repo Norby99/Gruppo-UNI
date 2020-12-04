@@ -1,3 +1,19 @@
+/*AUTHOR: Cristina Zoccola(cristina.zoccola@studio.unibo.it)
+          Denny Reggidori(denny.reggidori@studio.unibo.it)
+          Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
+          Sara Romeo(sara.romeo3@studio.unibo.it)
+ DATE:    20201204
+ NOTE:    Text Ex01: Scrivere un programma C che prenda da riga di comando una frase e stampi a video la frase così modificata. Per ogni parola in ingresso:
+                        1. Spostare la prima lettera alla fine.
+                        2. Aggiungere le lettere "an" alla fine di ogni parola di tre lettere o meno, e "o" alla fine di ogni ALTRA parola.
+                        3. Fare in modo che la nuova prima lettera della parola corrisponda al tipo (minuscola/maiuscola) della vecchia prima lettera della parola. Rendete minuscola la lettera che è stata spostata, se non è la prima lettera. Non modificare il tipo (minuscola/maiuscola) delle altre lettere.
+                        4. Ogni carattere non isalpha deve rimanere inalterato.
+                        5. Una parola si considera separata dalle altre quando c'è uno spazio bianco o un carattere non isalpha
+
+                        Ad esempio, data come input la frase:
+                        I *REALLY* like Yale's course-selection procedures.
+                        il programma deve stampare in output:
+                        Ian *EALLYro* ikelo Aleyo'san ourseco-electionso rocedurespo.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
