@@ -96,7 +96,7 @@ void mediaVoti1(STUDENTI_CORSO1 *, S_PIANO_STUDI *,  INSEGNAMENTO *);
 
 /**** 2) no malloc ****/
 bool isIn2(STUDENTI_CORSO2 *, int *);
-void addStudente2(STUDENTI_CORSO2 *, int *, char *, char *, int *, S_PIANO_STUDI *, int *, int *);
+void addStudente2(STUDENTI_CORSO2 *, int *, char *, char *, int *, S_PIANO_STUDI *, int *, int *, INSEGNAMENTO *);
 void tryAddStudente2(STUDENTI_CORSO2 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void printStudente2(STUDENTI_CORSO2 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void addVoto2(STUDENTI_CORSO2 *, S_PIANO_STUDI *, INSEGNAMENTO *);
@@ -177,7 +177,7 @@ int main ()
 
     destroyer(ins_corso, s_piano_studi, s_corso_1, s_corso_2);  // restituisce al s.o. la gestione della memoria
 
-    //system("pause");
+    system("pause");
     return 0;
 }
 
@@ -308,7 +308,7 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("%d %d (%d) %s\n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione);
+                    printf("%d \t\t\t %s \t   %d \t\t\t(%d) \n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione, sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
                 }
                 break;
             }
@@ -403,7 +403,7 @@ void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 /**** 2) no malloc ****/
 
 // aggiunge effettivamente i dati nella struttura studente dentro l'array con tutti gli studenti del corso
-void addStudente2 (STUDENTI_CORSO2 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, int *i, int *v)
+void addStudente2 (STUDENTI_CORSO2 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, int *i, int *v, INSEGNAMENTO *ic)
 {
     sc->list[sc->len].s_Nmatricola = m;
     sc->list[sc->len].s_nome = n;
@@ -414,9 +414,20 @@ void addStudente2 (STUDENTI_CORSO2 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_codice = i;
     sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
 
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti = malloc(3*sizeof(int));
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_descrizione = malloc(MAX_NAME_LEN*sizeof(char));
+
+    for (int j=0; j < N_ESAMI; j++)
+    {
+        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti;
+    }
+
+    sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
+
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
     sc->len++;      // incrementa array di studenti per ogni studente che viene aggiunto
 }
+
 
 bool isIn2(STUDENTI_CORSO2 *sc, int *m) // controlla se matricola studente già registrata
 {
@@ -496,7 +507,7 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
                 ps_voto[i]=0;
                 continue;
         }
-        addStudente2 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
+        addStudente2 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto, ic);
     }
 }
 
@@ -516,10 +527,10 @@ void printStudente2(STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("Nome:\t\t\t\t%s\n", sc->list[i].s_nome);
                 printf("Cognome:\t\t\t%s\n", sc->list[i].s_cognome);
                 printf("Anno di immatricolazione:\t%d\n", sc->list[i].s_annoImm);
+                printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("Codice di insegnamento:\t\t%d\n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
-                    printf("Voto:\t\t\t\t%d\n", sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                    printf("%d \t\t\t %s \t   %d \t\t\t(%d) \n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione, sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
                 }
                 break;
             }
@@ -690,7 +701,7 @@ int codeChoiceMenu()
     printf("0) Termina il processo ed esci dal programma\n\n");
     printf("Scegli una tra le seguenti operazioni: ");
     scanf("%d", &choice);
-    //system("cls");
+    system("cls");
     return choice;
 }
 
