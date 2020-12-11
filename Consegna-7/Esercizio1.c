@@ -303,7 +303,7 @@ int printMenu()
             fflush(stdin);
         }
     }
-    //system("cls");
+    system("cls");
     return choice;
 }
 
