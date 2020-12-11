@@ -177,7 +177,7 @@ int main ()
 
     destroyer(ins_corso, s_piano_studi, s_corso_1, s_corso_2);  // restituisce al s.o. la gestione della memoria
 
-    system("pause");
+    //system("pause");
     return 0;
 }
 
@@ -195,7 +195,14 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_pianoStudi = (PIANO_STUDI*)malloc(100*sizeof(PIANO_STUDI));
     sc->list[sc->len].s_pianoStudi[0].ps_insegnamento = (INSEGNAMENTO*)malloc(100*sizeof(INSEGNAMENTO));
     sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_codice = i;
-    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti = ic->i_crediti;
+
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti = malloc(3*sizeof(int));
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_descrizione = malloc(MAX_NAME_LEN*sizeof(char));
+
+    for (int j=0; j < N_ESAMI; j++)
+    {
+        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti;
+    }
 
     sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
 
@@ -301,11 +308,7 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    //printf("HELLOOOOOOO");
-
-                    printf("%d %d (%d)\n",sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k],sc->list[i].s_pianoStudi[0].ps_voto[k],sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
-                    //printf("%d ",);
-                    printf("%s ",sc->list[i].s_pianoStudi[0].ps_insegnamento[k].i_descrizione);
+                    printf("%d %d (%d) %s\n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione);
                 }
                 break;
             }
@@ -687,7 +690,7 @@ int codeChoiceMenu()
     printf("0) Termina il processo ed esci dal programma\n\n");
     printf("Scegli una tra le seguenti operazioni: ");
     scanf("%d", &choice);
-    system("cls");
+    //system("cls");
     return choice;
 }
 
