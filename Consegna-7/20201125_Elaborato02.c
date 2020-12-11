@@ -88,7 +88,7 @@ void destroyer(INSEGNAMENTO *, S_PIANO_STUDI *, STUDENTI_CORSO1 *, STUDENTI_CORS
 
 /**** 1) malloc ****/
 bool isIn1(STUDENTI_CORSO1 *, int *);
-void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, S_PIANO_STUDI *, int *, int *);
+void addStudente1(STUDENTI_CORSO1 *, int *, char *, char *, int *, S_PIANO_STUDI *, int *, int *, INSEGNAMENTO *);
 void tryAddStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void printStudente1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
 void addVoto1(STUDENTI_CORSO1 *, S_PIANO_STUDI *, INSEGNAMENTO *);
@@ -186,7 +186,7 @@ int main ()
 /**** 1) malloc ****/
 
 // aggiunge effettivamente i dati nella struttura studente dentro l'array con tutti gli studenti del corso
-void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, int *i, int *v)
+void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIANO_STUDI *s_ps, int *i, int *v, INSEGNAMENTO *ic)
 {
     sc->list[sc->len].s_Nmatricola = m;
     sc->list[sc->len].s_nome = n;
@@ -195,6 +195,8 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
     sc->list[sc->len].s_pianoStudi = (PIANO_STUDI*)malloc(100*sizeof(PIANO_STUDI));
     sc->list[sc->len].s_pianoStudi[0].ps_insegnamento = (INSEGNAMENTO*)malloc(100*sizeof(INSEGNAMENTO));
     sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_codice = i;
+    sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti = ic->i_crediti;
+
     sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
 
     s_ps->len++;    // incrementa array di piano studenti per ogni studente che viene aggiunto
@@ -218,6 +220,7 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     int *ps_insegnamento = (int*)malloc(N_ESAMI*sizeof(int));
     int *ps_voto = (int*)malloc(N_ESAMI*sizeof(int));
+    bool fl=false;
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %d", &s_Nmatricola);
     fflush(stdin);
@@ -236,9 +239,9 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
                 printf("- anno di immatricolazione:\t");
                 scanf(" %d", &s_annoImm);
                 fflush(stdin);
-                if (s_annoImm < (int*)1 || s_annoImm > (int*)3)
-                printf("\n!!L'anno di immatricolazione dev'essere compreso tra 0 e 3!! Reinserire correttamente:\n");
-            }while(s_annoImm < (int*)1 || s_annoImm > (int*)3);
+                if (s_annoImm < (int*)2018 || s_annoImm > (int*)2020)
+                printf("\n!!L'anno di immatricolazione dev'essere compreso tra 2018 e 2020!! Reinserire correttamente:\n");
+            }while(s_annoImm < (int*)2018 || s_annoImm > (int*)2020);
 
         printf("****\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
         for(int i=0; i<6; i++)
@@ -253,16 +256,29 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         {
             do
                 {
+                  fl=false;
                   printf("\n- codice insegnamento:\t\t\t");
                   scanf(" %d", &ps_insegnamento[i]);
                   fflush(stdin);
                   if (ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6)
                     printf("\n!!Il codice insegnamento non e\' corretto!! Reinserire correttamente:\n");
-                }while(ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6);
-                       ps_voto[i]=0;
-                       continue;
+
+                    for(int j=0; j<N_ESAMI; j++)
+                    {
+                        if(j!=i)
+                        {
+                            if(ps_insegnamento[i] == ps_insegnamento[j])
+                            {
+                                printf("Questo codice insegnamento e\' gia\' stato inserito nel piano studi dello studente");
+                                fl=true;
+                            }
+                        }
+                    }
+                }while((ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6) || fl==true);
+                ps_voto[i]=0;
+                continue;
         }
-        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
+        addStudente1 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto, ic);
     }
 }
 
@@ -282,10 +298,14 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("Nome:\t\t\t\t%s\n", sc->list[i].s_nome);
                 printf("Cognome:\t\t\t%s\n", sc->list[i].s_cognome);
                 printf("Anno di immatricolazione:\t%d\n", sc->list[i].s_annoImm);
+                printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("Codice di insegnamento:\t\t%d\n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
-                    printf("Voto:\t\t\t\t%d\n", sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                    //printf("HELLOOOOOOO");
+
+                    printf("%d %d (%d)\n",sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k],sc->list[i].s_pianoStudi[0].ps_voto[k],sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    //printf("%d ",);
+                    printf("%s ",sc->list[i].s_pianoStudi[0].ps_insegnamento[k].i_descrizione);
                 }
                 break;
             }
@@ -340,32 +360,40 @@ void addVoto1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 
 void mediaVoti1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr=(int *)malloc(sizeof(int)), sum=0, sum1=0, voti=0, crediti=0;
+    int sum=0, sum1=0, voti=0, crediti=0, ct=0;
     float media=0;
-    printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
-    scanf(" %d", &n_matr);
-    fflush(stdin);
-    if(isIn1(sc, n_matr))
+    for(int j=0; j < sc->len; j++)
     {
+        ct=0;
         for(int i=0; i < sc->len; i++)
         {
-                if(n_matr == sc->list[i].s_Nmatricola)
-                {
                     for(int k=0; k<N_ESAMI; k++)
                     {
-                        voti = sc->list[i].s_pianoStudi[0].ps_voto[k];
-                        crediti = sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k];
-                        sum= sum + (voti * crediti);
-                        sum1= sum1 + crediti;
+                        if(sc->list[j].s_pianoStudi[0].ps_voto[k] >= 18)
+                        {
+                            voti = sc->list[j].s_pianoStudi[0].ps_voto[k];
+                            crediti = sc->list[j].s_pianoStudi[0].ps_insegnamento->i_codice[k];
+                            sum= sum + (voti * crediti);
+                            sum1= sum1 + crediti;
+                        }
+                        else
+                        {
+                            ct++;
+                        }
                     }
-                }
+
         }
         media=(float)sum/sum1;
-        printf("\nMedia =\t%.2f\n\n", media);
-    }
-    else
-    {
-        printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
+        if(ct==0)
+        {
+            printf("\n La media di %s %s e\': %.2f\n\n",sc->list[j].s_nome,sc->list[j].s_cognome,media);
+        }
+        else
+        {
+            printf("\nLo studente %s %s non ha completato il piano di studi\n\n",sc->list[j].s_nome,sc->list[j].s_cognome);
+        }
+        sum=0;
+        sum1=0;
     }
 }
 
@@ -404,6 +432,7 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
     char *i_descrizione = (char*)malloc(MAX_NAME_LEN*sizeof(char));
     int *ps_insegnamento = (int*)malloc(N_ESAMI*sizeof(int));
     int *ps_voto = (int*)malloc(N_ESAMI*sizeof(int));
+    bool fl=false;
     printf("Inserire:\n- numero di matricola:\t\t");
     scanf(" %d", &s_Nmatricola);
     fflush(stdin);
@@ -420,6 +449,15 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         printf("- anno di immatricolazione:\t");
         scanf(" %d", &s_annoImm);
         fflush(stdin);
+        do
+            {
+                printf("- anno di immatricolazione:\t");
+                scanf(" %d", &s_annoImm);
+                fflush(stdin);
+                if (s_annoImm < (int*)2018 || s_annoImm > (int*)2020)
+                printf("\n!!L'anno di immatricolazione dev'essere compreso tra 2018 e 2020!! Reinserire correttamente:\n");
+            }while(s_annoImm < (int*)2018 || s_annoImm > (int*)2020);
+
         printf("****\nQuali insegnamenti vuoi inserire? (MAX ESAMI %d)\n", N_ESAMI);
         for(int i=0; i<6; i++)
         {
@@ -431,10 +469,29 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         printf("****\nPiano di studi:\n");
         for (int i=0; i<N_ESAMI; i++)
         {
-            printf("- codice insegnamento:\t");
-            scanf(" %d", &ps_insegnamento[i]);
-            fflush(stdin);
-            ps_voto[i]=0;
+            do
+                {
+                  fl=false;
+                  printf("\n- codice insegnamento:\t\t\t");
+                  scanf(" %d", &ps_insegnamento[i]);
+                  fflush(stdin);
+                  if (ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6)
+                    printf("\n!!Il codice insegnamento non e\' corretto!! Reinserire correttamente:\n");
+
+                    for(int j=0; j<N_ESAMI; j++)
+                    {
+                        if(j!=i)
+                        {
+                            if(ps_insegnamento[i] == ps_insegnamento[j])
+                            {
+                                printf("Questo codice insegnamento e\' gia\' stato inserito nel piano studi dello studente");
+                                fl=true;
+                            }
+                        }
+                    }
+                }while((ps_insegnamento[i] < 1 || ps_insegnamento[i] > 6) || fl==true);
+                ps_voto[i]=0;
+                continue;
         }
         addStudente2 (sc, s_Nmatricola, s_nome, s_cognome, s_annoImm, s_ps, ps_insegnamento, ps_voto);
     }
@@ -514,32 +571,40 @@ void addVoto2(STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 
 void mediaVoti2(STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
 {
-    int *n_matr=(int *)malloc(sizeof(int)), sum=0, sum1=0, voti=0, crediti=0;
+    int sum=0, sum1=0, voti=0, crediti=0, ct=0;
     float media=0;
-    printf("Di quale studente vuoi la media dei voti? Inserire numero di matricola: ");
-    scanf(" %d", &n_matr);
-    fflush(stdin);
-    if(isIn2(sc, n_matr))
+    for(int j=0; j < sc->len; j++)
     {
+        ct=0;
         for(int i=0; i < sc->len; i++)
         {
-                if(n_matr == sc->list[i].s_Nmatricola)
-                {
                     for(int k=0; k<N_ESAMI; k++)
                     {
-                        voti = sc->list[i].s_pianoStudi[0].ps_voto[k];
-                        crediti = sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k];
-                        sum= sum + (voti * crediti);
-                        sum1= sum1 + crediti;
+                        if(sc->list[j].s_pianoStudi[0].ps_voto[k] >= 18)
+                        {
+                            voti = sc->list[j].s_pianoStudi[0].ps_voto[k];
+                            crediti = sc->list[j].s_pianoStudi[0].ps_insegnamento->i_codice[k];
+                            sum= sum + (voti * crediti);
+                            sum1= sum1 + crediti;
+                        }
+                        else
+                        {
+                            ct++;
+                        }
                     }
-                }
+
         }
         media=(float)sum/sum1;
-        printf("\nMedia =\t%.2f\n\n", media);
-    }
-    else
-    {
-        printf("Non e\' stato registrato alcuno studente con questo numero di matricola.\n\n");
+        if(ct==0)
+        {
+            printf("\n La media di %s %s e\': %.2f\n\n",sc->list[j].s_nome,sc->list[j].s_cognome,media);
+        }
+        else
+        {
+            printf("\nLo studente %s %s non ha completato il piano di studi\n\n",sc->list[j].s_nome,sc->list[j].s_cognome);
+        }
+        sum=0;
+        sum1=0;
     }
 }
 
