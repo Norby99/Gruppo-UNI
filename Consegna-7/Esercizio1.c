@@ -56,20 +56,20 @@ int main()
 
     while(temp)
     {
-       switch(printMenu())
-       {
-          case 1:
-          inserisci_appuntamento(agenda, creaAppuntament(agenda));
-          break;
-          case 2:
-          controllo_lunghezzaAgenda(agenda);
-          break;
-          case 3:
-          stampa_appuntamenti_del_mese(agenda);
-          break;
-          case 0:
-          temp=false;
-          break;
+        switch(printMenu())
+        {
+            case 1:
+                inserisci_appuntamento(agenda, creaAppuntament(agenda));
+                break;
+            case 2:
+                controllo_lunghezzaAgenda(agenda);
+                break;
+            case 3:
+                stampa_appuntamenti_del_mese(agenda);
+                break;
+            case 0:
+                temp=false;
+                break;
         }
         printf("\n\n");
     }
@@ -117,8 +117,9 @@ void controllo_lunghezzaAgenda(Agenda *a)
         printf("Quale appuntamento vuoi eliminare dalla tua agenda? ");
         scanf(" %d",&temp);
 
-        if(temp>=0 && temp <= a->len)
+        if(temp>0 && temp <= a->len)
         {
+            temp++;
             break;
         }
         else
@@ -302,7 +303,7 @@ int printMenu()
             fflush(stdin);
         }
     }
-    system("cls");
+    //system("cls");
     return choice;
 }
 
