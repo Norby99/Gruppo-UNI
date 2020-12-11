@@ -23,6 +23,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<stdint.h>
 
 #define MAX_INSEGNAMENTI_CORSO 30
 #define MAX_STUDENTI_CORSO 244
@@ -201,7 +202,7 @@ void addStudente1 (STUDENTI_CORSO1 *sc, int *m, char *n, char *c, int *a, S_PIAN
 
     for (int j=0; j < N_ESAMI; j++)
     {
-        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti;
+        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = (intptr_t)(ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti);
     }
 
     sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
@@ -246,6 +247,7 @@ void tryAddStudente1 (STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
                 printf("- anno di immatricolazione:\t");
                 scanf(" %d", &s_annoImm);
                 fflush(stdin);
+                printf("--%d ",s_annoImm);
                 if (s_annoImm < (int*)2018 || s_annoImm > (int*)2020)
                 printf("\n!!L'anno di immatricolazione dev'essere compreso tra 2018 e 2020!! Reinserire correttamente:\n");
             }while(s_annoImm < (int*)2018 || s_annoImm > (int*)2020);
@@ -305,10 +307,15 @@ void printStudente1(STUDENTI_CORSO1 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("Nome:\t\t\t\t%s\n", sc->list[i].s_nome);
                 printf("Cognome:\t\t\t%s\n", sc->list[i].s_cognome);
                 printf("Anno di immatricolazione:\t%d\n", sc->list[i].s_annoImm);
-                printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
+                printf("PIANO STUDI\n\nCodice Insegnamento\t Nome Insegnamento\t\t\t Voto\t\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("%d \t\t\t %s \t   %d \t\t\t(%d) \n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione, sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    printf("%d\t\t\t ", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
+                    printf("%-15s\t\t\t", ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione);
+                    printf("%d\t\t\t", sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                    printf("%d\t\t", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    printf("\n");
+
                 }
                 break;
             }
@@ -419,7 +426,7 @@ void addStudente2 (STUDENTI_CORSO2 *sc, int *m, char *n, char *c, int *a, S_PIAN
 
     for (int j=0; j < N_ESAMI; j++)
     {
-        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti;
+        sc->list[sc->len].s_pianoStudi[0].ps_insegnamento->i_crediti[j] = (intptr_t)(ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[j]-1].i_crediti);
     }
 
     sc->list[sc->len].s_pianoStudi[0].ps_voto = v;
@@ -459,9 +466,6 @@ void tryAddStudente2 (STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic
         fflush(stdin);
         printf("- cognome:\t\t\t");
         scanf(" %[^\n]%*c", s_cognome);
-        fflush(stdin);
-        printf("- anno di immatricolazione:\t");
-        scanf(" %d", &s_annoImm);
         fflush(stdin);
         do
             {
@@ -528,9 +532,15 @@ void printStudente2(STUDENTI_CORSO2 *sc, S_PIANO_STUDI *s_ps, INSEGNAMENTO *ic)
                 printf("Cognome:\t\t\t%s\n", sc->list[i].s_cognome);
                 printf("Anno di immatricolazione:\t%d\n", sc->list[i].s_annoImm);
                 printf("PIANO STUDI\n\n Codice Insegnamento\t Nome Insegnamento\t Voto\t (Crediti)\n");
+                printf("PIANO STUDI\n\nCodice Insegnamento\t Nome Insegnamento\t\t\t Voto\t\t (Crediti)\n");
                 for(int k=0; k<N_ESAMI; k++)
                 {
-                    printf("%d \t\t\t %s \t   %d \t\t\t(%d) \n", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k], ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione, sc->list[i].s_pianoStudi[0].ps_voto[k], sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    printf("%d\t\t\t ", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_codice[k]);
+                    printf("%-15s\t\t\t", ic[sc->list[0].s_pianoStudi[0].ps_insegnamento->i_codice[k]-1].i_descrizione);
+                    printf("%d\t\t\t", sc->list[i].s_pianoStudi[0].ps_voto[k]);
+                    printf("%d\t\t", sc->list[i].s_pianoStudi[0].ps_insegnamento->i_crediti[k]);
+                    printf("\n");
+
                 }
                 break;
             }
