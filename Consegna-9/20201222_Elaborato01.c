@@ -31,20 +31,25 @@ typedef BOOK *ptr_book;
 int printMenu();
 void destroyer();
 
+void tail_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
+void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v);
 void ins_book(ptr_book *);
-void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 
-void del_book(ptr_book *);
+void delBook(ptr_book *, int);
+int printBook(ptr_book, int);
+void delMenu(ptr_book *);
+
 void printAll_books(ptr_book);
-void printBook(ptr_book);
+
+void printSel_books(ptr_book);
 
 /****************************** MAIN ******************************/
 
 int main()
 {
     ptr_book head = NULL;    // init della lista
-
+    int c_libro;
     bool temp=true;
     while(temp)
     {
@@ -54,13 +59,13 @@ int main()
                 ins_book(&head);
                 break;
             case 2:
-                del_book(&head);
+                delMenu(&head);
                 break;
             case 3:
                 printAll_books(head);
                 break;
             case 4:
-                printBook(head);
+                printSel_books(head);
                 break;
             case 0:
                 temp=false;
@@ -75,9 +80,33 @@ int main()
 
 /****************************** FUNZIONI DEL MENU' ******************************/
 
-void printBook(ptr_book head)
+void printSel_books (ptr_book head)
 {
-    printf("\n\n--HERE MA GUYZ DEBUGGO\n\n");
+    int c=0, cc=0, val;
+    printf("Inserire valutazione dei libri da visualizzare: ");
+    scanf(" %d", &val);
+    fflush(stdin);
+
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+    }
+    else
+    {
+        while (head != NULL)
+        {
+            cc++;
+            if (head->voto == val)
+            {
+                c++;
+                printf("\nPosizione %d\tTitolo: %s\t(codice %d):\n", cc, head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+            }
+            head = head->next;
+        }
+    }
+    printf("\n(%d valori stampati)\n ", c);
 }
 
 void printAll_books(ptr_book head)
@@ -99,13 +128,93 @@ void printAll_books(ptr_book head)
             head = head->next;
         }
     }
-
-    printf("\n\n Stampati %d valori\n ", c);
+    printf("\n(%d valori stampati)\n ", c);
 }
 
-void del_book(ptr_book *head)
+void delBook(ptr_book *head, int c_lib)
 {
-    printf("\n\n--HERE MA GUYZ DEBUGGO\n\n");
+    ptr_book prec = NULL, temp = *head;
+    while (temp != NULL)
+    {
+        if (temp->c_libro == c_lib)                 // trova il libro
+        {
+            if (prec == NULL)
+            {
+                *head = (*head)->next;              // se libro in testa trasforma la testa in un ptr al prossimo libro
+            }
+            else
+            {
+                prec->next = temp->next;            // il libro precedente punta quello dopo il libro trovato
+            }
+            free(temp);                             // elimina lista temporanea
+            printf("\nEliminazione avvenuta con successo.");
+            break;
+        }
+        prec = temp;
+        temp = temp->next;
+    }
+}
+
+int printBook(ptr_book head, int c_libro)
+{
+    ptr_book temp = head; //puntatore temporaneo per scorrere la lista e non perdere il riferimento alla testa
+    int c=0;
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+        return 0;
+    }
+    else
+    {
+        while (temp != NULL)
+        {
+            c++;
+            if (temp->c_libro == c_libro)
+            {
+                printf("\n- Titolo: %s\t(codice %d):\n", head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+                return 1;
+            }
+            temp = temp->next;
+        }
+    }
+}
+
+void delMenu(ptr_book *head)
+{
+    int choice, answ, c_lib;
+    do
+    {
+        printf("\nInserire codice libro da eliminare: ");
+        scanf(" %d", &c_lib);
+        fflush(stdin);
+        if (printBook(*head, c_lib))
+        {
+            printf("\nVerra\' eliminato il seguente libro:\n");
+            printBook(*head, c_lib);
+            printf("Procedere?\n1) Elimina\t0) Scegli di nuovo\n");
+            scanf(" %d", &choice);
+            fflush(stdin);
+            system("cls");
+            switch(choice)
+            {
+                case 1:
+                    delBook(head, c_lib);
+                    choice=0;
+                    break;
+                case 0:
+                    printf("\nScegli di nuovo:\n");
+                    choice=1;
+                    break;
+                default:
+                    printf("\nInserimento errato!!\n\n");
+                    break;
+            }
+        }
+        else
+            printf("\nLibro non trovato, ritorno al menu'....\n\n");
+    }while(choice==1);
 }
 
 void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
@@ -136,7 +245,7 @@ void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
         temp = *head;
         while (temp->next != NULL)
         {
-            temp = temp ->next;
+            temp = temp->next;
         }
         temp->next = newBook;
     }
@@ -162,46 +271,6 @@ void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
 
     newBook->next = *head;      // il next del nuovo elemento assume il valore della testa
     *head = newBook;            // ora la testa punta al nuovo elemento
-}
-
-void ins_book(ptr_book *head)
-{
-    char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
-    char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
-    int c, ap, np, v;
-
-    printf("\n- Titolo: ");
-    scanf(" %[^\n]%*c", t);
-    fflush(stdin);
-
-    printf("\n- Autore: ");
-    scanf(" %[^\n]%*c", a);
-    fflush(stdin);
-
-    printf("\n- Casa Editrice: ");
-    scanf(" %[^\n]%*c", ce);
-    fflush(stdin);
-
-    printf("\n- Genere: ");
-    scanf(" %[^\n]%*c", g);
-    fflush(stdin);
-
-    printf("\n- Codice:");
-    scanf("%d", &c);
-    fflush(stdin);
-
-    printf("\n- Anno di pubblicazione: ");
-    scanf(" %d", &ap);
-    fflush(stdin);
-
-    printf("\n- Lunghezza (numero pagine): ");
-    scanf(" %d", &np);
-    fflush(stdin);
-
-    printf("\n- Valutazione: ");
-    scanf(" %d", &v);
-    fflush(stdin);
-    insMenu(head, t, a, ce, g, c, ap, np, v);
 }
 
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
@@ -230,6 +299,46 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
     }while(choice==1||choice==2);
 }
 
+void ins_book(ptr_book *head)
+{
+    char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
+    char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
+    int c, ap, np, v;
+
+    printf("\n- Titolo: ");
+    scanf(" %[^\n]%*c", t);
+    fflush(stdin);
+
+    printf("\n- Autore: ");
+    scanf(" %[^\n]%*c", a);
+    fflush(stdin);
+
+    printf("\n- Casa Editrice: ");
+    scanf(" %[^\n]%*c", ce);
+    fflush(stdin);
+
+    printf("\n- Genere: ");
+    scanf(" %[^\n]%*c", g);
+    fflush(stdin);
+
+    printf("\n- Codice: ");
+    scanf(" %d", &c);
+    fflush(stdin);
+
+    printf("\n- Anno di pubblicazione: ");
+    scanf(" %d", &ap);
+    fflush(stdin);
+
+    printf("\n- Lunghezza (numero pagine): ");
+    scanf(" %d", &np);
+    fflush(stdin);
+
+    printf("\n- Valutazione: ");
+    scanf(" %d", &v);
+    fflush(stdin);
+
+    insMenu(head, t, a, ce, g, c, ap, np, v);
+}
 
 /****************************** GESTIONE STRUTTURE ******************************/
 
