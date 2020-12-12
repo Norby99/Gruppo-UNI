@@ -54,7 +54,7 @@ ptr_book readBooks();
 int main()
 {
     ptr_book head = NULL;    // init della lista
-    head = readBooks();
+    //head = readBooks();
     int c_libro;
     bool temp=true;
 
@@ -250,17 +250,17 @@ ptr_book readBooks()
     return head;
 }
 
-void addBook (ptr_book *head)
+void addBook(ptr_book *head)
 {
-    FILE *f;
-    if ((f=fopen(FILENAME, "wb"))==NULL)
-    {
+    FILE *f = NULL;
+    f = fopen(FILENAME, "wb");
+    if (f == NULL){
         printf("!Errore di apertura del file libreria!");
         exit(1);
     }
-    else
-    {
-            fwrite(head, sizeof(ptr_book), 1, f);
+    else{
+        fwrite(head, sizeof(ptr_book), 1, f);
+        printf("Inserito");
     }
     fclose(f);
 }
@@ -400,7 +400,7 @@ void destroyer(ptr_book *head)
     else
     {
         ptr_book temp;
-        while(head!=NULL){
+        while(*head!=NULL){
             temp = *head;           // salva in temp il libro in testa
             *head=(*head)->next;    // fa puntare la testa al prossimo
             free(temp);             // cancella vecchio libro
