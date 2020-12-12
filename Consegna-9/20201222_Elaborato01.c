@@ -301,6 +301,7 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
 
 void ins_book(ptr_book *head)
 {
+          //AGGIUNGERE CONTROLLI DI INSERIMENTO !!!!!!!!!!!
     char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     int c, ap, np, v;
