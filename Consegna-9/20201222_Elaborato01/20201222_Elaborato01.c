@@ -4,9 +4,15 @@
           Sara Romeo(sara.romeo3@studio.unibo.it)
  DATE:    20201212
  NOTE:    Text Ex01: Realizzare un programma che gestisca la lista di tutti i libri letti in un anno.
+<<<<<<< Updated upstream
           Per ognuno di essi, il programma deve memorizzare una serie di informazioni, ad esempio il titolo, lâ€™autore,
           lâ€™anno di pubblicazione, la casa editrice, la lunghezza, il genere, il codice identificativo, la valutazione.
           Il programma dovrÃ  permettere di inserire un nuovo libro, cancellarne uno, visualizzarli tutti, visualizzare
+=======
+          Per ognuno di essi, il programma deve memorizzare una serie di informazioni, ad esempio il titolo, l’autore,
+          l’anno di pubblicazione, la casa editrice, la lunghezza, il genere, il codice identificativo, la valutazione.
+          Il programma dovrà permettere di inserire un nuovo libro, cancellarne uno, visualizzarli tutti, visualizzare
+>>>>>>> Stashed changes
           solo quelli con una certa valutazione. Il programma deve lavorare leggendo e scrivendo le informazioni da e su file binario.
           Consegnare un file .zip contente un progetto che comprenda tutti i file necessari per testare il programma.*/
 
@@ -31,6 +37,10 @@ typedef BOOK *ptr_book;
 int printMenu();
 void destroyer();
 
+<<<<<<< Updated upstream
+=======
+void addBook(ptr_book *);
+>>>>>>> Stashed changes
 void tail_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v);
@@ -44,11 +54,20 @@ void printAll_books(ptr_book);
 
 void printSel_books(ptr_book);
 
+<<<<<<< Updated upstream
+=======
+ptr_book readBooks();
+
+>>>>>>> Stashed changes
 /****************************** MAIN ******************************/
 
 int main()
 {
     ptr_book head = NULL;    // init della lista
+<<<<<<< Updated upstream
+=======
+    head = readBooks();
+>>>>>>> Stashed changes
     int c_libro;
     bool temp=true;
     while(temp)
@@ -79,6 +98,40 @@ int main()
 }
 
 /****************************** FUNZIONI DEL MENU' ******************************/
+<<<<<<< Updated upstream
+
+void printSel_books (ptr_book head)
+{
+    int c=0, cc=0, val;
+    printf("Inserire valutazione dei libri da visualizzare: ");
+    scanf(" %d", &val);
+    fflush(stdin);
+
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+    }
+    else
+    {
+        while (head != NULL)
+        {
+            cc++;
+            if (head->voto == val)
+            {
+                c++;
+                printf("\nPosizione %d\tTitolo: %s\t(codice %d):\n", cc, head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+            }
+            head = head->next;
+        }
+    }
+    printf("\n(%d valori stampati)\n ", c);
+}
+
+void printAll_books(ptr_book head)
+{
+=======
 
 void printSel_books (ptr_book head)
 {
@@ -158,10 +211,76 @@ void delBook(ptr_book *head, int c_lib)
 int printBook(ptr_book head, int c_libro)
 {
     ptr_book temp = head; //puntatore temporaneo per scorrere la lista e non perdere il riferimento alla testa
+>>>>>>> Stashed changes
     int c=0;
     if (head==NULL)
     {
         printf("\nLa lista e\' vuota!\n");
+<<<<<<< Updated upstream
+        return;
+    }
+    else
+    {
+        while (head!=NULL)
+        {
+            c++;
+            printf("\nPosizione %d\tTitolo: %s\t(codice %d):\n", c, head->titolo, head->c_libro);
+            printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+            printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+            head = head->next;
+        }
+    }
+    printf("\n(%d valori stampati)\n ", c);
+}
+
+void delBook(ptr_book *head, int c_lib)
+{
+    ptr_book prec = NULL, temp = *head;
+    while (temp != NULL)
+    {
+        if (temp->c_libro == c_lib)                 // trova il libro
+        {
+            if (prec == NULL)
+            {
+                *head = (*head)->next;              // se libro in testa trasforma la testa in un ptr al prossimo libro
+            }
+            else
+            {
+                prec->next = temp->next;            // il libro precedente punta quello dopo il libro trovato
+            }
+            free(temp);                             // elimina lista temporanea
+            printf("\nEliminazione avvenuta con successo.");
+            break;
+        }
+        prec = temp;
+        temp = temp->next;
+    }
+}
+
+int printBook(ptr_book head, int c_libro)
+{
+    ptr_book temp = head; //puntatore temporaneo per scorrere la lista e non perdere il riferimento alla testa
+    int c=0;
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+        return 0;
+    }
+    else
+    {
+        while (temp != NULL)
+        {
+            c++;
+            if (temp->c_libro == c_libro)
+            {
+                printf("\n- Titolo: %s\t(codice %d):\n", head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+                return 1;
+            }
+            temp = temp->next;
+        }
+=======
         return 0;
     }
     else
@@ -217,6 +336,89 @@ void delMenu(ptr_book *head)
     }while(choice==1);
 }
 
+ptr_book readBooks()
+{
+    ptr_book head = NULL;
+    char file[]="..\\20201222_Elaborato01\\Libreria.txt";
+    FILE *f;
+    if ((f=fopen(file, "rb"))==NULL)
+    {
+        printf("!Errore di apertura del file libreria!");
+        exit(1);
+    }
+    else
+    {
+        while(fread(&head, sizeof(ptr_book), 1, f))
+        {
+            head=NULL;
+            printf("DEVOFUNZIO");
+            head->anno_pubblicazione = 50;
+            printf("DEVOFUNZIO");
+            printf("DEVOFUNZIO %d", head->anno_pubblicazione);
+        }
+    }
+    fclose(f);
+    return head;
+}
+
+void addBook (ptr_book *head)
+{
+    char *file="..\\20201222_Elaborato01\\Libreria.txt";
+    FILE *f;
+    if ((f=fopen(file, "wb"))==NULL)
+    {
+        printf("!Errore di apertura del file libreria!");
+        exit(1);
+    }
+    else
+    {
+            fwrite(head, sizeof(ptr_book), 1, f);
+>>>>>>> Stashed changes
+    }
+    fclose(f);
+}
+
+<<<<<<< Updated upstream
+void delMenu(ptr_book *head)
+{
+    int choice, answ, c_lib;
+    do
+    {
+        printf("\nInserire codice libro da eliminare: ");
+        scanf(" %d", &c_lib);
+        fflush(stdin);
+        if (printBook(*head, c_lib))
+        {
+            printf("\nVerra\' eliminato il seguente libro:\n");
+            printBook(*head, c_lib);
+            printf("Procedere?\n1) Elimina\t0) Scegli di nuovo\n");
+            scanf(" %d", &choice);
+            fflush(stdin);
+            system("cls");
+            switch(choice)
+            {
+                case 1:
+                    delBook(head, c_lib);
+                    choice=0;
+                    break;
+                case 0:
+                    printf("\nScegli di nuovo:\n");
+                    choice=1;
+                    break;
+                default:
+                    printf("\nInserimento errato!!\n\n");
+                    break;
+            }
+        }
+        else
+            printf("\nLibro non trovato, ritorno al menu'....\n\n");
+    }while(choice==1);
+}
+
+void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
+{
+    ptr_book newBook = (ptr_book)malloc(sizeof(BOOK)), temp;
+=======
 void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
 {
     ptr_book newBook = (ptr_book)malloc(sizeof(BOOK)), temp;
@@ -254,6 +456,57 @@ void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
 void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
 {
     ptr_book newBook = (ptr_book)malloc(sizeof(BOOK));
+>>>>>>> Stashed changes
+    if(newBook==NULL){
+        printf("Error in malloc!\n\n");
+        system("pause");
+        exit(1);
+<<<<<<< Updated upstream
+    }
+    // aggiunta effettiva dei valori al nuovo elemento della lista
+    newBook->c_libro = c;
+    newBook->anno_pubblicazione = ap;
+    newBook->autore = a;
+    newBook->casa_ed = ce;
+    newBook->genere = g;
+    newBook->lung = np;
+    newBook->titolo = t;
+    newBook->voto = v;
+
+    newBook->next = NULL;
+
+    if (*head == NULL){
+        *head = newBook;
+    }
+    else
+    {
+        temp = *head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = newBook;
+=======
+>>>>>>> Stashed changes
+    }
+    // aggiunta effettiva dei valori al nuovo elemento della lista
+    newBook->c_libro = c;
+    newBook->anno_pubblicazione = ap;
+    newBook->autore = a;
+    newBook->casa_ed = ce;
+    newBook->genere = g;
+    newBook->lung = np;
+    newBook->titolo = t;
+    newBook->voto = v;
+
+    newBook->next = *head;      // il next del nuovo elemento assume il valore della testa
+    *head = newBook;            // ora la testa punta al nuovo elemento
+}
+
+<<<<<<< Updated upstream
+void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
+{
+    ptr_book newBook = (ptr_book)malloc(sizeof(BOOK));
     if(newBook==NULL){
         printf("Error in malloc!\n\n");
         system("pause");
@@ -273,6 +526,8 @@ void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
     *head = newBook;            // ora la testa punta al nuovo elemento
 }
 
+=======
+>>>>>>> Stashed changes
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
 {
     int choice;
@@ -286,10 +541,18 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
         {
             case 1:
                 head_ins(head, t, a, ce, g, c, ap, np, v);
+<<<<<<< Updated upstream
+=======
+                addBook(head);
+>>>>>>> Stashed changes
                 choice=0;
                 break;
             case 2:
                 tail_ins(head, t, a, ce, g, c, ap, np, v);
+<<<<<<< Updated upstream
+=======
+                addBook(head);
+>>>>>>> Stashed changes
                 choice=0;
                 break;
             default:
@@ -301,7 +564,10 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
 
 void ins_book(ptr_book *head)
 {
+<<<<<<< Updated upstream
           //AGGIUNGERE CONTROLLI DI INSERIMENTO !!!!!!!!!!!
+=======
+>>>>>>> Stashed changes
     char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     int c, ap, np, v;
