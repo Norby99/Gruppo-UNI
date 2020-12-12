@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+//#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
+#define FILENAME "..\\Libreria.txt"                             // versione per VsCode
 
 #define MAX_NAME_LEN 30
 
@@ -79,7 +81,7 @@ int main()
     }
 
     destroyer(&head);   // cancellazione lista
-    system ("pause");
+    //system ("pause");
     return 0;
 }
 
@@ -201,7 +203,7 @@ void delMenu(ptr_book *head)
             printf("Procedere?\n1) Elimina\t0) Scegli di nuovo\n");
             scanf(" %d", &choice);
             fflush(stdin);
-            system("cls");
+            //system("cls");
             switch(choice)
             {
                 case 1:
@@ -224,10 +226,13 @@ void delMenu(ptr_book *head)
 
 ptr_book readBooks()
 {
-    ptr_book head = NULL;
-    char file[]="..\\20201222_Elaborato01\\Libreria.txt";
+    ptr_book head;
+    free(head);
+    int i = 1;
+    head = malloc(i*sizeof(ptr_book));
     FILE *f;
-    if ((f=fopen(file, "rb"))==NULL)
+
+    if ((f=fopen(FILENAME, "rb"))==NULL)
     {
         printf("!Errore di apertura del file libreria!");
         exit(1);
@@ -236,9 +241,7 @@ ptr_book readBooks()
     {
         while(fread(&head, sizeof(ptr_book), 1, f))
         {
-            head=NULL;
-            printf("DEVOFUNZIO");
-            head->anno_pubblicazione = 50;
+            head = realloc(head, sizeof(ptr_book) * (i++));
             printf("DEVOFUNZIO");
             printf("DEVOFUNZIO %d", head->anno_pubblicazione);
         }
@@ -249,9 +252,8 @@ ptr_book readBooks()
 
 void addBook (ptr_book *head)
 {
-    char *file="..\\20201222_Elaborato01\\Libreria.txt";
     FILE *f;
-    if ((f=fopen(file, "wb"))==NULL)
+    if ((f=fopen(FILENAME, "wb"))==NULL)
     {
         printf("!Errore di apertura del file libreria!");
         exit(1);
@@ -268,7 +270,7 @@ void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
     ptr_book newBook = (ptr_book)malloc(sizeof(BOOK)), temp;
     if(newBook==NULL){
         printf("Error in malloc!\n\n");
-        system("pause");
+        //system("pause");
         exit(1);
     }
     // aggiunta effettiva dei valori al nuovo elemento della lista
@@ -302,7 +304,7 @@ void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
     ptr_book newBook = (ptr_book)malloc(sizeof(BOOK));
     if(newBook==NULL){
         printf("Error in malloc!\n\n");
-        system("pause");
+        //system("pause");
         exit(1);
     }
     // aggiunta effettiva dei valori al nuovo elemento della lista
@@ -327,7 +329,7 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
         printf("\nAggiungere il libro in testa o in coda?\n1)Testa\n2)Coda\n");
         scanf(" %d", &choice);
         fflush(stdin);
-        system("cls");
+        //system("cls");
         switch(choice)
         {
             case 1:
@@ -433,6 +435,6 @@ int printMenu()
             fflush(stdin);
         }
     }
-    system("cls");
+    //system("cls");
     return choice;
 }
