@@ -2,11 +2,11 @@
           Denny Reggidori(denny.reggidori@studio.unibo.it)
           Norby Gabos(tiberiunorbert.gabos@studio.unibo.it)
           Sara Romeo(sara.romeo3@studio.unibo.it)
- DATE:    20201211
+ DATE:    20201212
  NOTE:    Text Ex01: Realizzare un programma che gestisca la lista di tutti i libri letti in un anno.
-          Per ognuno di essi, il programma deve memorizzare una serie di informazioni, ad esempio il titolo, l�autore,
-          l�anno di pubblicazione, la casa editrice, la lunghezza, il genere, il codice identificativo, la valutazione.
-          Il programma dovr� permettere di inserire un nuovo libro, cancellarne uno, visualizzarli tutti, visualizzare
+          Per ognuno di essi, il programma deve memorizzare una serie di informazioni, ad esempio il titolo, l’autore,
+          l’anno di pubblicazione, la casa editrice, la lunghezza, il genere, il codice identificativo, la valutazione.
+          Il programma dovrà permettere di inserire un nuovo libro, cancellarne uno, visualizzarli tutti, visualizzare
           solo quelli con una certa valutazione. Il programma deve lavorare leggendo e scrivendo le informazioni da e su file binario.
           Consegnare un file .zip contente un progetto che comprenda tutti i file necessari per testare il programma.*/
 
@@ -14,175 +14,358 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define MAX_STRING_LENGTH 50
+#define MAX_NAME_LEN 30
 
-//****************************** STRUTTURE ******************************/
+/****************************** STRUTTURE ******************************/
 
-typedef struct{
-    char *title;
-    char *author;
-    int yearOfPublication;
-    char *publishingHouse;
-    int length;
-    char *genre;
-    int code;
-    int rating;
-}Book;
+typedef struct book {
+    char *titolo, *autore, *casa_ed, *genere;
+    int c_libro, anno_pubblicazione, lung, voto;
+    struct book *next;
+}BOOK;
+typedef BOOK *ptr_book;
 
-typedef struct{
-    Book *collection;
-    int len;
-}Library;
 
-Library newLibrary();
-Book newBook();
-void append2library(Library *, Book);
-void showAllBooks(Library);
-void showBooksByRating(Library);
-void destroyer(Library*);
-//****************************** PROTOTIPI ******************************/
+/****************************** PROTOTIPI ******************************/
 
 int printMenu();
-void getBookValues(Library*);
+void destroyer();
 
-//****************************** MAIN ******************************/
+void tail_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
+void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
+void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v);
+void ins_book(ptr_book *);
 
-int main(){
+void delBook(ptr_book *, int);
+int printBook(ptr_book, int);
+void delMenu(ptr_book *);
+
+void printAll_books(ptr_book);
+
+void printSel_books(ptr_book);
+
+/****************************** MAIN ******************************/
+
+int main()
+{
+    ptr_book head = NULL;    // init della lista
+    int c_libro;
     bool temp=true;
-    Library library = newLibrary();
-
-    // TODO implementare funzione che legge da file
-
-    while(temp){
-        switch(printMenu()){
+    while(temp)
+    {
+        switch(printMenu())
+        {
             case 1:
-                getBookValues(&library);    // TODO implementare scrittura su file
+                ins_book(&head);
                 break;
             case 2:
-                // TODO implementare funzione che elimina un libro dal file e dalla memoria;
+                delMenu(&head);
                 break;
             case 3:
-                showAllBooks(library);
+                printAll_books(head);
                 break;
             case 4:
-                showBooksByRating(library);
+                printSel_books(head);
                 break;
             case 0:
                 temp=false;
                 break;
-            default:
-                printf("Il valore inserito non e' corretto!\n");
-                break;
         }
     }
 
-    destroyer(&library);
+    destroyer(&head);   // cancellazione lista
+    system ("pause");
     return 0;
 }
 
-//****************************** FUNZIONI DEL MENU' ******************************/
+/****************************** FUNZIONI DEL MENU' ******************************/
 
-void getBookValues(Library *lib){   // * funzione che popola i valori di book e li inserisce nella libreria
-    Book b = newBook();
+void printSel_books (ptr_book head)
+{
+    int c=0, cc=0, val;
+    printf("Inserire valutazione dei libri da visualizzare: ");
+    scanf(" %d", &val);
+    fflush(stdin);
 
-    printf("Inserire il titolo del libro: ");
-    scanf(" %s", b.title);
-    printf("Inserire l'autore del libro: ");
-    scanf(" %s", b.author);
-    printf("Inserire l'anno di pubblicazione: ");    // ! inserire controllo sui valori
-    scanf(" %d", &b.yearOfPublication);
-    printf("Inserire la casa editrice: ");
-    scanf(" %s", b.publishingHouse);
-    printf("Inserire la lunghezza: ");    // ! inserire controllo sui valori
-    scanf(" %d", &b.length);
-    printf("Inserire il genere: ");
-    scanf(" %s", b.genre);
-    printf("Inserire la codice: ");
-    scanf(" %d", &b.code);
-    printf("Inserire la valutazione [1-10]: ");    // ! inserire controllo sui valori
-    scanf(" %d", &b.length);
-
-    append2library(lib, b);
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+    }
+    else
+    {
+        while (head != NULL)
+        {
+            cc++;
+            if (head->voto == val)
+            {
+                c++;
+                printf("\nPosizione %d\tTitolo: %s\t(codice %d):\n", cc, head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+            }
+            head = head->next;
+        }
+    }
+    printf("\n(%d valori stampati)\n ", c);
 }
 
-//****************************** GESTIONE STRUTTURE ******************************/
-
-Book newBook(){     // * funzione che inizializza l'stanza di Book
-    Book b;
-    b.title = malloc(sizeof(char)*MAX_STRING_LENGTH);
-    b.author = malloc(sizeof(char)*MAX_STRING_LENGTH);
-    b.publishingHouse = malloc(sizeof(char)*MAX_STRING_LENGTH);
-    b.genre = malloc(sizeof(char)*MAX_STRING_LENGTH);
-    return b;
+void printAll_books(ptr_book head)
+{
+    int c=0;
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+        return;
+    }
+    else
+    {
+        while (head!=NULL)
+        {
+            c++;
+            printf("\nPosizione %d\tTitolo: %s\t(codice %d):\n", c, head->titolo, head->c_libro);
+            printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+            printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+            head = head->next;
+        }
+    }
+    printf("\n(%d valori stampati)\n ", c);
 }
 
-Library newLibrary(){   // * funzione che inizializza l'stanza di Library
-    Library lib;
-    lib.collection = malloc(0*sizeof(Book));
-    lib.len = 0;
-    return lib;
-}
-
-void append2library(Library *lib, Book b){      // * funzione che aggiunge un libro alla libreria
-    lib->collection = realloc(lib->collection, (lib->len+1)*sizeof(Book));
-    lib->collection[lib->len++] = b;
-}
-
-void showAllBooks(Library lib){     // * funzione che mostra tutti i libri della libreria
-    for (int i=0; i < lib.len; i++)
-    {   
-        printf("\nLibro %d:", (i+1));
-
-        printf("\nTitolo: %s", lib.collection[i].title);
-        printf("\nAutore: %s", lib.collection[i].author);
-        printf("\nAnno di pubblicazione: %d", lib.collection[i].yearOfPublication);
-        printf("\nCasa editrice: %s", lib.collection[i].publishingHouse);
-        printf("\nAnno di pubblicazione: %d", lib.collection[i].length);
-        printf("\nGenere: %s", lib.collection[i].genre);
-        printf("\nCodice identificativo: %d", lib.collection[i].code);
-        printf("\nValutazione: %d\n\n", lib.collection[i].rating);
+void delBook(ptr_book *head, int c_lib)
+{
+    ptr_book prec = NULL, temp = *head;
+    while (temp != NULL)
+    {
+        if (temp->c_libro == c_lib)                 // trova il libro
+        {
+            if (prec == NULL)
+            {
+                *head = (*head)->next;              // se libro in testa trasforma la testa in un ptr al prossimo libro
+            }
+            else
+            {
+                prec->next = temp->next;            // il libro precedente punta quello dopo il libro trovato
+            }
+            free(temp);                             // elimina lista temporanea
+            printf("\nEliminazione avvenuta con successo.");
+            break;
+        }
+        prec = temp;
+        temp = temp->next;
     }
 }
 
-void showBooksByRating(Library lib){    // * funzione che mostra solo i libri con una certa valutazione
-    int rating;
-
-    printf("Inserire la valutazione da cercare: ");
-    scanf(" %d", &rating);                          // ! inserire controllo sui valori
-
-    for (int i=0; i < lib.len; i++)
-    {   
-        if(lib.collection[i].rating == rating){
-            printf("\nLibro %d:", (i+1));
-
-            printf("\nTitolo: %s", lib.collection[i].title);
-            printf("\nAutore: %s", lib.collection[i].author);
-            printf("\nAnno di pubblicazione: %d", lib.collection[i].yearOfPublication);
-            printf("\nCasa editrice: %s", lib.collection[i].publishingHouse);
-            printf("\nAnno di pubblicazione: %d", lib.collection[i].length);
-            printf("\nGenere: %s", lib.collection[i].genre);
-            printf("\nCodice identificativo: %d", lib.collection[i].code);
-            printf("\nValutazione: %d\n\n", lib.collection[i].rating);
+int printBook(ptr_book head, int c_libro)
+{
+    ptr_book temp = head; //puntatore temporaneo per scorrere la lista e non perdere il riferimento alla testa
+    int c=0;
+    if (head==NULL)
+    {
+        printf("\nLa lista e\' vuota!\n");
+        return 0;
+    }
+    else
+    {
+        while (temp != NULL)
+        {
+            c++;
+            if (temp->c_libro == c_libro)
+            {
+                printf("\n- Titolo: %s\t(codice %d):\n", head->titolo, head->c_libro);
+                printf("\n- Autore:\t\t\t%-30s\n- Casa Editrice:\t\t%-30s\n- Genere:\t\t\t%-30s", head->autore, head->casa_ed, head->genere);
+                printf("\n- Anno di pubblicazione:\t%d\n- Lunghezza:\t\t\t\%d pagine\n- Valutazione:\t\t\t%d\n\n", head->anno_pubblicazione, head->lung, head->voto);
+                return 1;
+            }
+            temp = temp->next;
         }
     }
 }
 
-void destroyer(Library *lib){   // * funzione che distrugge una libreria
-    for (size_t i = 0; i < lib->len; i++){
-        free(lib->collection[i].title);
-        free(lib->collection[i].author);
-        free(lib->collection[i].publishingHouse);
-        free(lib->collection[i].genre);
-    }
-    free(lib->collection);
+void delMenu(ptr_book *head)
+{
+    int choice, answ, c_lib;
+    do
+    {
+        printf("\nInserire codice libro da eliminare: ");
+        scanf(" %d", &c_lib);
+        fflush(stdin);
+        if (printBook(*head, c_lib))
+        {
+            printf("\nVerra\' eliminato il seguente libro:\n");
+            printBook(*head, c_lib);
+            printf("Procedere?\n1) Elimina\t0) Scegli di nuovo\n");
+            scanf(" %d", &choice);
+            fflush(stdin);
+            system("cls");
+            switch(choice)
+            {
+                case 1:
+                    delBook(head, c_lib);
+                    choice=0;
+                    break;
+                case 0:
+                    printf("\nScegli di nuovo:\n");
+                    choice=1;
+                    break;
+                default:
+                    printf("\nInserimento errato!!\n\n");
+                    break;
+            }
+        }
+        else
+            printf("\nLibro non trovato, ritorno al menu'....\n\n");
+    }while(choice==1);
 }
 
-//****************************** MENU ******************************/
+void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
+{
+    ptr_book newBook = (ptr_book)malloc(sizeof(BOOK)), temp;
+    if(newBook==NULL){
+        printf("Error in malloc!\n\n");
+        system("pause");
+        exit(1);
+    }
+    // aggiunta effettiva dei valori al nuovo elemento della lista
+    newBook->c_libro = c;
+    newBook->anno_pubblicazione = ap;
+    newBook->autore = a;
+    newBook->casa_ed = ce;
+    newBook->genere = g;
+    newBook->lung = np;
+    newBook->titolo = t;
+    newBook->voto = v;
 
-int printMenu(){
+    newBook->next = NULL;
+
+    if (*head == NULL){
+        *head = newBook;
+    }
+    else
+    {
+        temp = *head;
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = newBook;
+    }
+}
+
+void head_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
+{
+    ptr_book newBook = (ptr_book)malloc(sizeof(BOOK));
+    if(newBook==NULL){
+        printf("Error in malloc!\n\n");
+        system("pause");
+        exit(1);
+    }
+    // aggiunta effettiva dei valori al nuovo elemento della lista
+    newBook->c_libro = c;
+    newBook->anno_pubblicazione = ap;
+    newBook->autore = a;
+    newBook->casa_ed = ce;
+    newBook->genere = g;
+    newBook->lung = np;
+    newBook->titolo = t;
+    newBook->voto = v;
+
+    newBook->next = *head;      // il next del nuovo elemento assume il valore della testa
+    *head = newBook;            // ora la testa punta al nuovo elemento
+}
+
+void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
+{
+    int choice;
+    do
+    {
+        printf("\nAggiungere il libro in testa o in coda?\n1)Testa\n2)Coda\n");
+        scanf(" %d", &choice);
+        fflush(stdin);
+        system("cls");
+        switch(choice)
+        {
+            case 1:
+                head_ins(head, t, a, ce, g, c, ap, np, v);
+                choice=0;
+                break;
+            case 2:
+                tail_ins(head, t, a, ce, g, c, ap, np, v);
+                choice=0;
+                break;
+            default:
+                printf("Inserimento errato!!");
+                break;
+        }
+    }while(choice==1||choice==2);
+}
+
+void ins_book(ptr_book *head)
+{
+          //AGGIUNGERE CONTROLLI DI INSERIMENTO !!!!!!!!!!!
+    char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
+    char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
+    int c, ap, np, v;
+
+    printf("\n- Titolo: ");
+    scanf(" %[^\n]%*c", t);
+    fflush(stdin);
+
+    printf("\n- Autore: ");
+    scanf(" %[^\n]%*c", a);
+    fflush(stdin);
+
+    printf("\n- Casa Editrice: ");
+    scanf(" %[^\n]%*c", ce);
+    fflush(stdin);
+
+    printf("\n- Genere: ");
+    scanf(" %[^\n]%*c", g);
+    fflush(stdin);
+
+    printf("\n- Codice: ");
+    scanf(" %d", &c);
+    fflush(stdin);
+
+    printf("\n- Anno di pubblicazione: ");
+    scanf(" %d", &ap);
+    fflush(stdin);
+
+    printf("\n- Lunghezza (numero pagine): ");
+    scanf(" %d", &np);
+    fflush(stdin);
+
+    printf("\n- Valutazione: ");
+    scanf(" %d", &v);
+    fflush(stdin);
+
+    insMenu(head, t, a, ce, g, c, ap, np, v);
+}
+
+/****************************** GESTIONE STRUTTURE ******************************/
+
+void destroyer(ptr_book *head)
+{
+    if (*head == NULL)
+        printf("\nLa libreria e\' gia\' vuota!\n\n\n");
+    else
+    {
+        ptr_book temp;
+        while(head!=NULL){
+            temp = *head;           // salva in temp il libro in testa
+            *head=(*head)->next;    // fa puntare la testa al prossimo
+            free(temp);             // cancella vecchio libro
+        }
+        printf("\nLa libreria e\' ora vuota!\n\n\n");
+    }
+}
+
+/****************************** MENU ******************************/
+
+int printMenu()
+{
     int choice;
 
-    printf("\n**** MENU\' DI GESTIONE DELLA TUA LIBRERIA ****\n");
+    printf("\n**** MENU\' DI GESTIONE LIBRERIA VIRTUALE ****\n\n");
     printf("1) Inserire un nuovo libro\n");
     printf("2) Cancellare un libro\n");
     printf("3) Visualizzare tutti i tuoi libri\n");
@@ -193,15 +376,15 @@ int printMenu(){
     scanf(" %d", &choice);
     fflush(stdin);
 
-    while(choice<0 && choice>=4)
+    while(choice<0 && choice>4)
     {
-        if(choice<0 || choice>=4)
+        if(choice<0 || choice>4)
         {
             printf("\nL'operazione inserita non e\' presente nel menu\' di scelta, riprova: ");
             scanf(" %d", &choice);
             fflush(stdin);
         }
     }
-    //system("cls");
+    system("cls");
     return choice;
 }
