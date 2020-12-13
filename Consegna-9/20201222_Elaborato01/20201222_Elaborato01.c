@@ -13,9 +13,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-//#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
-#define FILENAME "..\\Libreria.txt"                             // versione per VsCode
 
+//#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
+#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.txt"                             // versione per VsCode
 #define MAX_NAME_LEN 30
 
 /****************************** STRUTTURE ******************************/
@@ -33,7 +33,7 @@ typedef BOOK *ptr_book;
 int printMenu();
 void destroyer();
 
-void addBook(ptr_book *);
+void addBooks(ptr_book *);
 void tail_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v);
@@ -227,40 +227,70 @@ void delMenu(ptr_book *head)
 ptr_book readBooks()
 {
     ptr_book head;
-    free(head);
+    ptr_book temp;
     int i = 1;
     head = malloc(i*sizeof(ptr_book));
+    temp = malloc(i*sizeof(ptr_book));
     FILE *f;
 
-    if ((f=fopen(FILENAME, "rb"))==NULL)
-    {
+    if ((f=fopen(FILENAME, "rb"))==NULL){
         printf("!Errore di apertura del file libreria!");
-        exit(1);
+        //exit(1);
     }
-    else
-    {
-        while(fread(&head, sizeof(ptr_book), 1, f))
-        {
-            head = realloc(head, sizeof(ptr_book) * (i++));
-            printf("DEVOFUNZIO");
-            printf("DEVOFUNZIO %d", head->anno_pubblicazione);
+    else{
+        
+        while(fread(temp->titolo, sizeof(ptr_book), 1, f)){
+            fread(temp->autore, sizeof(ptr_book), 1, f);
+            head = realloc(head, (i++) * sizeof(ptr_book));
+            head->next = temp;
         }
+        /*
+
+        while(){
+            temp.>titolo
+            temp->autore
+            temp = 
+        }do(temp->next != NULL)
+
+
+
+        */
+        printf("%s\n" , head->titolo);
+        printf("%s\n" , head->autore);
+
+        printf("%s\n" , head->next->titolo);
+        printf("%s\n" , head->next->autore);
+        
+        //printf("Anno: %d\n", head->anno_pubblicazione);
     }
     fclose(f);
     return head;
 }
 
-void addBook(ptr_book *head)
+void addBooks(ptr_book *head)
 {
-    FILE *f = NULL;
-    f = fopen(FILENAME, "wb");
+    FILE *f = fopen(FILENAME, "wb");
+    ptr_book temp = *head;
+
     if (f == NULL){
         printf("!Errore di apertura del file libreria!");
         exit(1);
     }
     else{
-        fwrite(head, sizeof(ptr_book), 1, f);
-        printf("Inserito");
+// libro1 -> NULL
+        while(temp != NULL){
+            if(temp->next == NULL){
+                fwrite(temp->titolo, sizeof(ptr_book), 1, f);
+                fwrite(temp->autore, sizeof(ptr_book), 1, f);
+                temp = NULL;
+            }else{
+                fwrite(temp->titolo, sizeof(ptr_book), 1, f);
+                fwrite(temp->autore, sizeof(ptr_book), 1, f);
+                temp = temp->next; 
+            }
+        }
+        
+        //fwrite((*head), sizeof(ptr_book), 1, f);
     }
     fclose(f);
 }
@@ -291,6 +321,7 @@ void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
     else
     {
         temp = *head;
+    //
         while (temp->next != NULL)
         {
             temp = temp->next;
@@ -334,12 +365,12 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
         {
             case 1:
                 head_ins(head, t, a, ce, g, c, ap, np, v);
-                addBook(head);
+                //addBooks(head);
                 choice=0;
                 break;
             case 2:
                 tail_ins(head, t, a, ce, g, c, ap, np, v);
-                addBook(head);
+                //addBooks(head);
                 choice=0;
                 break;
             default:
