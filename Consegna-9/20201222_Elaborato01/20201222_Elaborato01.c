@@ -15,8 +15,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-//#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
-#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
+#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
+//#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
 #define MAX_NAME_LEN 30
 
 /****************************** STRUTTURE ******************************/
@@ -236,15 +236,19 @@ void readBooks(ptr_book *head)
         head = NULL;
         //exit(1);
     }
-    else{
+    else
+    {
         temp = *head;
         temp = malloc(sizeof(ptr_book));
-        while(fread(titolo, sizeof(ptr_book), 1, f)){
+        while(fread(titolo, sizeof(ptr_book), 1, f))
+        {
             temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
             temp->autore = malloc(MAX_NAME_LEN*sizeof(char));
             temp->casa_ed = malloc(MAX_NAME_LEN*sizeof(char));
             temp->genere = malloc(MAX_NAME_LEN*sizeof(char));
-            strcpy(temp->titolo, titolo);
+            printf("Titolooo. %s\n", titolo);
+            strncpy(temp->titolo, titolo, MAX_NAME_LEN);
+            printf("Temp Titolooo. %s\n\n", temp->titolo);
             fread(temp->autore, sizeof(ptr_book), 1, f);
             fread(temp->casa_ed, sizeof(ptr_book), 1, f);
             fread(temp->genere, sizeof(ptr_book), 1, f);
@@ -253,7 +257,7 @@ void readBooks(ptr_book *head)
             fread(&temp->lung, sizeof(ptr_book), 1, f);
             fread(&temp->voto, sizeof(ptr_book), 1, f);
 
-            printf("----\n%s\n" , temp->titolo);
+            printf("%s\n" , temp->titolo);
             printf("%s\n" , temp->autore);
             printf("%s\n" , temp->casa_ed);
             printf("%s\n" , temp->genere);
@@ -264,10 +268,11 @@ void readBooks(ptr_book *head)
 
             temp = temp->next;
             temp = malloc(sizeof(ptr_book));
-            
+
+            titolo = NULL;
+            titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
         }
         temp = NULL;
-        
     }
     fclose(f);
 }
@@ -296,9 +301,11 @@ void addBooks(ptr_book *head)
             if(temp->next == NULL){
                 temp = NULL;
             }else{
-                temp = temp->next; 
+                temp = temp->next;
             }
         }
+
+        //fwrite((*head), sizeof(ptr_book), 1, f);
     }
     fclose(f);
 }
