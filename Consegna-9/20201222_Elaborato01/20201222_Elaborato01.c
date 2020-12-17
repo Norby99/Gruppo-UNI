@@ -15,8 +15,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
-//#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
+//#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
+#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
 #define MAX_NAME_LEN 30
 
 /****************************** STRUTTURE ******************************/
@@ -161,6 +161,7 @@ void delBook(ptr_book *head, int c_lib)
         prec = temp;
         temp = temp->next;
     }
+    addBooks(head);
 }
 
 int printBook(ptr_book head, int c_libro)
@@ -227,52 +228,61 @@ void delMenu(ptr_book *head)
 
 void readBooks(ptr_book *head)
 {
-    ptr_book temp;
     FILE *f;
+    ptr_book libro, temp;
+
     char *titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
     if ((f=fopen(FILENAME, "rb"))==NULL){
-        printf("!Errore di apertura del file libreria!");
+        printf("!File non rilevato! Ne verra' creato uno in seguito...");
         head = NULL;
         //exit(1);
     }
     else
     {
-        temp = *head;
-        temp = malloc(sizeof(ptr_book));
         while(fread(titolo, sizeof(ptr_book), 1, f))
         {
-            temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
-            temp->autore = malloc(MAX_NAME_LEN*sizeof(char));
-            temp->casa_ed = malloc(MAX_NAME_LEN*sizeof(char));
-            temp->genere = malloc(MAX_NAME_LEN*sizeof(char));
-            printf("Titolooo. %s\n", titolo);
-            strncpy(temp->titolo, titolo, MAX_NAME_LEN);
-            printf("Temp Titolooo. %s\n\n", temp->titolo);
-            fread(temp->autore, sizeof(ptr_book), 1, f);
-            fread(temp->casa_ed, sizeof(ptr_book), 1, f);
-            fread(temp->genere, sizeof(ptr_book), 1, f);
-            fread(&temp->c_libro, sizeof(ptr_book), 1, f);
-            fread(&temp->anno_pubblicazione, sizeof(ptr_book), 1, f);
-            fread(&temp->lung, sizeof(ptr_book), 1, f);
-            fread(&temp->voto, sizeof(ptr_book), 1, f);
 
-            printf("%s\n" , temp->titolo);
-            printf("%s\n" , temp->autore);
-            printf("%s\n" , temp->casa_ed);
-            printf("%s\n" , temp->genere);
-            printf("%d\n" , temp->c_libro);
-            printf("%d\n" , temp->anno_pubblicazione);
-            printf("%d\n" , temp->lung);
-            printf("%d\n" , temp->voto);
+            libro = (ptr_book)malloc(sizeof(BOOK));
 
-            temp = temp->next;
-            temp = malloc(sizeof(ptr_book));
+            libro->titolo = malloc(MAX_NAME_LEN*sizeof(char));
+            libro->autore = malloc(MAX_NAME_LEN*sizeof(char));
+            libro->casa_ed = malloc(MAX_NAME_LEN*sizeof(char));
+            libro->genere = malloc(MAX_NAME_LEN*sizeof(char));
+            strncpy(libro->titolo, titolo, MAX_NAME_LEN);
+            fread(libro->autore, sizeof(ptr_book), 1, f);
+            fread(libro->casa_ed, sizeof(ptr_book), 1, f);
+            fread(libro->genere, sizeof(ptr_book), 1, f);
+            fread(&libro->c_libro, sizeof(ptr_book), 1, f);
+            fread(&libro->anno_pubblicazione, sizeof(ptr_book), 1, f);
+            fread(&libro->lung, sizeof(ptr_book), 1, f);
+            fread(&libro->voto, sizeof(ptr_book), 1, f);
 
+            printf("%s\n" , libro->titolo);
+            printf("%s\n" , libro->autore);
+            printf("%s\n" , libro->casa_ed);
+            printf("%s\n" , libro->genere);
+            printf("%d\n" , libro->c_libro);
+            printf("%d\n" , libro->anno_pubblicazione);
+            printf("%d\n" , libro->lung);
+            printf("%d\n" , libro->voto);
+
+            libro->next = NULL;
+
+            if (*head == NULL){
+                *head = libro;
+            }else{
+                temp = *head;
+
+                while (temp->next != NULL)
+                {
+                    temp = temp->next;
+                }
+                temp->next = libro;
+            }
             titolo = NULL;
             titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
         }
-        temp = NULL;
     }
     fclose(f);
 }
@@ -304,8 +314,6 @@ void addBooks(ptr_book *head)
                 temp = temp->next;
             }
         }
-
-        //fwrite((*head), sizeof(ptr_book), 1, f);
     }
     fclose(f);
 }
@@ -336,7 +344,7 @@ void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap
     else
     {
         temp = *head;
-    //
+
         while (temp->next != NULL)
         {
             temp = temp->next;
