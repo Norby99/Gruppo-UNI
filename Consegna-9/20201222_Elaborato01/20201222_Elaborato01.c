@@ -15,7 +15,7 @@
 #include <stdbool.h>
 
 //#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
-#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.txt"                             // versione per VsCode
+#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
 #define MAX_NAME_LEN 30
 
 /****************************** STRUTTURE ******************************/
@@ -54,7 +54,7 @@ ptr_book readBooks();
 int main()
 {
     ptr_book head = NULL;    // init della lista
-    //head = readBooks();
+    head = readBooks();
     int c_libro;
     bool temp=true;
 
@@ -235,15 +235,19 @@ ptr_book readBooks()
 
     if ((f=fopen(FILENAME, "rb"))==NULL){
         printf("!Errore di apertura del file libreria!");
+        head = NULL;
         //exit(1);
     }
     else{
         
-        while(fread(temp->titolo, sizeof(ptr_book), 1, f)){
+        //while(
+            temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
+            temp->autore = malloc(MAX_NAME_LEN*sizeof(char));
+            fread(temp->titolo, sizeof(ptr_book), 1, f);
             fread(temp->autore, sizeof(ptr_book), 1, f);
             head = realloc(head, (i++) * sizeof(ptr_book));
-            head->next = temp;
-        }
+            //head->next = temp;
+        //}
         /*
 
         while(){
@@ -252,14 +256,12 @@ ptr_book readBooks()
             temp = 
         }do(temp->next != NULL)
 
-
-
         */
-        printf("%s\n" , head->titolo);
-        printf("%s\n" , head->autore);
+        printf("%s\n" , temp->titolo);
+        printf("%s\n" , temp->autore);
 
-        printf("%s\n" , head->next->titolo);
-        printf("%s\n" , head->next->autore);
+        printf("%s\n" , temp->next->titolo);
+        printf("%s\n" , temp->next->autore);
         
         //printf("Anno: %d\n", head->anno_pubblicazione);
     }
@@ -365,12 +367,12 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
         {
             case 1:
                 head_ins(head, t, a, ce, g, c, ap, np, v);
-                //addBooks(head);
+                addBooks(head);
                 choice=0;
                 break;
             case 2:
                 tail_ins(head, t, a, ce, g, c, ap, np, v);
-                //addBooks(head);
+                addBooks(head);
                 choice=0;
                 break;
             default:
