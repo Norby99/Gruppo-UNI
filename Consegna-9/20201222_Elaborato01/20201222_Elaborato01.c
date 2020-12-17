@@ -246,7 +246,6 @@ void readBooks(ptr_book *head)
             temp->genere = malloc(MAX_NAME_LEN*sizeof(char));
             strcpy(temp->titolo, titolo);
             fread(temp->autore, sizeof(ptr_book), 1, f);
-            titolo[0] = '\0';
             fread(temp->casa_ed, sizeof(ptr_book), 1, f);
             fread(temp->genere, sizeof(ptr_book), 1, f);
             fread(&temp->c_libro, sizeof(ptr_book), 1, f);
@@ -268,7 +267,6 @@ void readBooks(ptr_book *head)
             
         }
         temp = NULL;
-
         
     }
     fclose(f);
@@ -301,8 +299,6 @@ void addBooks(ptr_book *head)
                 temp = temp->next; 
             }
         }
-        
-        //fwrite((*head), sizeof(ptr_book), 1, f);
     }
     fclose(f);
 }
