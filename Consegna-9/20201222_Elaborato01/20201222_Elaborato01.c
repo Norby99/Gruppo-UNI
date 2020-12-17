@@ -48,14 +48,14 @@ void printAll_books(ptr_book);
 
 void printSel_books(ptr_book);
 
-ptr_book readBooks();
+void readBooks(ptr_book *);
 
 /****************************** MAIN ******************************/
 
 int main()
 {
     ptr_book head = NULL;    // init della lista
-    head = readBooks();
+    readBooks(&head);
     int c_libro;
     bool temp=true;
 
@@ -225,9 +225,8 @@ void delMenu(ptr_book *head)
     }while(choice==1);
 }
 
-ptr_book readBooks()
+void readBooks(ptr_book *head)
 {
-    ptr_book head;
     ptr_book temp;
     FILE *f;
     char *titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
@@ -238,7 +237,7 @@ ptr_book readBooks()
         //exit(1);
     }
     else{
-        temp = head;
+        temp = *head;
         temp = malloc(sizeof(ptr_book));
         while(fread(titolo, sizeof(ptr_book), 1, f)){
             temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
@@ -273,7 +272,6 @@ ptr_book readBooks()
         
     }
     fclose(f);
-    return head;
 }
 
 void addBooks(ptr_book *head)
