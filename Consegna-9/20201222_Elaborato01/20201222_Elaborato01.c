@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 //#define FILENAME "..\\20201222_Elaborato01\\Libreria.txt"     // da usare
 #define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
@@ -232,6 +233,7 @@ ptr_book readBooks()
     head = malloc(i*sizeof(ptr_book));
     temp = malloc(i*sizeof(ptr_book));
     FILE *f;
+    char *titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
     if ((f=fopen(FILENAME, "rb"))==NULL){
         printf("!Errore di apertura del file libreria!");
@@ -240,12 +242,26 @@ ptr_book readBooks()
     }
     else{
         
-        //while(
+        while(fread(titolo, sizeof(ptr_book), 1, f)){
             temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
             temp->autore = malloc(MAX_NAME_LEN*sizeof(char));
-            fread(temp->titolo, sizeof(ptr_book), 1, f);
+            strcpy(temp->titolo, titolo);
             fread(temp->autore, sizeof(ptr_book), 1, f);
+            titolo[0] = '\0';
             head = realloc(head, (i++) * sizeof(ptr_book));
+            printf("----\n%s\n" , temp->titolo);
+            printf("%s\n" , temp->autore);
+
+
+        }
+
+        
+        
+        
+        
+
+        //while(
+            
             //head->next = temp;
         //}
         /*
@@ -257,11 +273,12 @@ ptr_book readBooks()
         }do(temp->next != NULL)
 
         */
+       /*
         printf("%s\n" , temp->titolo);
         printf("%s\n" , temp->autore);
 
         printf("%s\n" , temp->next->titolo);
-        printf("%s\n" , temp->next->autore);
+        printf("%s\n" , temp->next->autore);*/
         
         //printf("Anno: %d\n", head->anno_pubblicazione);
     }
@@ -279,7 +296,6 @@ void addBooks(ptr_book *head)
         exit(1);
     }
     else{
-// libro1 -> NULL
         while(temp != NULL){
             if(temp->next == NULL){
                 fwrite(temp->titolo, sizeof(ptr_book), 1, f);
