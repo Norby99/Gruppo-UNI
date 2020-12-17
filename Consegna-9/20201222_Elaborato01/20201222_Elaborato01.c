@@ -229,9 +229,6 @@ ptr_book readBooks()
 {
     ptr_book head;
     ptr_book temp;
-    int i = 1;
-    head = malloc(i*sizeof(ptr_book));
-    temp = malloc(i*sizeof(ptr_book));
     FILE *f;
     char *titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
@@ -241,46 +238,39 @@ ptr_book readBooks()
         //exit(1);
     }
     else{
-        
+        temp = head;
+        temp = malloc(sizeof(ptr_book));
         while(fread(titolo, sizeof(ptr_book), 1, f)){
             temp->titolo = malloc(MAX_NAME_LEN*sizeof(char));
             temp->autore = malloc(MAX_NAME_LEN*sizeof(char));
+            temp->casa_ed = malloc(MAX_NAME_LEN*sizeof(char));
+            temp->genere = malloc(MAX_NAME_LEN*sizeof(char));
             strcpy(temp->titolo, titolo);
             fread(temp->autore, sizeof(ptr_book), 1, f);
             titolo[0] = '\0';
-            head = realloc(head, (i++) * sizeof(ptr_book));
+            fread(temp->casa_ed, sizeof(ptr_book), 1, f);
+            fread(temp->genere, sizeof(ptr_book), 1, f);
+            fread(&temp->c_libro, sizeof(ptr_book), 1, f);
+            fread(&temp->anno_pubblicazione, sizeof(ptr_book), 1, f);
+            fread(&temp->lung, sizeof(ptr_book), 1, f);
+            fread(&temp->voto, sizeof(ptr_book), 1, f);
+
             printf("----\n%s\n" , temp->titolo);
             printf("%s\n" , temp->autore);
+            printf("%s\n" , temp->casa_ed);
+            printf("%s\n" , temp->genere);
+            printf("%d\n" , temp->c_libro);
+            printf("%d\n" , temp->anno_pubblicazione);
+            printf("%d\n" , temp->lung);
+            printf("%d\n" , temp->voto);
 
-
-        }
-
-        
-        
-        
-        
-
-        //while(
+            temp = temp->next;
+            temp = malloc(sizeof(ptr_book));
             
-            //head->next = temp;
-        //}
-        /*
+        }
+        temp = NULL;
 
-        while(){
-            temp.>titolo
-            temp->autore
-            temp = 
-        }do(temp->next != NULL)
-
-        */
-       /*
-        printf("%s\n" , temp->titolo);
-        printf("%s\n" , temp->autore);
-
-        printf("%s\n" , temp->next->titolo);
-        printf("%s\n" , temp->next->autore);*/
         
-        //printf("Anno: %d\n", head->anno_pubblicazione);
     }
     fclose(f);
     return head;
@@ -297,13 +287,19 @@ void addBooks(ptr_book *head)
     }
     else{
         while(temp != NULL){
+            fwrite(temp->titolo, sizeof(ptr_book), 1, f);
+            fwrite(temp->autore, sizeof(ptr_book), 1, f);
+            fwrite(temp->casa_ed, sizeof(ptr_book), 1, f);
+            fwrite(temp->genere, sizeof(ptr_book), 1, f);
+            fwrite(&temp->c_libro, sizeof(ptr_book), 1, f);
+            fwrite(&temp->anno_pubblicazione, sizeof(ptr_book), 1, f);
+            fwrite(&temp->lung, sizeof(ptr_book), 1, f);
+            fwrite(&temp->voto, sizeof(ptr_book), 1, f);
+
+
             if(temp->next == NULL){
-                fwrite(temp->titolo, sizeof(ptr_book), 1, f);
-                fwrite(temp->autore, sizeof(ptr_book), 1, f);
                 temp = NULL;
             }else{
-                fwrite(temp->titolo, sizeof(ptr_book), 1, f);
-                fwrite(temp->autore, sizeof(ptr_book), 1, f);
                 temp = temp->next; 
             }
         }
