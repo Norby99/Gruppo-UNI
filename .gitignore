@@ -5,3 +5,5 @@
 *.txt
 *.dat
 *.layout
+*.depend
+*.cbp
