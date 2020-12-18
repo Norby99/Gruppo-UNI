@@ -262,6 +262,7 @@ void readBooks(ptr_book *head)
             fread(&libro->lung, sizeof(ptr_book), 1, f);
             fread(&libro->voto, sizeof(ptr_book), 1, f);
 
+            /*
             printf("TITOLO: %s\n" , libro->titolo);
             printf("AUTORE: %s\n" , libro->autore);
             printf("CASA EDITRICE: %s\n" , libro->casa_ed);
@@ -271,7 +272,7 @@ void readBooks(ptr_book *head)
             printf("LUNGHEZZA(n.pagine): %d\n" , libro->lung);
             printf("VALUTAZIONE: %d\n" , libro->voto);
 
-            printf("\n\n");
+            printf("\n\n");*/
             libro->next = NULL;
 
             if (*head == NULL)
