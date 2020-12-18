@@ -243,7 +243,6 @@ void readBooks(ptr_book *head)
     }
     else
     {
-        printf("\nLIBRI REGISTRATI(da file):\n\n");
         while(fread(titolo, sizeof(ptr_book), 1, f))
         {
 
