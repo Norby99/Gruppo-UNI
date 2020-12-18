@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdint.h>
 
 //#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
 #define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
@@ -35,6 +36,8 @@ int printMenu();
 void destroyer();
 
 void addBooks(ptr_book *);
+bool isInTitolo(ptr_book *, char *);
+bool isInCodice(ptr_book *, int );
 void tail_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void head_ins(ptr_book *, char *, char *, char *, char *, int, int, int, int);
 void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v);
@@ -234,12 +237,13 @@ void readBooks(ptr_book *head)
     char *titolo = (char*)malloc(MAX_NAME_LEN*sizeof(char));
 
     if ((f=fopen(FILENAME, "rb"))==NULL){
-        printf("!File non rilevato! Ne verra' creato uno in seguito...");
+        printf("!File non rilevato! Ne verra' creato uno in seguito...\n\n");
         head = NULL;
         //exit(1);
     }
     else
     {
+        printf("\nLIBRI REGISTRATI:\n\n");
         while(fread(titolo, sizeof(ptr_book), 1, f))
         {
 
@@ -258,15 +262,16 @@ void readBooks(ptr_book *head)
             fread(&libro->lung, sizeof(ptr_book), 1, f);
             fread(&libro->voto, sizeof(ptr_book), 1, f);
 
-            printf("%s\n" , libro->titolo);
-            printf("%s\n" , libro->autore);
-            printf("%s\n" , libro->casa_ed);
-            printf("%s\n" , libro->genere);
-            printf("%d\n" , libro->c_libro);
-            printf("%d\n" , libro->anno_pubblicazione);
-            printf("%d\n" , libro->lung);
-            printf("%d\n" , libro->voto);
+            printf("TITOLO: %s\n" , libro->titolo);
+            printf("AUTORE: %s\n" , libro->autore);
+            printf("CASA EDITRICE: %s\n" , libro->casa_ed);
+            printf("GENERE: %s\n" , libro->genere);
+            printf("CODICE_ID: %d\n" , libro->c_libro);
+            printf("ANNO: %d\n" , libro->anno_pubblicazione);
+            printf("LUNGHEZZA(n.pagine): %d\n" , libro->lung);
+            printf("VALUTAZIONE: %d\n" , libro->voto);
 
+            printf("\n\n");
             libro->next = NULL;
 
             if (*head == NULL){
@@ -316,6 +321,39 @@ void addBooks(ptr_book *head)
         }
     }
     fclose(f);
+}
+bool isInTitolo(ptr_book *head, char *nome)
+{
+    ptr_book temp = *head;
+
+    while(temp!=NULL)
+    {
+        if(strcmp(temp->titolo,nome)==0)
+            return true;
+
+        if(temp->next==NULL)
+            temp=NULL;
+        else
+            temp = temp->next;
+    }
+    return false;
+}
+
+bool isInCodice(ptr_book *head, int code)
+{
+    ptr_book temp = *head;
+
+    while(temp!=NULL)
+    {
+        if(temp->c_libro==code)
+            return true;
+
+        if(temp->next==NULL)
+            temp=NULL;
+        else
+            temp = temp->next;
+    }
+    return false;
 }
 
 void tail_ins(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap, int np, int v)
@@ -409,10 +447,26 @@ void ins_book(ptr_book *head)
     char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     int c, ap, np, v;
+    bool fl=false;
 
-    printf("\n- Titolo: ");
-    scanf(" %[^\n]%*c", t);
-    fflush(stdin);
+    do
+    {
+        printf("\n- Titolo: ");
+        scanf(" %[^\n]%*c", t);
+        fflush(stdin);
+
+        if(isInTitolo(head,t))
+        {
+            printf("\nE\' gia\' presente un libro con questo titolo, reinserisci il titolo\n");
+            fl=true;
+        }
+        else
+            fl=false;
+
+
+    }while(fl==true);
+
+
 
     printf("\n- Autore: ");
     scanf(" %[^\n]%*c", a);
@@ -426,21 +480,37 @@ void ins_book(ptr_book *head)
     scanf(" %[^\n]%*c", g);
     fflush(stdin);
 
-    printf("\n- Codice: ");
-    scanf(" %d", &c);
-    fflush(stdin);
+    do
+    {
+        printf("\n- Codice: ");
+        scanf(" %d", &c);
+        fflush(stdin);
 
-    printf("\n- Anno di pubblicazione: ");
-    scanf(" %d", &ap);
-    fflush(stdin);
+        if(isInCodice(head,c))
+            printf("\nE\' gia\' stato inserito un libro con questo codice identificativo, ritenta:\n");
+    }while(isInCodice(head,c)==true);
+
+    do
+    {
+        printf("\n- Anno di pubblicazione(dal 1453  al 2020): ");
+        scanf(" %d", &ap);
+        fflush(stdin);
+        if(ap<1453 || ap>2020)
+            printf("\n!!Errore di inserimento dell'anno di pubblicazione(dal 1453 al 2020), reinserire:\n");
+    }while(ap < 1453 || ap > 2020 );
 
     printf("\n- Lunghezza (numero pagine): ");
     scanf(" %d", &np);
     fflush(stdin);
+    do
+    {
+        printf("\n- Valutazione(da 1 a 10): ");
+        scanf(" %d", &v);
+        fflush(stdin);
+        if(v<1 || v>10)
+            printf("\n!!Errore di inserimento della valutazione(dal 1 al 10), reinserire:\n");
+    }while(v < 1 || v > 10 );
 
-    printf("\n- Valutazione: ");
-    scanf(" %d", &v);
-    fflush(stdin);
 
     insMenu(head, t, a, ce, g, c, ap, np, v);
 }
