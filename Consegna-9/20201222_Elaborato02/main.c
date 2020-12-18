@@ -59,7 +59,7 @@ int main()
                     switch(print2Menu())
                     {
                         case 1:
-                            pushDinamic(&sd);
+                            pushDinamic(sd);
                             break;
                         case 2:
                             //topDinamic(sd);
@@ -74,7 +74,7 @@ int main()
                             printf("!!Valore inserito non valido!! Riprova.\n");
                             break;
                     }
-            }
+                }
             case 3: // Strutture collegate
                 while(temp)
                 {
