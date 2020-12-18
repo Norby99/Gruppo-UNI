@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "mypila.h"
 #define MAX_NAME_LEN 20
 #define MAX_PILA 3
@@ -62,16 +63,16 @@ void pushDinamic(SACCHETTO_DINAMICO *s)
 {
     char *nome=(char *)malloc(MAX_NAME_LEN*sizeof(char));
     int prezzo;
-    printf("STO QUA");
     if(s->pos == (s->dim-1))
         PilaPiena(s);
     printf("\nNome frutto:\t");
-    gets(nome);
+    scanf(" %[^\n]%*c", nome);
     printf("\nPrezzo:\t");
     scanf(" %d", &prezzo);
     fflush(stdin);
     s->pos++;
-    s->spesa[s->pos].nome = nome;
+    strncpy(s->spesa[s->pos].nome, nome, MAX_NAME_LEN);
+    printf("STO QUA");
     s->spesa[s->pos].prezzo = prezzo;
 }
 /*

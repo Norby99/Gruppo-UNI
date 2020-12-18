@@ -59,7 +59,7 @@ int main()
                     switch(print2Menu())
                     {
                         case 1:
-                            pushDinamic(sd);
+                            pushDinamic(&sd);
                             break;
                         case 2:
                             //topDinamic(sd);
