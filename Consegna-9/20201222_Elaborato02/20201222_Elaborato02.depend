@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1608311324 source:c:\users\kara3\documents\github\gruppo-uni\consegna-9\20201222_elaborato02\mypila.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"mypila.h"
+
+1608311334 c:\users\kara3\documents\github\gruppo-uni\consegna-9\20201222_elaborato02\mypila.h
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1608311324 source:c:\users\kara3\documents\github\gruppo-uni\consegna-9\20201222_elaborato02\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	"mypila.h"
+
