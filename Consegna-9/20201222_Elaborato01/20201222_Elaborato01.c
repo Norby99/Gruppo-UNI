@@ -18,7 +18,7 @@
 
 #define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
 //#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
-#define MAX_NAME_LEN 30
+#define MAX_NAME_LEN 60
 
 /****************************** STRUTTURE ******************************/
 
@@ -243,7 +243,8 @@ void readBooks(ptr_book *head)
     }
     else
     {
-        while(fread(titolo, sizeof(ptr_book), 1, f))
+        printf("\nLIBRI REGISTRATI(da file):\n\n");
+        while(fread(titolo, sizeof(char)*MAX_NAME_LEN, 1, f))
         {
 
             libro = (ptr_book)malloc(sizeof(BOOK));
@@ -252,16 +253,16 @@ void readBooks(ptr_book *head)
             libro->autore = malloc(MAX_NAME_LEN*sizeof(char));
             libro->casa_ed = malloc(MAX_NAME_LEN*sizeof(char));
             libro->genere = malloc(MAX_NAME_LEN*sizeof(char));
-            strncpy(libro->titolo, titolo, MAX_NAME_LEN);
-            fread(libro->autore, sizeof(ptr_book), 1, f);
-            fread(libro->casa_ed, sizeof(ptr_book), 1, f);
-            fread(libro->genere, sizeof(ptr_book), 1, f);
+            libro->titolo=titolo;
+            //strncpy(libro->titolo, titolo, MAX_NAME_LEN);
+            fread(libro->autore, sizeof(char)*MAX_NAME_LEN, 1, f);
+            fread(libro->casa_ed, sizeof(char)*MAX_NAME_LEN, 1, f);
+            fread(libro->genere, sizeof(char)*MAX_NAME_LEN, 1, f);
             fread(&libro->c_libro, sizeof(ptr_book), 1, f);
             fread(&libro->anno_pubblicazione, sizeof(ptr_book), 1, f);
             fread(&libro->lung, sizeof(ptr_book), 1, f);
             fread(&libro->voto, sizeof(ptr_book), 1, f);
 
-            /*
             printf("TITOLO: %s\n" , libro->titolo);
             printf("AUTORE: %s\n" , libro->autore);
             printf("CASA EDITRICE: %s\n" , libro->casa_ed);
@@ -271,7 +272,7 @@ void readBooks(ptr_book *head)
             printf("LUNGHEZZA(n.pagine): %d\n" , libro->lung);
             printf("VALUTAZIONE: %d\n" , libro->voto);
 
-            printf("\n\n");*/
+            printf("\n\n");
             libro->next = NULL;
 
             if (*head == NULL)
@@ -306,10 +307,10 @@ void addBooks(ptr_book *head)
     }
     else{
         while(temp != NULL){
-            fwrite(temp->titolo, sizeof(ptr_book), 1, f);
-            fwrite(temp->autore, sizeof(ptr_book), 1, f);
-            fwrite(temp->casa_ed, sizeof(ptr_book), 1, f);
-            fwrite(temp->genere, sizeof(ptr_book), 1, f);
+            fwrite(temp->titolo, sizeof(char)*MAX_NAME_LEN, 1, f);
+            fwrite(temp->autore, sizeof(char)*MAX_NAME_LEN, 1, f);
+            fwrite(temp->casa_ed, sizeof(char)*MAX_NAME_LEN, 1, f);
+            fwrite(temp->genere, sizeof(char)*MAX_NAME_LEN, 1, f);
             fwrite(&temp->c_libro, sizeof(ptr_book), 1, f);
             fwrite(&temp->anno_pubblicazione, sizeof(ptr_book), 1, f);
             fwrite(&temp->lung, sizeof(ptr_book), 1, f);
@@ -449,7 +450,6 @@ void insMenu(ptr_book *head, char *t, char *a, char *ce, char *g, int c, int ap,
 
 void ins_book(ptr_book *head)
 {
-          //AGGIUNGERE CONTROLLI DI INSERIMENTO !!!!!!!!!!!
     char *t=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *a=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     char *ce=(char*)malloc(MAX_NAME_LEN*sizeof(char)), *g=(char*)malloc(MAX_NAME_LEN*sizeof(char));
     int c, ap, np, v;
@@ -541,7 +541,6 @@ void destroyer(ptr_book *head)
             *head=(*head)->next;    // fa puntare la testa al prossimo
             free(temp);             // cancella vecchio libro
         }
-        printf("\nLa libreria e\' ora vuota!\n\n\n");
     }
 }
 
