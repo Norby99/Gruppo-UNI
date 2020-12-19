@@ -65,6 +65,8 @@ SACCHETTO_STATICO *popStatic(SACCHETTO_STATICO *s)
     return delFrutto;
 }
 
+
+
 /** allocazione dinamica **/
 
 void pushDinamic(SACCHETTO_DINAMICO *s)
@@ -79,15 +81,12 @@ void pushDinamic(SACCHETTO_DINAMICO *s)
     scanf(" %d", &prezzo);
     fflush(stdin);
     s->pos++;
-    strncpy(s->spesa[s->pos].nome, nome, MAX_NAME_LEN);
+    s->spesa[s->pos].nome = nome;
     s->spesa[s->pos].prezzo = prezzo;
-    printf("----%s",s->spesa[s->pos].nome);
-    printf("----%d",s->pos);
 }
 
 void topDinamic (SACCHETTO_DINAMICO *s)
 {
-    printf("\n%d\n", s->pos);
     if(TestPilaVuota2(*s))
         printf("ERRORE: PILA VUOTA\n");
     else
@@ -97,11 +96,33 @@ void topDinamic (SACCHETTO_DINAMICO *s)
     }
 }
 
-void popDinamic(SACCHETTO_DINAMICO *s)
+SACCHETTO_DINAMICO *popDinamic(SACCHETTO_DINAMICO *s)
 {
+    SACCHETTO_DINAMICO *delFrutto;
 
+    delFrutto=malloc(sizeof(SACCHETTO_DINAMICO));
+
+    if(TestPilaVuota2(*s))
+    {
+        delFrutto->pos=-1;
+    }
+    else
+    {
+        delFrutto->pos=0;
+        delFrutto->spesa[delFrutto->pos]=s->spesa[s->pos];
+        s->pos--;
+        printf("Frutto eliminato:\n");
+
+        /*if(s->pos == (s->dim-1))
+        {
+            printf("STO DIMEZZANDO");
+            printf("---%d",s->dim);
+            s->dim = s->dim/2;
+            s->spesa = realloc(s->spesa, s->dim * sizeof(FRUTTA));
+        }*/
+    }
+    return delFrutto;
 }
-
 /****************************** GESTIONE STRUTTURE ******************************/
 
 /** allocazione statica**/
@@ -134,10 +155,8 @@ bool TestPilaVuota2(SACCHETTO_DINAMICO s)       // restituisce TRUE se la pila Ã
 
 void PilaPiena(SACCHETTO_DINAMICO *s)            // aumenta le dimensioni della pila se questa Ã¨ piena
 {
-    printf("STO RIALLOCANDO FORSE");
     if  (s->pos == (s->dim-1))
     {
-        printf("STO RIALLOCANDO");
         s->dim = s->dim*2;                      // pila piena: raddoppia la dimensione del vettore
         s->spesa = realloc(s->spesa, s->dim * sizeof(FRUTTA));
         // !!!!!! controlli realloc
