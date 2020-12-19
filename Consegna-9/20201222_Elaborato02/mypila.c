@@ -72,19 +72,25 @@ void pushDinamic(SACCHETTO_DINAMICO *s)
     fflush(stdin);
     s->pos++;
     strncpy(s->spesa[s->pos].nome, nome, MAX_NAME_LEN);
-    printf("STO QUA");
     s->spesa[s->pos].prezzo = prezzo;
 }
-/*
-topDinamic()
+
+void topDinamic (SACCHETTO_DINAMICO *s)
+{
+    printf("\n%d\n", s->pos);
+    if(TestPilaVuota2(*s))
+        printf("ERRORE: PILA VUOTA\n");
+    else
+    {
+        printf("\nNome:\t%s", s->spesa[s->pos].nome);
+        printf("\nPrezzo:\t%d\n", s->spesa[s->pos].prezzo);
+    }
+}
+
+void popDinamic(SACCHETTO_DINAMICO *s)
 {
 
 }
-
-popDinamic()
-{
-
-}*/
 
 /****************************** GESTIONE STRUTTURE ******************************/
 
@@ -102,12 +108,13 @@ bool TestPilaPiena1(SACCHETTO_STATICO s)        // restituisceTRUE se la pila è 
 
 /** allocazione dinamica **/
 
-void initPila (SACCHETTO_DINAMICO *s)
+SACCHETTO_DINAMICO* initPila (SACCHETTO_DINAMICO *s)
 {
-    s = malloc(sizeof(SACCHETTO_DINAMICO));
+    //s = (SACCHETTO_DINAMICO *) malloc(sizeof(SACCHETTO_DINAMICO)*1);
     s->spesa = malloc(MAX_PILA*sizeof(FRUTTA));
     s->pos = -1;
     s->dim = MAX_PILA;
+    return s;
 }
 
 bool TestPilaVuota2(SACCHETTO_DINAMICO s)       // restituisce TRUE se la pila è vuota, FALSE altrimenti
