@@ -52,7 +52,6 @@ int main()
                             break;
                     }
                 }
-                break;
             }
             case 2: // Allocazione indicizzata (vettore dinamico)
             {
@@ -65,7 +64,7 @@ int main()
                             pushDinamic(sd);
                             break;
                         case 2:
-                            //popDinamic(sd);
+                            topDinamic(popDinamic(sd));
                             break;
                         case 3:
                             topDinamic(sd);
@@ -78,7 +77,6 @@ int main()
                             break;
                     }
                 }
-                break;
             }
             case 3: // Strutture collegate
             {
