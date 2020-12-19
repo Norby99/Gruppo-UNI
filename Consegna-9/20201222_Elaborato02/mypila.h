@@ -33,15 +33,18 @@ typedef struct {
 int print1Menu();
 int print2Menu();
 
+SACCHETTO_STATICO* initPila_Sta (SACCHETTO_STATICO *);
 bool TestPilaVuota1 (SACCHETTO_STATICO);
 bool TestPilaPiena1 (SACCHETTO_STATICO);
 void pushStatic(SACCHETTO_STATICO *);
 void topStatic(SACCHETTO_STATICO *);
 SACCHETTO_STATICO *popStatic(SACCHETTO_STATICO *);
 
-SACCHETTO_DINAMICO* initPila(SACCHETTO_DINAMICO *);
+SACCHETTO_DINAMICO* initPila_Din(SACCHETTO_DINAMICO *);
 bool TestPilaVuota2 (SACCHETTO_DINAMICO);
 void PilaPiena (SACCHETTO_DINAMICO *);
 void pushDinamic(SACCHETTO_DINAMICO *);
 void topDinamic(SACCHETTO_DINAMICO *);
 void popDinamic(SACCHETTO_DINAMICO *);
+
+
