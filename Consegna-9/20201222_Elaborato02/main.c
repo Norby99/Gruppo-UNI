@@ -22,13 +22,15 @@ int main()
     SACCHETTO_STATICO *ss;
     SACCHETTO_DINAMICO *sd;
 
+    //ss->pos=-1;
+
     while(tmp)
     {
         switch(print1Menu())
         {
             case 1: // Allocazione indicizzata (vettore statico)
             {
-                ss->pos=-1;  // init pos pila
+                ss=initPila_Sta(ss);  // init pos pila
                 while(temp)
                 {
                     switch(print2Menu())
@@ -50,10 +52,11 @@ int main()
                             break;
                     }
                 }
+                break;
             }
             case 2: // Allocazione indicizzata (vettore dinamico)
             {
-                sd=initPila(sd);
+                sd=initPila_Din(sd);
                 while(temp)
                 {
                     switch(print2Menu())
@@ -75,7 +78,10 @@ int main()
                             break;
                     }
                 }
+                break;
+            }
             case 3: // Strutture collegate
+            {
                 while(temp)
                 {
                     switch(print2Menu())
@@ -94,6 +100,7 @@ int main()
                             break;
                     }
                 }
+            }
             case 0:
                 tmp = false;
                 break;
@@ -102,7 +109,7 @@ int main()
                 break;
             }
         }
-    }
+
 
 //    destroyer();
     return 0;
