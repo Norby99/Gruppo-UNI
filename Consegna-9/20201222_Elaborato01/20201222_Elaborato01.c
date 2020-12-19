@@ -16,8 +16,8 @@
 #include <string.h>
 #include <stdint.h>
 
-//#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
-#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
+#define FILENAME "..\\20201222_Elaborato01\\Libreria.dat"     // da usare
+//#define FILENAME "C:\\Users\\Norbi Gabos\\Desktop\\Git\\Consegna-9\\20201222_Elaborato01\\Libreria.dat"                             // versione per VsCode
 #define MAX_NAME_LEN 30
 
 /****************************** STRUTTURE ******************************/
@@ -243,7 +243,6 @@ void readBooks(ptr_book *head)
     }
     else
     {
-        printf("\nLIBRI REGISTRATI:\n\n");
         while(fread(titolo, sizeof(ptr_book), 1, f))
         {
 
@@ -262,6 +261,7 @@ void readBooks(ptr_book *head)
             fread(&libro->lung, sizeof(ptr_book), 1, f);
             fread(&libro->voto, sizeof(ptr_book), 1, f);
 
+            /*
             printf("TITOLO: %s\n" , libro->titolo);
             printf("AUTORE: %s\n" , libro->autore);
             printf("CASA EDITRICE: %s\n" , libro->casa_ed);
@@ -271,12 +271,15 @@ void readBooks(ptr_book *head)
             printf("LUNGHEZZA(n.pagine): %d\n" , libro->lung);
             printf("VALUTAZIONE: %d\n" , libro->voto);
 
-            printf("\n\n");
+            printf("\n\n");*/
             libro->next = NULL;
 
-            if (*head == NULL){
+            if (*head == NULL)
+            {
                 *head = libro;
-            }else{
+            }
+            else
+            {
                 temp = *head;
 
                 while (temp->next != NULL)
@@ -313,9 +316,12 @@ void addBooks(ptr_book *head)
             fwrite(&temp->voto, sizeof(ptr_book), 1, f);
 
 
-            if(temp->next == NULL){
-                temp = NULL;
-            }else{
+            if(temp->next == NULL)
+            {
+            temp = NULL;
+            }
+            else
+            {
                 temp = temp->next;
             }
         }
@@ -499,9 +505,15 @@ void ins_book(ptr_book *head)
             printf("\n!!Errore di inserimento dell'anno di pubblicazione(dal 1453 al 2020), reinserire:\n");
     }while(ap < 1453 || ap > 2020 );
 
-    printf("\n- Lunghezza (numero pagine): ");
-    scanf(" %d", &np);
-    fflush(stdin);
+    do
+    {
+        printf("\n- Lunghezza (numero pagine): ");
+        scanf(" %d", &np);
+        fflush(stdin);
+
+        if(np < 0)
+            printf("\nErrore di inserimento, ritenta\n");
+    }while(np < 0);
     do
     {
         printf("\n- Valutazione(da 1 a 10): ");

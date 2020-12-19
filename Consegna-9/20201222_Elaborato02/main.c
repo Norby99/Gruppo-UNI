@@ -74,7 +74,7 @@ int main()
                             printf("!!Valore inserito non valido!! Riprova.\n");
                             break;
                     }
-            }
+                }
             case 3: // Strutture collegate
                 while(temp)
                 {
