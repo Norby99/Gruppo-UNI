@@ -45,6 +45,5 @@ bool TestPilaVuota2 (SACCHETTO_DINAMICO);
 void PilaPiena (SACCHETTO_DINAMICO *);
 void pushDinamic(SACCHETTO_DINAMICO *);
 void topDinamic(SACCHETTO_DINAMICO *);
-void popDinamic(SACCHETTO_DINAMICO *);
-
+SACCHETTO_DINAMICO *popDinamic(SACCHETTO_DINAMICO *);
 
