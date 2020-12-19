@@ -5,7 +5,7 @@
  DATE:    20201222
  NOTE:    Text Ex02: Scrivere un programma contenente tutte le funzioni di gestione del tipo di dato astratto PILA,
           implementato sia tramite allocazione indicizzata (vettore statico e vettore dinamico) sia tramite strutture collegate.
-          Il programma deve visualizzare lo stato della pila ad inizio esecuzione (vuota) e dopo ogni operazione scelta dall'utente.
+    !!      Il programma deve visualizzare lo stato della pila ad inizio esecuzione (vuota) e dopo ogni operazione scelta dall'utente.
           Per la visualizzazione creare una funzione di appoggio in cui gli elementi letti non vengono eliminati.
           Consegnare un file .zip contente un progetto che comprenda tutti i file necessari per testare il programma.*/
 
@@ -53,19 +53,19 @@ int main()
             }
             case 2: // Allocazione indicizzata (vettore dinamico)
             {
-                initPila(sd);
+                sd=initPila(sd);
                 while(temp)
                 {
                     switch(print2Menu())
                     {
                         case 1:
-                            pushDinamic(&sd);
+                            pushDinamic(sd);
                             break;
                         case 2:
-                            //topDinamic(sd);
+                            //popDinamic(sd);
                             break;
                         case 3:
-                            //popDinamic(sd);
+                            topDinamic(sd);
                             break;
                         case 0:
                             temp = false;
