@@ -21,6 +21,7 @@ int main()
     bool temp=true, tmp = true;
     SACCHETTO_STATICO *ss;
     SACCHETTO_DINAMICO *sd;
+    FRUTTALINKED *sc;
 
     //ss->pos=-1;
 
@@ -43,6 +44,9 @@ int main()
                             break;
                         case 3:
                             topStatic(ss);
+                            break;
+                        case 4:
+                            printAllStatic(ss);
                             break;
                         case 0:
                             temp = false;
@@ -69,6 +73,9 @@ int main()
                         case 3:
                             topDinamic(sd);
                             break;
+                        case 4:
+                            printAllDinamic(sd);
+                            break;
                         case 0:
                             temp = false;
                             break;
@@ -80,15 +87,22 @@ int main()
             }
             case 3: // Strutture collegate
             {
+                sc=initPila(sc);
                 while(temp)
                 {
                     switch(print2Menu())
                     {
                         case 1:
+                            pushLinked(&sc);
                             break;
                         case 2:
+                            topLinked(popLinked(sc));
                             break;
                         case 3:
+                            topLinked(sc);
+                            break;
+                        case 4:
+                            printAllLinked(sc);
                             break;
                         case 0:
                             temp = false;
@@ -109,8 +123,9 @@ int main()
         }
 
 
-//    destroyer();
+    //destroyer();
     return 0;
+    system("pause");
 }
 
 /****************************** MENU' ******************************/
@@ -123,15 +138,16 @@ int print2Menu()
     printf("1) Inserisci frutto in cima;\n");
     printf("2) Elimina frutto affiorante;\n");
     printf("3) Visualizza ultimo frutto aggiunto;\n");
+    printf("4) Visualizza tutti gli elementi;\n"); // ??? FACOLTATIVA ???
     printf("0) Esci dal programma\n");
 
     printf("\n\nScegli una tra le seguenti operazioni: ");
     scanf(" %d", &choice);
     fflush(stdin);
 
-    while(choice<0 && choice>3)
+    while(choice<0 && choice>4)
     {
-        if(choice<0 || choice>3)
+        if(choice<0 || choice>4)
         {
             printf("\nL'operazione inserita non e\' presente nel menu\' di scelta, riprova: ");
             scanf(" %d", &choice);
@@ -165,6 +181,6 @@ int print1Menu()
             fflush(stdin);
         }
     }
-    //system("cls");
+    system("cls");
     return choice;
 }
