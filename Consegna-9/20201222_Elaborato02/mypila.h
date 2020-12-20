@@ -7,7 +7,7 @@
 
 typedef struct {
     char *nome;
-    int prezzo;
+    float prezzo;
 } FRUTTA;
 
 // allocazione statica
@@ -25,7 +25,7 @@ typedef struct {
 //strutture collegate
 typedef struct frutta{
     char *nome;
-    int prezzo;
+    float prezzo;
     struct frutta *next;
 } FRUTTALINKED;
 
@@ -52,12 +52,14 @@ void pushDinamic(SACCHETTO_DINAMICO *);
 void topDinamic(SACCHETTO_DINAMICO *);
 SACCHETTO_DINAMICO* popDinamic(SACCHETTO_DINAMICO *);
 void printAllDinamic(SACCHETTO_DINAMICO *);
+void destroyerDinamic(SACCHETTO_DINAMICO *);
 
 FRUTTALINKED *initPila(FRUTTALINKED *);
 bool TestPilaVuota3(ptr_frutta );
 void pushLinked(ptr_frutta *);
 void topLinked (ptr_frutta);
-ptr_frutta *popLinked(ptr_frutta*);
+ptr_frutta popLinked(ptr_frutta*);
 void printAllLinked(ptr_frutta);
+void destroyerLinked(ptr_frutta *);
 
 
