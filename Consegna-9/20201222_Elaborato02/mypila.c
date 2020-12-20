@@ -10,17 +10,10 @@
 
 /** allocazione statica **/
 
-SACCHETTO_STATICO* initPila_Sta (SACCHETTO_STATICO *s)
-{
-    //s = (SACCHETTO_DINAMICO *) malloc(sizeof(SACCHETTO_DINAMICO)*1);
-    s->pos=-1;
-    return s;
-}
-
-void pushStatic (SACCHETTO_STATICO *s)
+void pushStatic (SACCHETTO_STATICO *s) //Funzione Push Statica
 {
     char *nome=(char *)malloc(MAX_NAME_LEN*sizeof(char));
-    int prezzo;
+    float prezzo;
     if(TestPilaPiena1(*s))
         printf("ERRORE: PILA PIENA\n");
     else
@@ -28,7 +21,7 @@ void pushStatic (SACCHETTO_STATICO *s)
         printf("\nNome frutto:\t");
         gets(nome);
         printf("\nPrezzo:\t");
-        scanf(" %d", &prezzo);
+        scanf(" %f", &prezzo);
         fflush(stdin);
         s->pos++;
         s->spesa[s->pos].nome = nome;
@@ -36,21 +29,22 @@ void pushStatic (SACCHETTO_STATICO *s)
     }
 }
 
-void topStatic(SACCHETTO_STATICO *s)
+void topStatic(SACCHETTO_STATICO *s) //Funzione Top Statica
 {
     if (TestPilaVuota1(*s))
         printf("ERRORE: PILA VUOTA\n");
     else
     {
         printf("Nome frutto: %s", s->spesa[s->pos].nome);
-        printf("\nPrezzo: %d", s->spesa[s->pos].prezzo);
+        printf("\nPrezzo: %.2f", s->spesa[s->pos].prezzo);
     }
 }
 
-SACCHETTO_STATICO *popStatic(SACCHETTO_STATICO *s)
+SACCHETTO_STATICO *popStatic(SACCHETTO_STATICO *s) //Funzione Pop Statica
 {
     SACCHETTO_STATICO *delFrutto;
     delFrutto=malloc(sizeof(SACCHETTO_STATICO));
+
     if(TestPilaVuota1(*s))
     {
         delFrutto->pos=-1;
@@ -65,16 +59,16 @@ SACCHETTO_STATICO *popStatic(SACCHETTO_STATICO *s)
     return delFrutto;
 }
 
-void printAllStatic(SACCHETTO_STATICO *s)
+void printAllStatic(SACCHETTO_STATICO *s) //Funzione che stampa tutti gli elementi della pila
 {
     if (TestPilaVuota1(*s))
         printf("ERRORE: PILA VUOTA\n");
     else
     {
-        for(int i = 0; i <= s->pos; i++)
+        for(int i = s->pos; i >= 0; i--)
         {
             printf("Nome frutto: %s\n", s->spesa[i].nome);
-            printf("Prezzo: %d\n", s->spesa[i].prezzo);
+            printf("Prezzo: %.2f\n", s->spesa[i].prezzo);
         }
     }
 }
@@ -82,10 +76,10 @@ void printAllStatic(SACCHETTO_STATICO *s)
 
 /** allocazione dinamica **/
 
-void pushDinamic(SACCHETTO_DINAMICO *s)
+void pushDinamic(SACCHETTO_DINAMICO *s) //Funzione Push Dinamica
 {
     char *nome=(char *)malloc(MAX_NAME_LEN*sizeof(char));
-    int prezzo;
+    float prezzo;
 
     if(s->pos == (s->dim-1))
         PilaPiena(s);
@@ -93,26 +87,26 @@ void pushDinamic(SACCHETTO_DINAMICO *s)
     printf("\nNome frutto:\t");
     scanf(" %[^\n]%*c", nome);
     printf("\nPrezzo:\t");
-    scanf(" %d", &prezzo);
+    scanf(" %f", &prezzo);
     fflush(stdin);
     s->pos++;
     s->spesa[s->pos].nome = nome;
     s->spesa[s->pos].prezzo = prezzo;
 }
 
-void topDinamic (SACCHETTO_DINAMICO *s)
+void topDinamic (SACCHETTO_DINAMICO *s) //Funzione Top Dinamica
 {
     if(TestPilaVuota2(*s))
         printf("ERRORE: PILA VUOTA\n");
     else
     {
         printf("\nNome:\t%s", s->spesa[s->pos].nome);
-        printf("\nPrezzo:\t%d\n", s->spesa[s->pos].prezzo);
+        printf("\nPrezzo:\t%.2f\n", s->spesa[s->pos].prezzo);
     }
 
 }
 
-SACCHETTO_DINAMICO *popDinamic(SACCHETTO_DINAMICO *s)
+SACCHETTO_DINAMICO *popDinamic(SACCHETTO_DINAMICO *s) //Funzione Pop Dinamica
 {
     SACCHETTO_DINAMICO *delFrutto;
 
@@ -134,44 +128,33 @@ SACCHETTO_DINAMICO *popDinamic(SACCHETTO_DINAMICO *s)
 
         if(s->pos == (s->dim-1))
         {
-            printf("STO DIMEZZANDO");
-            printf("---%d",s->dim);
             s->dim = s->dim/2;
             s->spesa = realloc(s->spesa, s->dim * sizeof(FRUTTA));
         }
     }
-    printf("\nNome:\t%s", delFrutto->spesa[delFrutto->pos].nome);
-    printf("\nPrezzo:\t%d\n", delFrutto->spesa[delFrutto->pos].prezzo);
     return delFrutto;
 }
 
-void printAllDinamic(SACCHETTO_DINAMICO *s)
+void printAllDinamic(SACCHETTO_DINAMICO *s) //Funzione che stampa tutti gli elementi della pila
 {
     if (TestPilaVuota2(*s))
         printf("ERRORE: PILA VUOTA\n");
     else
     {
-        for(int i = 0; i <= s->pos; i++)
+        for(int i = s->pos; i >= 0; i--)
         {
             printf("Nome frutto: %s\n", s->spesa[i].nome);
-            printf("Prezzo: %d\n", s->spesa[i].prezzo);
+            printf("Prezzo: %.2f\n", s->spesa[i].prezzo);
         }
     }
 }
 
 /******strutture collegate**********/
 
-FRUTTALINKED *initPila(FRUTTALINKED *s)
-{
-    ptr_frutta head = NULL;
-
-    return head;
-}
-
-void pushLinked(ptr_frutta *head)
+void pushLinked(ptr_frutta *head) //Funzione Push per le Strutture Collegate
 {
     char *nome=(char *)malloc(MAX_NAME_LEN*sizeof(char));
-    int prezzo;
+    float prezzo;
 
     ptr_frutta newFrutto = (ptr_frutta)malloc(sizeof(FRUTTALINKED));
     if(newFrutto == NULL)
@@ -183,7 +166,7 @@ void pushLinked(ptr_frutta *head)
     printf("\nNome frutto:\t");
     scanf(" %[^\n]%*c", nome);
     printf("\nPrezzo:\t");
-    scanf(" %d", &prezzo);
+    scanf(" %f", &prezzo);
     fflush(stdin);
     newFrutto->nome = nome;
     newFrutto->prezzo = prezzo;
@@ -192,22 +175,22 @@ void pushLinked(ptr_frutta *head)
     *head= newFrutto;
 }
 
-void topLinked (ptr_frutta head)
+void topLinked (ptr_frutta head) //Funzione Top per le Strutture Collegate
 {
     if(TestPilaVuota3(head))
         printf("ERRORE: PILA VUOTA\n");
     else
     {
         printf("\nNome:\t%s", head->nome);
-        printf("\nPrezzo:\t%d\n", head->prezzo);
+        printf("\nPrezzo:\t%.2f\n", head->prezzo);
     }
 
 }
 
-ptr_frutta *popLinked(ptr_frutta *head)
+ptr_frutta popLinked(ptr_frutta *head) //Funzione Pop per le Strutture Collegate
 {
     ptr_frutta delFrutto = NULL;
-    ptr_frutta temp = head;
+    ptr_frutta temp = *head;
 
     if (TestPilaVuota3(*head))
         printf("ERRORE: PILA VUOTA\n");
@@ -215,22 +198,21 @@ ptr_frutta *popLinked(ptr_frutta *head)
     else
     {
 
-        delFrutto = malloc(sizeof(ptr_frutta));
-        *head = *head->next;
+        delFrutto = (ptr_frutta)malloc(sizeof(FRUTTALINKED));
 
         while(temp != NULL)
         {
-            delFrutto->nome = head->nome;
-            delFrutto->prezzo = head->prezzo;
+            delFrutto->nome = (*head)->nome;
+            delFrutto->prezzo = (*head)->prezzo;
             temp = temp->next;
-
-            printf("Frutto eliminato:\n");
         }
+         printf("Frutto eliminato:\n");
+        *head = (*head)->next;
     }
     return delFrutto;
 }
 
-void printAllLinked(ptr_frutta head)
+void printAllLinked(ptr_frutta head) //Funzione che stampa tutti gli elementi della pila
 {
     ptr_frutta temp = head;
 
@@ -241,7 +223,7 @@ void printAllLinked(ptr_frutta head)
         while(temp != NULL)
         {
             printf("\n- Nome Frutto: %s\n",temp->nome);
-            printf("- Prezzo Frutto: %d\n",temp->prezzo);
+            printf("- Prezzo Frutto: %.2f\n",temp->prezzo);
             temp = temp->next;
         }
     }
@@ -253,6 +235,12 @@ void printAllLinked(ptr_frutta head)
 /****************************** GESTIONE STRUTTURE ******************************/
 
 /** allocazione statica**/
+
+SACCHETTO_STATICO* initPila_Sta (SACCHETTO_STATICO *s) //Inizializzazione stataica
+{
+    s->pos=-1;
+    return s;
+}
 
 bool TestPilaVuota1(SACCHETTO_STATICO s)        // restituisce TRUE se la pila è vuota, FALSE altrimenti
 {
@@ -266,7 +254,7 @@ bool TestPilaPiena1(SACCHETTO_STATICO s)        // restituisceTRUE se la pila è
 
 /** allocazione dinamica **/
 
-SACCHETTO_DINAMICO* initPila_Din (SACCHETTO_DINAMICO *s)
+SACCHETTO_DINAMICO* initPila_Din (SACCHETTO_DINAMICO *s) //Inizializzazione dinamica
 {
     s = (SACCHETTO_DINAMICO *)malloc(sizeof(SACCHETTO_DINAMICO)*MAX_PILA);
     s->spesa = malloc(MAX_PILA*sizeof(FRUTTA));
@@ -284,13 +272,32 @@ void PilaPiena(SACCHETTO_DINAMICO *s)            // aumenta le dimensioni della 
 {
     if  (s->pos == (s->dim-1))
     {
-        s->dim = s->dim*2;                      // pila piena: raddoppia la dimensione del vettore
+        s->dim = s->dim*2;                                      // pila piena: raddoppia la dimensione del vettore
         s->spesa = realloc(s->spesa, s->dim * sizeof(FRUTTA));
         // !!!!!! controlli realloc
     }
 }
 
+void destroyerDinamic(SACCHETTO_DINAMICO *s) //Funzione che libera la memoria
+{
+    if (TestPilaVuota2(*s))
+        printf("\nIl Sacchetto e\' gia\' vuoto!\n\n\n");
+
+    else
+    {
+       free(s);
+       printf("\nIl Sacchetto e\' stato svuotato!\n\n\n");
+    }
+}
+
 /*** strutture collegate ***/
+
+FRUTTALINKED *initPila(FRUTTALINKED *s) //Inizializzazione strutture collegate
+{
+    ptr_frutta head = NULL;
+
+    return head;
+}
 
 bool TestPilaVuota3(ptr_frutta head)       // restituisce TRUE se la pila è vuota, FALSE altrimenti
 {
@@ -298,7 +305,19 @@ bool TestPilaVuota3(ptr_frutta head)       // restituisce TRUE se la pila è vuo
 }
 
 
-/*void destroyer()
+void destroyerLinked(ptr_frutta *head) //Funzione che libera la memoria
 {
-    free();
-}*/
+    if (TestPilaVuota3(*head))
+        printf("\nIl Sacchetto e\' gia\' vuoto!\n\n\n");
+    else
+    {
+        ptr_frutta temp;
+        while(*head!=NULL)
+        {
+            temp = *head;
+            *head=(*head)->next;
+            free(temp);
+        }
+       printf("\nIl Sacchetto e\' stato svuotato!\n\n\n");
+    }
+}
