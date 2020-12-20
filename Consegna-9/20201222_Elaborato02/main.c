@@ -18,12 +18,12 @@
 
 int main()
 {
+    //Dichirazione varibili
     bool temp=true, tmp = true;
     SACCHETTO_STATICO *ss;
     SACCHETTO_DINAMICO *sd;
     FRUTTALINKED *sc;
 
-    //ss->pos=-1;
 
     while(tmp)
     {
@@ -37,16 +37,16 @@ int main()
                     switch(print2Menu())
                     {
                         case 1:
-                            pushStatic(ss);
+                            pushStatic(ss); //Funzione PUSH
                             break;
                         case 2:
-                            topStatic(popStatic(ss));
+                            topStatic(popStatic(ss)); //Funzione POP
                             break;
                         case 3:
-                            topStatic(ss);
+                            topStatic(ss); //Funzione TOP
                             break;
                         case 4:
-                            printAllStatic(ss);
+                            printAllStatic(ss); //Fuzione che stampoa tutti gli elementi
                             break;
                         case 0:
                             temp = false;
@@ -59,24 +59,25 @@ int main()
             }
             case 2: // Allocazione indicizzata (vettore dinamico)
             {
-                sd=initPila_Din(sd);
+                sd=initPila_Din(sd); //init pos pila
                 while(temp)
                 {
                     switch(print2Menu())
                     {
                         case 1:
-                            pushDinamic(sd);
+                            pushDinamic(sd); //Funzione PUSH
                             break;
                         case 2:
-                            topDinamic(popDinamic(sd));
+                            topDinamic(popDinamic(sd)); //Funzione POP
                             break;
                         case 3:
-                            topDinamic(sd);
+                            topDinamic(sd); //Funzione TOP
                             break;
                         case 4:
-                            printAllDinamic(sd);
+                            printAllDinamic(sd); //Funzione che stampa tutti gli elementi
                             break;
                         case 0:
+                            destroyerDinamic(sd);  //Funzione che libera la memoria allocata
                             temp = false;
                             break;
                         default:
@@ -87,24 +88,25 @@ int main()
             }
             case 3: // Strutture collegate
             {
-                sc=initPila(sc);
+                sc=initPila(sc); //Inizializzazione della pila
                 while(temp)
                 {
                     switch(print2Menu())
                     {
                         case 1:
-                            pushLinked(&sc);
+                            pushLinked(&sc); //Funzione PUSH
                             break;
                         case 2:
-                            topLinked(popLinked(sc));
+                            topLinked(popLinked(&sc)); //Funzione POP
                             break;
                         case 3:
-                            topLinked(sc);
+                            topLinked(sc); //Funzione TOP
                             break;
                         case 4:
-                            printAllLinked(sc);
+                            printAllLinked(sc); //Funzione che stampa tutti gli elementi
                             break;
                         case 0:
+                            destroyerLinked(&sc); //Funzione che libera la memoria allocata
                             temp = false;
                             break;
                         default:
@@ -122,8 +124,6 @@ int main()
             }
         }
 
-
-    //destroyer();
     return 0;
     system("pause");
 }
