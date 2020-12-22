@@ -19,6 +19,7 @@
 
 //Dichiarazione delle strutture
 typedef struct{
+    int codice;
     int giorno;
     int mese;
     int ora_inizio;
@@ -83,6 +84,7 @@ int main()
 void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 {
 
+    a->appuntamenti[a->len].codice = ap.codice;
     a->appuntamenti[a->len].giorno = ap.giorno;
     a->appuntamenti[a->len].mese = ap.mese;
     a->appuntamenti[a->len].ora_inizio = ap.ora_inizio;
@@ -93,43 +95,52 @@ void inserisci_appuntamento(Agenda* a, Appuntamento ap)
 
 }
 
-//Funzione che elimina un appuntamento all'interno dell'agenda
+//Funzione che elimina un appuntamento all'interno dell'agenda in base al codice identificativo
 
 void elimina_appuntamento(Agenda* a, int index)
 {
+    bool flag=false;
 
-    //printf("%d",a->appuntamenti[0].giorno);
-    for(int i = index; i < a->len - 1; i++)
+    for(int i = 0; i < a->len; i++)
     {
-        a->appuntamenti[i]=a->appuntamenti[i+1];
+        if(a->appuntamenti[i].codice == index)
+        {
+            flag=true;
+        }
+        if(flag==true)
+        {
+            a->appuntamenti[i] = a->appuntamenti[i+1];
+        }
+
     }
     a->len--;
 }
 
-//Funzione che controlla se l'appuntamento da eliminare è effettivamente presente nell'agenda
+//Funzione che controlla se il codice dell'appuntamento da eliminare è effettivamente presente nell'agenda
 
 void controllo_lunghezzaAgenda(Agenda *a)
 {
     int temp;
+    bool flag=false;
 
-    do
+    printf("Quale appuntamento vuoi eliminare dalla tua agenda? [Inserisci il codice] ");
+    scanf(" %d",&temp);
+
+    for(int i=0; i < a->len; i++)
     {
-        printf("Quale appuntamento vuoi eliminare dalla tua agenda? ");
-        scanf(" %d",&temp);
+        if(a->appuntamenti[i].codice == temp)
+            flag=true;
+    }
 
-        if(temp>0 && temp <= a->len)
-        {
-            temp++;
-            break;
-        }
-        else
-        {
-            printf("\nDato inserito non corretto\n");
-        }
-    }while(true);
-
-    elimina_appuntamento(a,temp);
-    printf("\nElemento %d",temp);
+    if(flag==false)
+    {
+        printf("\nNon esiste nessun appuntamento con questo codice\n");
+    }
+    else
+    {
+        elimina_appuntamento(a,temp);
+        printf("\nL'appuntamento con codice %d, e\' stato eliminato\n",temp);
+    }
 
 }
 
@@ -137,16 +148,22 @@ void controllo_lunghezzaAgenda(Agenda *a)
 
 void stampa_appuntamenti_del_mese(Agenda* a)
 {
-    int num_mese;
+    int num_mese, c=0;
 
     printf("Di quale mese vuoi stampare la tua agenda? ");
     scanf(" %d",&num_mese);
     printf("\n\n");
 
-    for(int i = 0; i < a->len && a->appuntamenti[i].mese == num_mese; i++)
+    for(int i = 0; i < a->len; i++)
     {
-        printf("Appuntamento n %d\n\nData %d/%d\nDalle ore %d:00 alle %d:00\nDescrizione: %s\n\n", i+1, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio, a->appuntamenti[i].ora_fine, a->appuntamenti[i].descrizione);
+        if(a->appuntamenti[i].mese == num_mese)
+        {
+            printf("Appuntamento/i \n\nCodice %d\nData %d/%d\nDalle ore %d:00 alle %d:00\nDescrizione: %s\n\n",a->appuntamenti[i].codice, a->appuntamenti[i].giorno, a->appuntamenti[i].mese, a->appuntamenti[i].ora_inizio, a->appuntamenti[i].ora_fine, a->appuntamenti[i].descrizione);
+            c++;
+        }
     }
+    if(c==0)
+        printf("\nNon sono presenti appuntamenti nel mese selezionato\n");
 
 }
 
@@ -158,8 +175,30 @@ Appuntamento creaAppuntament(Agenda *a)
     ap.descrizione=NULL;
 
     int max_giorni;
+    bool flag=false;
 
-    printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
+    do
+    {
+        printf("Salve, stai per registrare un nuovo appuntamento.\n\n");
+        printf("Inserisci un codice identificativo: ");
+        scanf(" %d",&ap.codice);
+
+        for(int i=0; i < a->len; i++)
+        {
+            if(a->appuntamenti[i].codice == ap.codice)
+            {
+                 flag=true;
+                 break;
+            }
+            else
+                flag=false;
+        }
+
+        if(flag==true)
+            printf("\nE\' gia\' presente un appuntamento con questo codice, ritenta l'inserimento: ");
+
+    }while(flag==true);
+
     printf("Inserisci il mese e il giorno [formato: mm/gg]: ");
     scanf(" %d/%d", &ap.mese, &ap.giorno);
 
@@ -241,7 +280,6 @@ Appuntamento creaAppuntament(Agenda *a)
    {
         if(!controllo_accavallamentoAppuntamenti(a,ap))
         {
-            //printf("%s",ap.descrizione);
             if(ap.descrizione == NULL)
             {
                 ap.descrizione = (char*)malloc(40);
